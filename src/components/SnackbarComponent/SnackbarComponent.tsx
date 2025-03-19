@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 
 interface SnackbarOptions {
   variant?: 'success' | 'error' | 'warning' | 'info';
@@ -9,30 +9,52 @@ interface SnackbarOptions {
   };
 }
 
-const SnackbarContext = createContext<{
+interface SkeletonComponentProps {
+  width?: number | string;
+  height?: number | string;
+  variant?: 'text' | 'rectangular' | 'circular';
+}
+
+interface SnackbarContextType {
   showSnackbar: (message: string, options?: SnackbarOptions) => void;
-}>({
+}
+
+const SnackbarContext = createContext<SnackbarContextType>({
   showSnackbar: () => {},
 });
 
-export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
+export const SnackbarProvider = ({ children, SkeletonComponent }: { children: ReactNode; SkeletonComponent: React.ComponentType<SkeletonComponentProps> }) => {
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
     options: SnackbarOptions;
+    isLoading: boolean;
   }>({
     open: false,
     message: '',
     options: {},
+    isLoading: false,
   });
 
   const showSnackbar = useCallback((message: string, options: SnackbarOptions = {}) => {
-    setSnackbar({ open: true, message, options });
+    setSnackbar({ open: true, message, options, isLoading: true });
+
+    // Имитация загрузки, убираем Skeleton через 500 мс
+    setTimeout(() => {
+      setSnackbar((prev) => ({ ...prev, isLoading: false }));
+    }, 500);
   }, []);
 
   const handleClose = () => {
-    setSnackbar(prev => ({ ...prev, open: false }));
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
+
+  useEffect(() => {
+    if (snackbar.open && snackbar.options.autoHideDuration) {
+      const timer = setTimeout(handleClose, snackbar.options.autoHideDuration);
+      return () => clearTimeout(timer);
+    }
+  }, [snackbar.open, snackbar.options.autoHideDuration]);
 
   const getVariantStyle = (variant: string) => {
     switch (variant) {
@@ -49,8 +71,6 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const { vertical = 'bottom', horizontal = 'center' } = snackbar.options.anchorOrigin || {};
-
   return (
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
@@ -58,34 +78,32 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
         <div
           style={{
             position: 'fixed',
-            zIndex: 1400,
-            [vertical]: 24,
-            [horizontal]: 24,
-            transform: `translateX(${horizontal === 'center' ? '-50%' : '0'})`,
-            minWidth: 288,
-            maxWidth: 568,
-            padding: '8px 16px',
-            borderRadius: 4,
-            ...getVariantStyle(snackbar.options.variant || 'default'),
-            boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+            bottom: '20px',
+            right: '20px',
+            padding: '16px',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            ...getVariantStyle(snackbar.options.variant || 'info'),
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          {snackbar.isLoading ? (
+            <SkeletonComponent width={200} height={50} />
+          ) : (
             <span style={{ flexGrow: 1 }}>{snackbar.message}</span>
-            <button
-              onClick={handleClose}
-              style={{
-                marginLeft: 16,
-                background: 'none',
-                border: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
-                padding: 4,
-              }}
-            >
-              ×
-            </button>
-          </div>
+          )}
+          <button
+            onClick={handleClose}
+            style={{
+              marginLeft: '16px',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+            }}
+          >
+            ✕
+          </button>
         </div>
       )}
     </SnackbarContext.Provider>
@@ -93,3 +111,5 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useSnackbar = () => useContext(SnackbarContext);
+
+export default SnackbarProvider;
