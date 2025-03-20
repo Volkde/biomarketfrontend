@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from 'components/Layout/Layout';
 import GlobalStyles from './styles/GlobalStyles';
 import SearchBar from './components/common/SearchBar/SearchBar';
-import ProductDetail from './pages/ProductDetail';
+import ProductDetail from './pages/ProductDetail/ProductDetail';
 
 
 function App() {

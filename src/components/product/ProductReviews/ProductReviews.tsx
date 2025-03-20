@@ -1,26 +1,8 @@
 import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-
-const StyledProductReviews = styled('div')(() => ({
-  marginTop: '16px',
-}));
-
-const ReviewList = styled('ul')(() => ({
-  listStyle: 'none',
-  padding: 0,
-  margin: 0,
-}));
-
-const ReviewItem = styled('li')(() => ({
-  borderBottom: `1px solid #ccc`,
-  padding: '16px 0',
-}));
+import { styles } from './styles';
 
 interface ProductReviewsProps {
-  reviews: { id: string; userId: string; rating: number; comment: string; dateCreated: string }[];
+  reviews?: { id: number; userId: number; rating: number; comment: string; dateCreated: string }[];
   productId: string;
 }
 
@@ -40,66 +22,76 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) =
           rating: newReview.rating,
           comment: newReview.comment,
           productId,
-          userId: '1', // Замените на ID текущего пользователя
+          userId: 1, // Здесь должен быть ID текущего пользователя
         }),
       });
       if (response.ok) {
-        alert('Отзыв добавлен!');
+        alert('Review added! It will appear after moderation.');
         setNewReview({ rating: 0, comment: '' });
       } else {
-        alert('Ошибка при добавлении отзыва');
+        alert('Error adding review');
       }
     } catch (err) {
-      alert('Ошибка при добавлении отзыва');
+      alert('Error adding review');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <StyledProductReviews>
-      <h3>Отзывы покупателей</h3>
+    <div style={styles.reviews}>
       {reviews?.length > 0 ? (
-        <ReviewList>
+        <ul style={styles.reviewList}>
           {reviews.map((review) => (
-            <ReviewItem key={review.id}>
-              <div>
-                <span>Пользователь #{review.userId}</span>
-                <span> {review.rating}</span>
-                <p>{review.comment}</p>
-                <span>{new Date(review.dateCreated).toLocaleDateString()}</span>
+            <li key={review.id} style={styles.reviewItem}>
+              <div style={styles.reviewHeader}>
+                <span style={styles.user}>User #{review.userId}</span>
+                <span style={styles.rating}>⭐ {review.rating}</span>
               </div>
-            </ReviewItem>
+              <p style={styles.comment}>{review.comment}</p>
+              <span style={styles.date}>
+                {new Date(review.dateCreated).toLocaleDateString()}
+              </span>
+            </li>
           ))}
-        </ReviewList>
+        </ul>
       ) : (
-        <p>Отзывов пока нет.</p>
+        <p>No reviews yet.</p>
       )}
-      <form onSubmit={handleSubmitReview}>
-        <TextField
-          label="Ваш отзыв"
-          multiline
-          rows={4}
-          value={newReview.comment}
-          onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-          fullWidth
-          margin="normal"
-        />
-        <Rating
-          value={newReview.rating}
-          onChange={(_, value) => setNewReview({ ...newReview, rating: value || 0 })}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={isSubmitting}
-          style={{ marginTop: '16px' }}
-        >
-          {isSubmitting ? 'Отправка...' : 'Отправить отзыв'}
-        </Button>
-      </form>
-    </StyledProductReviews>
+
+      <div style={styles.reviewForm}>
+        <h3 style={styles.formTitle}>Leave a Review</h3>
+        <form onSubmit={handleSubmitReview}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Rating:</label>
+            <select
+              value={newReview.rating}
+              onChange={(e) => setNewReview({ ...newReview, rating: Number(e.target.value) })}
+              style={styles.select}
+              required
+            >
+              <option value="0">Select rating</option>
+              {[1, 2, 3, 4, 5].map((num) => (
+                <option key={num} value={num}>{num} ⭐</option>
+              ))}
+            </select>
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Comment:</label>
+            <textarea
+              value={newReview.comment}
+              onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+              placeholder="Your review..."
+              style={styles.textarea}
+              required
+            />
+          </div>
+          <button type="submit" style={styles.submitButton} disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Review'}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

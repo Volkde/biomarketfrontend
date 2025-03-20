@@ -1,59 +1,32 @@
 import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
-
-const StyledProductImages = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(2),
-}));
-
-const MainImage = styled('img')(({ theme }) => ({
-  width: '100%',
-  maxWidth: '400px',
-  height: 'auto',
-  borderRadius: theme.shape.borderRadius,
-  objectFit: 'cover',
-}));
-
-const Thumbnails = styled('div')(({ theme }) => ({
-  display: 'flex',
-  gap: theme.spacing(1),
-  flexWrap: 'wrap',
-}));
-
-const Thumbnail = styled('img')(({ selected }: { selected: boolean }) => ({
-  width: '60px',
-  height: '60px',
-  objectFit: 'cover',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  border: selected ? `2px solid rgb(118, 150, 62)` : '2px solid transparent',
-}));
+import { styles } from './styles';
 
 interface ProductImagesProps {
-  images: { id: string; url: string }[];
+  images?: { id: number; url: string }[];
 }
 
 const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState(images?.[0]?.url || '');
 
   return (
-    <StyledProductImages>
-      <MainImage src={selectedImage || 'https://via.placeholder.com/400'} alt="Product" />
+    <div style={styles.productImages}>
+      <div style={styles.mainImage}>
+        <img src={selectedImage || 'https://via.placeholder.com/400'} alt="Product" style={styles.image} />
+      </div>
       {images?.length > 1 && (
-        <Thumbnails>
+        <div style={styles.thumbnails}>
           {images.map((image) => (
-            <Thumbnail
+            <img
               key={image.id}
               src={image.url}
               alt="Thumbnail"
-              selected={selectedImage === image.url}
+              style={selectedImage === image.url ? styles.selectedThumbnail : styles.thumbnail}
               onClick={() => setSelectedImage(image.url)}
             />
           ))}
-        </Thumbnails>
+        </div>
       )}
-    </StyledProductImages>
+    </div>
   );
 };
 
