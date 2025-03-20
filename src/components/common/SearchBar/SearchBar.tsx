@@ -1,98 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import debounce from 'lodash/debounce';
-import styles from './SearchBar.module.css';
-import { FaSearch } from 'react-icons/fa';
+import React, { useState, useCallback } from 'react';
+import { FaSearch, FaMicrophone } from 'react-icons/fa';
+import * as S from './styles';
+import { useSearch } from './useSearch';
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
+interface SearchBarProps {
+  apiUrl: string;
+  placeholder?: string;
 }
 
-const SearchBar = () => {
-  const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<Product[]>([]);
-  const [isFocused, setIsFocused] = useState(false);
-  const navigate = useNavigate();
+const SearchBar: React.FC<SearchBarProps> = ({ apiUrl, placeholder = "Search Your Product" }) => {
+  const { query, setQuery, suggestions, isFocused, setIsFocused } = useSearch(apiUrl);
+  const [isListening, setIsListening] = useState(false);
 
-  const fetchSuggestions = async (searchQuery: string) => {
-    if (!searchQuery) {
-      setSuggestions([]);
-      return;
+  const startListening = useCallback(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      recognition.lang = 'en-US'; // Можно изменить на нужный язык
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setQuery(transcript);
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } else {
+      alert('Speech recognition is not supported in your browser.');
     }
-
-    try {
-      const response = await fetch(`/api/products/search?q=${encodeURIComponent(searchQuery)}`);
-      const data = await response.json();
-      setSuggestions(data.content || []);
-    } catch (error) {
-      console.error('Ошибка при поиске:', error);
-      setSuggestions([]);
-    }
-  };
-
-  const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
+  }, [setQuery]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    debouncedFetchSuggestions(value);
+    setQuery(e.target.value);
   };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && query) {
-      navigate(`/products?search=${encodeURIComponent(query)}`);
-      setSuggestions([]);
-      setIsFocused(false);
-    }
-  };
-
-  const handleSuggestionClick = (productId: string) => {
-    navigate(`/products/${productId}`);
-    setSuggestions([]);
-    setIsFocused(false);
-  };
-
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setTimeout(() => setIsFocused(false), 200);
-
-  useEffect(() => {
-    return () => {
-      debouncedFetchSuggestions.cancel();
-    };
-  }, []);
 
   return (
-    <div className={styles.searchBarContainer}>
-      <input
+    <S.SearchContainer>
+      <S.SearchInput
         type="text"
         value={query}
         onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        placeholder="Search Your Product"
-        className={styles.searchInput}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+        placeholder={placeholder}
       />
-      <button className={styles.searchButton}>
+      <S.SearchButton>
         <FaSearch />
-      </button>
+      </S.SearchButton>
+      <S.VoiceButton onClick={startListening} isListening={isListening}>
+        <FaMicrophone />
+      </S.VoiceButton>
 
       {isFocused && suggestions.length > 0 && (
-        <ul className={styles.suggestionsList}>
+        <S.SuggestionsList>
           {suggestions.map((product) => (
-            <li
-              key={product.id}
-              onClick={() => handleSuggestionClick(product.id)}
-              className={styles.suggestionItem}
-            >
-              {product.name} - {product.price} ₽
-            </li>
+            <S.SuggestionItem key={product.id}>
+              <span>{product.name}</span>
+              <span>{product.price} ₽</span>
+            </S.SuggestionItem>
           ))}
-        </ul>
+        </S.SuggestionsList>
       )}
-    </div>
+    </S.SearchContainer>
   );
 };
 

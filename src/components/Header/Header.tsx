@@ -1,4 +1,4 @@
-import { ButtonIcon } from "components/ButtonIcon";
+import ButtonIcon  from '../ButtonIcon/ButtonIcon';
 import { useNavigate } from "react-router-dom";
 import { links } from "./data.ts";
 import { StyledHeader, StyledNavContainer, StyledNavLink } from "./styles";
