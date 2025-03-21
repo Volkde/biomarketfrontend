@@ -1,45 +1,46 @@
 import React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import { styled } from '@mui/material/styles';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-}
+import ProductCard from '../ProductCard/ProductCard';
+import { styles } from './styles';
 
 interface ProductListProps {
-  products: Product[];
+  products: {
+    id: number;
+    name: string;
+    price: number;
+    rating?: number;
+    images?: { id: number; url: string }[];
+  }[];
 }
-
-const StyledImageList = styled(ImageList)(({ theme }) => ({
-  width: '100%',
-  height: 'auto',
-  padding: theme.spacing(2),
-}));
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
   return (
-    <StyledImageList cols={3} gap={16}>
-      {products.map((product) => (
-        <ImageListItem key={product.id}>
-          <img
-            src={product.image}
-            alt={product.name}
-            loading="lazy"
-            style={{ borderRadius: '8px' }}
-          />
-          <ImageListItemBar
-            title={product.name}
-            subtitle={`${product.price} ₽`}
-            position="below"
-          />
-        </ImageListItem>
-      ))}
-    </StyledImageList>
+    <div style={styles.container}>
+      {products.length > 0 ? (
+        <ImageList
+          sx={{
+            width: '100%',
+            // Адаптивное количество колонок
+            gridTemplateColumns: {
+              xs: 'repeat(auto-fill, minmax(200px, 1fr))', // 2 колонки на мобильных
+              sm: 'repeat(auto-fill, minmax(250px, 1fr))', // 3-4 колонки на десктопе
+            },
+            gap: '20px',
+          }}
+          cols={3} // Базовое количество колонок (будет переопределено через sx для адаптивности)
+          gap={20}
+        >
+          {products.map((product) => (
+            <ImageListItem key={product.id}>
+              <ProductCard product={product} />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      ) : (
+        <p style={styles.noProducts}>No products found</p>
+      )}
+    </div>
   );
 };
 

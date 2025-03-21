@@ -1,31 +1,28 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from 'components/Layout/Layout';
-import GlobalStyles from './styles/GlobalStyles';
-import SearchBar from './components/common/SearchBar/SearchBar';
+import Header from './components/Header/Header';
+import Home from './pages/Home/Home';
+import Products from './pages/Products/Products';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
+import HeroSection from './pages/HeroSection/HeroSection';
+import GlobalStyles from './styles/GlobalStyles';
 
-
-function App() {
+const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <GlobalStyles />
       <Layout>
-        <div style={{ 
-          padding: '20px', 
-          backgroundColor: 'rgb(118, 150, 62)',
-          display: 'flex',
-          width: '100%'
-        }}>
-          <SearchBar />
-        </div>
-        <Routes> 
-         
+        <Header />
+        <HeroSection />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
         </Routes>
       </Layout>
-    </BrowserRouter>
+    </Router>
   );
-}
+};
 
 export default App;

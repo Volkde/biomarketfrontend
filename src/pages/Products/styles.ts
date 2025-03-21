@@ -18,11 +18,8 @@ export const styles = {
   filters: {
     width: '250px',
   },
-  productsGrid: {
+  productList: {
     flex: 1,
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-    gap: '20px',
   },
   pagination: {
     display: 'flex',
@@ -51,9 +48,6 @@ export const styles = {
     },
     filters: {
       width: '100%',
-    },
-    productsGrid: {
-      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
     },
   },
 };

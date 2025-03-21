@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ProductCard from '../../components/common/ProductCard/ProductCard';
+import ProductList from '../../components/common/ProductList/ProductList';
 import ProductFilters from '../../components/common/ProductFilters/ProductFilters';
 import { styles } from './styles';
 
@@ -72,14 +72,8 @@ const Products: React.FC = () => {
           <ProductFilters filters={filters} onFilterChange={handleFilterChange} />
         </div>
 
-        <div style={styles.productsGrid}>
-          {products.length > 0 ? (
-            products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))
-          ) : (
-            <p>No products found</p>
-          )}
+        <div style={styles.productList}>
+          <ProductList products={products} />
         </div>
       </div>
 

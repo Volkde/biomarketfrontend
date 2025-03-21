@@ -1,8 +1,5 @@
 export const styles = {
   productCard: {
-    border: '1px solid #e0e0e0',
-    borderRadius: '8px',
-    overflow: 'hidden',
     transition: 'transform 0.2s',
     ':hover': {
       transform: 'translateY(-5px)',
@@ -16,6 +13,7 @@ export const styles = {
     width: '100%',
     height: '200px',
     objectFit: 'cover' as const,
+    borderRadius: '8px 8px 0 0',
   },
   info: {
     padding: '15px',
