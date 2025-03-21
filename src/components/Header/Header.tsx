@@ -1,33 +1,23 @@
-import { ButtonIcon } from "components/ButtonIcon";
-import { useNavigate } from "react-router-dom";
-import { links } from "./data.ts";
-import { StyledHeader, StyledNavContainer, StyledNavLink } from "./styles";
+import { Toolbar, ToolbarButton, ToolbarLink, ToolbarSeparator } from "components/Toolbar";
+import { links } from "./data";
+import { Root, StyledNavContainer } from "./styles";
+
+const elLinks = links.map(item => <span key={item.text}>{item.text}</span>);
 
 function Header() {
-  const navigate = useNavigate();
-  const goToPrevPage = () => navigate(-1);
-
-  const elLinks = links.map(({ icon, text, path }) =>
-    icon ? (
-      <ButtonIcon key={path} icon={icon} onClick={() => navigate(path)} />
-    ) : (
-      <StyledNavLink
-        key={path}
-        to={path}
-        style={({ isActive }) => ({
-          textDecoration: isActive ? "underline" : "none",
-        })}
-      >
-        {text}
-      </StyledNavLink>
-    ),
-  );
-
   return (
-    <StyledHeader>
-      <ButtonIcon onClick={goToPrevPage} icon="arrow_back_ios" />
+    <Root>
       <StyledNavContainer>{elLinks}</StyledNavContainer>
-    </StyledHeader>
+
+      <Toolbar orientation="horizontal">
+        <ToolbarButton>Button 1</ToolbarButton>
+        <ToolbarButton>Button 2</ToolbarButton>
+        <ToolbarSeparator />
+        <ToolbarLink href="/" target="_blank">
+          Go to Example
+        </ToolbarLink>
+      </Toolbar>
+    </Root>
   );
 }
 
