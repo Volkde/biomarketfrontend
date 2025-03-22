@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { FaSearch, FaMicrophone } from 'react-icons/fa';
+import { FaSearch, FaMicrophone, FaTimes, FaSpinner } from 'react-icons/fa';
 import * as S from './styles';
 import { useSearch } from './useSearch';
 
@@ -9,7 +9,16 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ apiUrl, placeholder = "Search Your Product" }) => {
-  const { query, setQuery, suggestions, isFocused, setIsFocused } = useSearch(apiUrl);
+  const { 
+    query, 
+    setQuery, 
+    suggestions, 
+    isFocused, 
+    setIsFocused, 
+    isLoading, 
+    error, 
+    clearSearch 
+  } = useSearch(apiUrl);
   const [isListening, setIsListening] = useState(false);
 
   const startListening = useCallback(() => {
@@ -60,19 +69,38 @@ const SearchBar: React.FC<SearchBarProps> = ({ apiUrl, placeholder = "Search You
         onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         placeholder={placeholder}
       />
+      {query && (
+        <S.ClearButton onClick={clearSearch}>
+          <FaTimes />
+        </S.ClearButton>
+      )}
       <S.SearchButton>
-        <FaSearch />
+        {isLoading ? <FaSpinner className="spin-animation" /> : <FaSearch />}
       </S.SearchButton>
       <S.VoiceButton onClick={startListening} isListening={isListening}>
         <FaMicrophone />
       </S.VoiceButton>
 
-      {isFocused && suggestions.length > 0 && (
+      {isFocused && (
         <S.SuggestionsList>
+          {error && (
+            <S.ErrorMessage>{error}</S.ErrorMessage>
+          )}
+          {!error && suggestions.length === 0 && query && !isLoading && (
+            <S.EmptyMessage>No products found</S.EmptyMessage>
+          )}
           {suggestions.map((product) => (
             <S.SuggestionItem key={product.id}>
-              <span>{product.name}</span>
-              <span>{product.price} ₽</span>
+              {product.image && (
+                <S.ProductImage src={product.image} alt={product.name} />
+              )}
+              <S.ProductInfo>
+                <S.ProductName>{product.name}</S.ProductName>
+                {product.category && (
+                  <S.ProductCategory>{product.category}</S.ProductCategory>
+                )}
+              </S.ProductInfo>
+              <S.ProductPrice>{product.price} ₽</S.ProductPrice>
             </S.SuggestionItem>
           ))}
         </S.SuggestionsList>

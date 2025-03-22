@@ -1,53 +1,64 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa';
-import ButtonIcon from '../ButtonIcon/ButtonIcon';
+import { useNavigate } from 'react-router-dom';
+import { FaUser, FaShoppingCart, FaLeaf, FaHeart } from 'react-icons/fa';
 import { links } from './data.ts';
-import { StyledHeader, StyledNavContainer, StyledNavLink } from './styles';
+import { 
+  StyledHeader, 
+  StyledNavContainer, 
+  StyledNavLink, 
+  LogoContainer, 
+  SearchContainer,
+  ActionsContainer,
+  ActionLink
+} from './styles';
 import SearchBar from '../common/SearchBar/SearchBar';
 
 const Header = () => {
   const navigate = useNavigate();
-  const goToPrevPage = () => navigate(-1);
-
-  const elLinks = links.map(({ icon, text, path }) =>
-    icon ? (
-      <ButtonIcon key={path} icon={icon} onClick={() => navigate(path)} />
-    ) : (
-      <StyledNavLink
-        key={path}
-        to={path}
-        style={({ isActive }) => ({
-          textDecoration: isActive ? 'underline' : 'none',
-        })}
-      >
-        {text}
-      </StyledNavLink>
-    ),
-  );
-
+  
+  const handleLogoClick = () => {
+    navigate('/');
+    window.location.reload(); // Перезагрузка страницы для гарантии
+  };
+  
   return (
     <StyledHeader>
-      <ButtonIcon onClick={goToPrevPage} icon="arrow_back_ios" />
-      <StyledNavContainer>{elLinks}</StyledNavContainer>
-      <div style={{ 
-        padding: '20px', 
-        backgroundColor: 'rgb(118, 150, 62)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '10px',
-        width: '100%'
-      }}>
-        <SearchBar />
-      </div>
-      <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-        <Link to="/products">Shop</Link>
-        <Link to="/cart">Cart</Link>
-        <Link to="/login">
-          <FaUser /> Login
-        </Link>
-      </div>
+      <LogoContainer onClick={handleLogoClick}>
+        <img src="/FarmVibe_logo2.svg" alt="FarmVibe Logo" width="120" />
+      </LogoContainer>
+      
+      <StyledNavContainer>
+        {links.map(({ text, path }) => (
+          <StyledNavLink
+            key={path}
+            to={path}
+            style={({ isActive }) => ({
+              fontWeight: isActive ? 'bold' : 'normal',
+              borderBottom: isActive ? '2px solid white' : 'none',
+            })}
+          >
+            {text}
+          </StyledNavLink>
+        ))}
+      </StyledNavContainer>
+      
+      <SearchBar apiUrl="/api/search" />
+      
+      <ActionsContainer>
+        <ActionLink to="/favorites">
+          <FaHeart size={18} />
+        </ActionLink>
+        <ActionLink to="/products">
+          Shop
+        </ActionLink>
+        <ActionLink to="/cart">
+          <FaShoppingCart size={18} />
+          Cart
+        </ActionLink>
+        <ActionLink to="/login">
+          <FaUser size={18} />
+          Login
+        </ActionLink>
+      </ActionsContainer>
     </StyledHeader>
   );
 };

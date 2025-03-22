@@ -1,6 +1,4 @@
-import React from 'react';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import { useState, useEffect } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import { styles } from './styles';
 
@@ -10,35 +8,43 @@ interface ProductListProps {
     name: string;
     price: number;
     rating?: number;
+    discount?: number;
+    isNew?: boolean;
+    inStock?: boolean;
     images?: { id: number; url: string }[];
   }[];
+  title?: string;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products }) => {
+const ProductList = ({ products, title }: ProductListProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Имитация загрузки данных
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div style={styles.container}>
-      {products.length > 0 ? (
-        <ImageList
-          sx={{
-            width: '100%',
-            // Адаптивное количество колонок
-            gridTemplateColumns: {
-              xs: 'repeat(auto-fill, minmax(200px, 1fr))', // 2 колонки на мобильных
-              sm: 'repeat(auto-fill, minmax(250px, 1fr))', // 3-4 колонки на десктопе
-            },
-            gap: '20px',
-          }}
-          cols={3} // Базовое количество колонок (будет переопределено через sx для адаптивности)
-          gap={20}
-        >
+      {title && <h2 style={styles.title}>{title}</h2>}
+      
+      {isLoading ? (
+        <div style={styles.loadingContainer}>
+          <p>Loading products...</p>
+        </div>
+      ) : products.length > 0 ? (
+        <div style={styles.productGrid}>
           {products.map((product) => (
-            <ImageListItem key={product.id}>
-              <ProductCard product={product} />
-            </ImageListItem>
+            <ProductCard key={product.id} product={product} />
           ))}
-        </ImageList>
+        </div>
       ) : (
-        <p style={styles.noProducts}>No products found</p>
+        <div style={styles.noProducts}>
+          <p>No products found. Check back later for new arrivals!</p>
+        </div>
       )}
     </div>
   );
