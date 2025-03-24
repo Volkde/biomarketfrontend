@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
+import { Box, Typography, Stack, Link as MuiLink, styled } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 
-export const StyledFooter = styled.footer`
+export const StyledFooter = styled(Box)`
   background: linear-gradient(135deg, #4b8a08 0%, #6ab04c 100%);
   color: white;
   padding: 60px 0 30px;
@@ -9,7 +9,7 @@ export const StyledFooter = styled.footer`
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
 `;
 
-export const FooterContainer = styled.div`
+export const FooterContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -23,14 +23,14 @@ export const FooterContainer = styled.div`
   }
 `;
 
-export const FooterSection = styled.div`
+export const FooterSection = styled(Box)`
   display: flex;
   flex-direction: column;
   min-width: 200px;
   flex: 1;
 `;
 
-export const LogoContainer = styled.div`
+export const LogoContainer = styled(Box)`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -44,13 +44,13 @@ export const LogoContainer = styled.div`
   }
 `;
 
-export const CopyrightText = styled.p`
+export const CopyrightText = styled(Typography)`
   font-size: 14px;
   margin-top: 15px;
   color: rgba(255, 255, 255, 0.8);
 `;
 
-export const FooterTitle = styled.h3`
+export const FooterTitle = styled(Typography)`
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -61,16 +61,16 @@ export const FooterTitle = styled.h3`
   &:after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    bottom: 0,
+    left: 0,
+    width: 40px,
+    height: 2px,
+    background-color: white,
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2),
   }
 `;
 
-export const FooterLink = styled(Link)`
+export const FooterLink = styled(MuiLink)`
   text-decoration: none;
   color: rgba(255, 255, 255, 0.8);
   font-size: 15px;
@@ -105,13 +105,13 @@ export const FooterLink = styled(Link)`
   }
 `;
 
-export const SocialContainer = styled.div`
+export const SocialContainer = styled(Stack)`
   display: flex;
   gap: 15px;
   margin-top: 5px;
 `;
 
-export const SocialLink = styled.a`
+export const SocialLink = styled(MuiLink)`
   color: white;
   background-color: rgba(255, 255, 255, 0.2);
   width: 40px;
@@ -129,7 +129,7 @@ export const SocialLink = styled.a`
   }
 `;
 
-export const StyledNavContainer = styled.nav`
+export const StyledNavContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -146,4 +146,4 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 15px;
   color: white;
-`;
+`; 
