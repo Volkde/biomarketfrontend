@@ -5,12 +5,12 @@ import { StyledPageWrapper } from "./styles";
 const Home = () => {
   return (
 
-    <StyledPageWrapper>
+   <StyledPageWrapper>
       <Typography variant="h1" component="h2">
         Home
       </Typography>
       <ProductsList />
-    </StyledPageWrapper>
+   </StyledPageWrapper>
   );
 };
 

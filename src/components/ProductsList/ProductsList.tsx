@@ -11,7 +11,7 @@ function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
 
   async function fetchProducts() {
-    const res = await axios.get("/api/products/all");
+    const res = await axios.get("/api/products");
     setProducts(res.data);
   }
 

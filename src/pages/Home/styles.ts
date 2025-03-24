@@ -1,60 +1,17 @@
-export const styles = {
-  home: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-  },
-  productsContainer: {
-    width: '100%',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 20px 40px',
-  },
-  productsSection: {
-    marginBottom: '40px',
-    width: '100%',
-  },
-  banner: {
-    backgroundColor: '#f0f0f0',
-    padding: '40px',
-    textAlign: 'center' as const,
-    borderRadius: '8px',
-    marginBottom: '40px',
-    width: '100%',
-  },
-  bannerTitle: {
-    fontSize: '36px',
-    marginBottom: '10px',
-    color: '#2f5a6e',
-  },
-  bannerText: {
-    fontSize: '18px',
-    color: '#555',
-    marginBottom: '20px',
-  },
-  shopButton: {
-    backgroundColor: 'rgb(118, 150, 62)',
-    color: 'white',
-    padding: '12px 24px',
-    borderRadius: '30px',
-    textDecoration: 'none',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    display: 'inline-block',
-    transition: 'all 0.3s ease',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    ':hover': {
-      backgroundColor: '#2f5a6e',
-      transform: 'translateY(-3px)',
-      boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
-    },
-  },
-  sectionTitle: {
-    fontSize: '24px',
-    marginBottom: '20px',
-    color: '#2f5a6e',
-    fontWeight: 'bold',
-    textAlign: 'center' as const,
-  },
-};
+import styled from "@emotion/styled";
+
+export const StyledPageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+
+export const StyledTitle = styled.h1`
+  font-size: 2em;
+  margin-bottom: 20px;
+`;
+
+export const StyledText = styled.p`
+  margin-bottom: 20px;
+`;
