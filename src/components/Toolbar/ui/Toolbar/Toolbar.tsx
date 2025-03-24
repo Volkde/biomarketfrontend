@@ -1,4 +1,6 @@
+import { useTheme } from "@mui/material";
 import ToolbarContext from "../../context/ToolbarContext";
+import { StyledToolbar } from "./styles";
 import { ToolbarProps } from "./types";
 
 function Toolbar(props: ToolbarProps) {
@@ -8,17 +10,20 @@ function Toolbar(props: ToolbarProps) {
     children,
     ...toolbarProps
   } = props;
-
+  const theme = useTheme();
+  
   return (
     <ToolbarContext.Provider value={{ orientation, dir }}>
-      <div
+      <StyledToolbar
+        theme={theme}
         role="toolbar"
         aria-orientation={orientation}
         dir={dir}
+        className="red"
         {...toolbarProps}
       >
         {children}
-      </div>
+      </StyledToolbar>
     </ToolbarContext.Provider>
   );
 }

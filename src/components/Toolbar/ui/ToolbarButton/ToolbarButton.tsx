@@ -4,11 +4,7 @@ import { ToolbarButtonProps } from "./types";
 function ToolbarButton({ children, ...props }: ToolbarButtonProps) {
   const { orientation } = useToolbarContext();
 
-  return (
-    <button {...props}>
-      {children} ({orientation})
-    </button>
-  );
+  return <button {...props}>{children}</button>;
 }
 
 export default ToolbarButton;
