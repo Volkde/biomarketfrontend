@@ -1,24 +1,21 @@
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import Layout from 'components/Layout/Layout';
-import Home from './pages/Home/Home';
-import Products from './pages/Products/Products';
-import ProductDetail from './pages/ProductDetail/ProductDetail';
-import GlobalStyles from './styles/GlobalStyles';
-import SearchBar from './components/common/SearchBar/SearchBar';
+import { ThemeProvider } from "@mui/material";
+import AppRoutes from "components/AppRoutes/AppRoutes";
+import Layout from "components/Layout/Layout";
+import { BrowserRouter } from "react-router-dom";
+import GlobalStyles from "./styles/GlobalStyles";
+import theme from "./theme";
 
-const App = () => {
+function App() {
   return (
-		<BrowserRouter>
-		<GlobalStyles />
-		<SearchBar apiUrl="/api/search"/>
-         <Routes>
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
-		</BrowserRouter>
-		
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <Layout>
+          <AppRoutes />
+        </Layout>
+      </ThemeProvider>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

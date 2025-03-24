@@ -1,16 +1,16 @@
-import React from 'react';
-import { styles } from './styles';
-import HeroSection from '../HeroSection/HeroSection';
-import HotDeals from '../../components/common/HotDeals';
-import ProductGrid from '../../components/product/ProductGrid';
+import { Typography } from "@mui/material";
+import ProductsList from "components/ProductsList/ProductsList";
+import { StyledPageWrapper } from "./styles";
 
 const Home = () => {
   return (
-    <div style={{ width: '100%', maxWidth: 'none' }}>
-      <HeroSection />
-      <HotDeals />
-      <ProductGrid title="Our Products" />
-    </div>
+
+    <StyledPageWrapper>
+      <Typography variant="h1" component="h2">
+        Home
+      </Typography>
+      <ProductsList />
+    </StyledPageWrapper>
   );
 };
 

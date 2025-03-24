@@ -1,24 +1,28 @@
-import React from 'react';
-import { Button, styled } from '@mui/material';
+import { SpanIcon, StyledButtonIcon } from "./styles";
+import type { ButtonProps } from "./types";
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  color: 'white',
-  border: 'none',
-  borderRadius: '20px',
-  padding: '10px 20px',
-  cursor: 'pointer',
-}));
+function ButtonIcon(props: ButtonProps) {
+  const {
+    icon,
+    title,
+    type = "button",
+    disabled = false,
+    onClick,
+    style,
+  } = props;
 
-interface ButtonIconProps {
-  icon: React.ReactNode;
-  onClick: () => void;
+  return (
+    <StyledButtonIcon
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      title={title}
+      style={style}
+    >
+      <SpanIcon translate="no" className="material-symbols-outlined">
+        {icon}
+      </SpanIcon>
+    </StyledButtonIcon>
+  );
 }
-
-const ButtonIcon = ({ icon, onClick }: ButtonIconProps) => (
-  <StyledButton onClick={onClick}>
-    {icon}
-  </StyledButton>
-);
-
 export default ButtonIcon;
