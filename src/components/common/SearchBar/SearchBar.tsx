@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { FaSearch, FaMicrophone, FaTimes, FaSpinner } from 'react-icons/fa';
-import * as S from './styles';
+import { Box, TextField, IconButton, CircularProgress } from '@mui/material';
+import { SearchContainer, SearchInput } from './styles';
 import { useSearch } from './useSearch';
 
 interface SearchBarProps {
@@ -8,7 +9,7 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ apiUrl, placeholder = "Search Your Product" }) => {
+const SearchBar = ({ apiUrl, placeholder = "Search Your Product" }: SearchBarProps) => {
   const { 
     query, 
     setQuery, 
@@ -35,77 +36,48 @@ const SearchBar: React.FC<SearchBarProps> = ({ apiUrl, placeholder = "Search You
       };
 
       recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setQuery(transcript);
+        setQuery(event.results[0][0].transcript);
         setIsListening(false);
       };
 
-      recognition.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        setIsListening(false);
-      };
-
-      recognition.onend = () => {
+      recognition.onerror = () => {
         setIsListening(false);
       };
 
       recognition.start();
-    } else {
-      alert('Speech recognition is not supported in your browser.');
     }
   }, [setQuery]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
-
   return (
-    <S.SearchContainer>
-      <S.SearchInput
-        type="text"
+    <SearchContainer>
+      <SearchInput
         value={query}
-        onChange={handleInputChange}
+        onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setIsFocused(true)}
-        onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+        onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
-      />
-      {query && (
-        <S.ClearButton onClick={clearSearch}>
-          <FaTimes />
-        </S.ClearButton>
-      )}
-      <S.SearchButton>
-        {isLoading ? <FaSpinner className="spin-animation" /> : <FaSearch />}
-      </S.SearchButton>
-      <S.VoiceButton onClick={startListening} isListening={isListening}>
-        <FaMicrophone />
-      </S.VoiceButton>
-
-      {isFocused && (
-        <S.SuggestionsList>
-          {error && (
-            <S.ErrorMessage>{error}</S.ErrorMessage>
-          )}
-          {!error && suggestions.length === 0 && query && !isLoading && (
-            <S.EmptyMessage>No products found</S.EmptyMessage>
-          )}
-          {suggestions.map((product) => (
-            <S.SuggestionItem key={product.id}>
-              {product.image && (
-                <S.ProductImage src={product.image} alt={product.name} />
+        InputProps={{
+          startAdornment: (
+            <IconButton>
+              <FaSearch />
+            </IconButton>
+          ),
+          endAdornment: (
+            <>
+              {isLoading && <CircularProgress size={20} className="spin-animation" />}
+              {query && (
+                <IconButton onClick={clearSearch}>
+                  <FaTimes />
+                </IconButton>
               )}
-              <S.ProductInfo>
-                <S.ProductName>{product.name}</S.ProductName>
-                {product.category && (
-                  <S.ProductCategory>{product.category}</S.ProductCategory>
-                )}
-              </S.ProductInfo>
-              <S.ProductPrice>{product.price} ₽</S.ProductPrice>
-            </S.SuggestionItem>
-          ))}
-        </S.SuggestionsList>
-      )}
-    </S.SearchContainer>
+              <IconButton onClick={startListening}>
+                <FaMicrophone />
+              </IconButton>
+            </>
+          ),
+        }}
+      />
+    </SearchContainer>
   );
 };
 

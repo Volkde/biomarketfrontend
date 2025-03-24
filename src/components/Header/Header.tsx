@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaShoppingCart, FaLeaf, FaHeart } from 'react-icons/fa';
+import { FaUser, FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { links } from './data.ts';
 import { 
   StyledHeader, 
   StyledNavContainer, 
   StyledNavLink, 
-  LogoContainer, 
-  SearchContainer,
+  LogoContainer,
   ActionsContainer,
   ActionLink
 } from './styles';
@@ -22,7 +21,7 @@ const Header = () => {
   
   return (
     <StyledHeader>
-      <LogoContainer onClick={handleLogoClick}>
+      <LogoContainer to="/" onClick={handleLogoClick}>
         <img src="/FarmVibe_logo2.svg" alt="FarmVibe Logo" width="120" />
       </LogoContainer>
       

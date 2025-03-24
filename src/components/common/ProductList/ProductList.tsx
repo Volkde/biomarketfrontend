@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
-import { styles } from './styles';
+import { Container, Title, LoadingContainer } from './styles';
+import { Box, Typography } from '@mui/material';
 
 interface ProductListProps {
   products: {
@@ -27,26 +28,23 @@ const ProductList = ({ products, title }: ProductListProps) => {
 
     return () => clearTimeout(timer);
   }, []);
+
   return (
-    <div style={styles.container}>
-      {title && <h2 style={styles.title}>{title}</h2>}
+    <Container>
+      {title && <Title variant="h2">{title}</Title>}
       
       {isLoading ? (
-        <div style={styles.loadingContainer}>
-          <p>Loading products...</p>
-        </div>
-      ) : products.length > 0 ? (
-        <div style={styles.productGrid}>
+        <LoadingContainer>
+          <Typography variant="body1">Loading products...</Typography>
+        </LoadingContainer>
+      ) : (
+        <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap="20px">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
-      ) : (
-        <div style={styles.noProducts}>
-          <p>No products found. Check back later for new arrivals!</p>
-        </div>
+        </Box>
       )}
-    </div>
+    </Container>
   );
 };
 

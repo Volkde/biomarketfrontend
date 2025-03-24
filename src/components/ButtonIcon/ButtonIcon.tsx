@@ -1,7 +1,7 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import { Button, styled } from '@mui/material';
 
-const StyledButton = styled('button')(({ theme }) => ({
+const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: 'white',
   border: 'none',
@@ -10,12 +10,15 @@ const StyledButton = styled('button')(({ theme }) => ({
   cursor: 'pointer',
 }));
 
-const ButtonIcon: React.FC<{ icon: React.ReactNode; onClick: () => void }> = ({ icon, onClick }) => {
-  return (
-    <StyledButton onClick={onClick}>
-      {icon}
-    </StyledButton>
-  );
-};
+interface ButtonIconProps {
+  icon: React.ReactNode;
+  onClick: () => void;
+}
+
+const ButtonIcon = ({ icon, onClick }: ButtonIconProps) => (
+  <StyledButton onClick={onClick}>
+    {icon}
+  </StyledButton>
+);
 
 export default ButtonIcon;

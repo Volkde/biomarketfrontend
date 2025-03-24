@@ -1,122 +1,52 @@
-export const styles = {
-  productCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: '12px',
-    overflow: 'hidden',
-    boxShadow: '0 6px 15px rgba(0, 0, 0, 0.08)',
-    transition: 'all 0.3s ease',
-    margin: '15px',
-    maxWidth: '300px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    height: '100%',
-    ':hover': {
-      transform: 'translateY(-8px)',
-      boxShadow: '0 12px 20px rgba(0, 0, 0, 0.12)',
-    },
+import { Box, Typography, styled } from '@mui/material';
+
+export const ProductCardContainer = styled(Box)({
+  flex: '1 1 250px',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+  backgroundColor: 'white',
+  transition: 'transform 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-5px)',
   },
-  imageLink: {
-    display: 'block',
-    position: 'relative' as const,
-    overflow: 'hidden',
-    height: '220px',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover' as const,
-    transition: 'transform 0.5s ease',
-    ':hover': {
-      transform: 'scale(1.05)',
-    },
-  },
-  info: {
-    padding: '20px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    flexGrow: 1,
-    justifyContent: 'space-between' as const,
-  },
-  name: {
-    fontSize: '18px',
-    fontWeight: 600,
-    marginBottom: '8px',
-    color: '#2f5a6e',
-    textDecoration: 'none',
-    lineHeight: '1.4',
-    transition: 'color 0.2s',
-    ':hover': {
-      color: 'rgb(118, 150, 62)',
-    },
-  },
-  rating: {
-    fontSize: '14px',
-    color: '#ff9800',
-    marginBottom: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '5px',
-  },
-  price: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: '15px',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  priceValue: {
-    color: '#2f5a6e',
-  },
-  addButton: {
-    backgroundColor: 'rgb(118, 150, 62)',
-    color: 'white',
-    border: 'none',
-    padding: '12px 15px',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    width: '100%',
-    fontSize: '15px',
-    fontWeight: 600,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '8px',
-    transition: 'all 0.2s ease',
-    ':hover': {
-      backgroundColor: '#2f5a6e',
-      transform: 'scale(1.02)',
-    },
-  },
-  badge: {
-    position: 'absolute' as const,
-    top: '10px',
-    right: '10px',
-    backgroundColor: 'rgb(118, 150, 62)',
-    color: 'white',
-    padding: '5px 10px',
-    borderRadius: '20px',
-    fontSize: '12px',
-    fontWeight: 'bold',
-    zIndex: 1,
-  },
-  outOfStock: {
-    position: 'absolute' as const,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    color: 'white',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    zIndex: 2,
-  },
-  discountPrice: {
-    textDecoration: 'line-through',
-    color: '#999',
-    fontSize: '14px',
-    marginRight: '8px',
-  },
-};
+});
+
+export const ProductLink = styled(Box)({
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'block',
+});
+
+export const ProductImage = styled('img')({
+  width: '100%',
+  height: '200px',
+  objectFit: 'cover',
+  borderBottom: '1px solid #eee',
+});
+
+export const ProductInfo = styled(Box)({
+  padding: '15px',
+});
+
+export const ProductName = styled(Typography)({
+  fontSize: '16px',
+  fontWeight: 'bold',
+  margin: '0 0 10px 0',
+  color: '#333',
+  textAlign: 'center',
+});
+
+export const ProductPrice = styled(Typography)({
+  fontSize: '18px',
+  color: '#666',
+  margin: '0 0 10px 0',
+  textAlign: 'center',
+});
+
+export const ProductRating = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '2px',
+});
