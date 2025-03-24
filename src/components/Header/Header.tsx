@@ -1,32 +1,33 @@
-import { ButtonIcon } from "components/ButtonIcon";
-import { useNavigate } from "react-router-dom";
-import { links } from "./data.ts";
-import { StyledHeader, StyledNavContainer, StyledNavLink } from "./styles";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import { Tooltip } from "@mui/material";
+import * as Toolbar from "components/Toolbar";
+import { links } from "./data";
+import { StyledHeader, StyledNavContainer } from "./styles";
+
+const elLinks = links.map(item => <span key={item.text}>{item.text}</span>);
 
 function Header() {
-  const navigate = useNavigate();
-  const goToPrevPage = () => navigate(-1);
-
-  const elLinks = links.map(({ icon, text, path }) =>
-    icon ? (
-      <ButtonIcon key={path} icon={icon} onClick={() => navigate(path)} />
-    ) : (
-      <StyledNavLink
-        key={path}
-        to={path}
-        style={({ isActive }) => ({
-          textDecoration: isActive ? "underline" : "none",
-        })}
-      >
-        {text}
-      </StyledNavLink>
-    ),
-  );
-
   return (
     <StyledHeader>
-      <ButtonIcon onClick={goToPrevPage} icon="arrow_back_ios" />
       <StyledNavContainer>{elLinks}</StyledNavContainer>
+
+      <Toolbar.Root orientation="horizontal">
+        <Toolbar.Button>
+          <AcUnitIcon />
+        </Toolbar.Button>
+        <Tooltip title="Button 2">
+          <Toolbar.Button>Button 2</Toolbar.Button>
+        </Tooltip>
+        <Toolbar.Separator />
+        <Tooltip title="Title">
+          <Toolbar.Link href="/" target="_blank">
+            Go to Example
+          </Toolbar.Link>
+        </Tooltip>
+        <Toolbar.Link href="/" target="_blank">
+          <AcUnitIcon />
+        </Toolbar.Link>
+      </Toolbar.Root>
     </StyledHeader>
   );
 }

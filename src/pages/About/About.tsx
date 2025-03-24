@@ -1,10 +1,12 @@
-import { Title } from "components/Title";
+import { Typography } from "@mui/material";
 import { StyledPageWrapper, StyledText } from "./styles";
 
 function About() {
   return (
     <StyledPageWrapper>
-      <Title content="About" />
+      <Typography variant="h1" component="h2">
+        About
+      </Typography>
       <StyledText>Разработчики</StyledText>
       <StyledText>Backend:</StyledText>
       <ul>

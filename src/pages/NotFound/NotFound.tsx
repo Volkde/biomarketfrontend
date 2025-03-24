@@ -1,5 +1,4 @@
-import Button from "components/Button/Button";
-import { Title } from "components/Title";
+import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { StyledPageWrapper } from "./styles";
 
@@ -8,9 +7,11 @@ function NotFoundPage() {
 
   return (
     <StyledPageWrapper>
-      <Title content="404. Not Found" />
+      <Typography variant="h1" component="h2">
+        404. Not Found
+      </Typography>
       <p>
-        <Button name="На главную" onClick={() => navigate("/")} />
+        <button onClick={() => navigate("/")}>На главную</button>
       </p>
     </StyledPageWrapper>
   );
