@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Link, NavLink } from "react-router-dom";
 
-export const Root = styled.header`
+export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
