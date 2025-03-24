@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from '../../../services/api';
 import { styles } from './styles';
 
 interface ProductFiltersProps {
@@ -12,16 +13,20 @@ interface ProductFiltersProps {
   onFilterChange: (filters: any) => void;
 }
 
+interface Category {
+  id: string;
+  name: string;
+}
+
 const ProductFilters: React.FC<ProductFiltersProps> = ({ filters, onFilterChange }) => {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [localFilters, setLocalFilters] = useState(filters);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/categories');
-        const data = await response.json();
-        setCategories(data || []);
+        const response = await api.get<Category[]>('/api/categories');
+        setCategories(response.data || []);
       } catch (err) {
         console.error('Error fetching categories:', err);
       }

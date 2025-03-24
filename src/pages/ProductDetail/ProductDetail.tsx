@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ProductImages from '../../components/product/ProductImages/ProductImages';
 import ProductReviews from '../../components/product/ProductReviews/ProductReviews';
 import { styles } from './styles';
+import api from '../../services/api';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,9 +15,8 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products/${id}`);
-        const data = await response.json();
-        setProduct(data);
+        const response = await api.get(`/api/products/${id}`);
+        setProduct(response.data);
         setLoading(false);
       } catch (err) {
         setError('Failed to load product');
@@ -28,12 +28,8 @@ const ProductDetail: React.FC = () => {
 
   const handleAddToCart = async () => {
     try {
-      const response = await fetch('/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: id, quantity }),
-      });
-      if (response.ok) {
+      const response = await api.post('/api/cart', { productId: id, quantity });
+      if (response.status === 200) {
         alert('Product added to cart!');
       } else {
         alert('Error adding to cart');
