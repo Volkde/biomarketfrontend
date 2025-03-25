@@ -1,34 +1,35 @@
-import { Box, TextField, styled } from '@mui/material';
+import { Box, InputBase, List, ListItem, ListItemText, Snackbar, Alert, styled } from '@mui/material';
 
 export const SearchContainer = styled(Box)({
-  position: 'relative',
-  width: '50%',
-  maxWidth: '100%',
-  zIndex: 2000,
+  display: 'flex',
+  alignItems: 'center',
+  backgroundColor: '#f5f5f5',
+  borderRadius: '40px',
+  padding: '8px',
+  margin: '16px 0',
+  width: '100%',
+  maxWidth: '600px',
 });
 
-export const SearchInput = styled(TextField)(({ theme }) => ({
+export const StyledInputBase = styled(InputBase)({
+  flex: 1,
+  marginLeft: '8px',
+});
+
+export const SearchHistoryContainer = styled(Box)({
+  position: 'absolute',
+  top: '100%',
+  left: 0,
+  right: 0,
+  backgroundColor: 'background.paper',
+  boxShadow: 3,
+  zIndex: 1,
+});
+
+export const StyledSnackbar = styled(Snackbar)({
+  anchorOrigin: { vertical: 'top', horizontal: 'center' },
+});
+
+export const StyledAlert = styled(Alert)({
   width: '100%',
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '50px',
-    padding: '12px 45px 12px 15px',
-    backgroundColor: 'white',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    fontSize: '16px',
-    color: '#333',
-    transition: 'all 0.3s ease',
-    '& fieldset': {
-      borderColor: '#ddd',
-    },
-    '&:hover fieldset': {
-      borderColor: '#28a745',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#28a745',
-      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
-    },
-  },
-  '& .MuiInputBase-input::placeholder': {
-    color: '#888',
-  },
-}));
+});
