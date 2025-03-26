@@ -1,266 +1,242 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { FaStar, FaShoppingCart, FaSearch, FaHeart, FaLayerGroup } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import ProductQuickViewModal from '../ProductQuickViewModal/ProductQuickViewModal';
 
-const styles = {
-  container: {
-    border: '1px solid #e0e0e0' as const,
-    borderRadius: '8px' as const,
-    overflow: 'hidden' as const,
-    position: 'relative' as const,
-    transition: 'box-shadow 0.3s ease, transform 0.3s ease' as const,
-    width: '300px' as const,
-    height: '400px' as const,
-  } as const,
-  containerHover: {
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' as const,
-    transform: 'translateY(-5px)' as const,
-  } as const,
-  image: {
-    width: '100%' as const,
-    height: '280px' as const,
-    objectFit: 'cover' as const,
-    transition: 'opacity 0.3s ease' as const,
-  } as const,
-  imageHover: {
-    opacity: 0.9 as const,
-  } as const,
-  details: {
-    padding: '10px' as const,
-    position: 'relative' as const,
-    textAlign: 'center' as const,
-    height: '120px' as const,
-  } as const,
-  title: {
-    fontSize: '18px' as const,
-    fontWeight: 'bold' as const,
-    marginBottom: '8px' as const,
-  } as const,
-  description: {
-    fontSize: '14px' as const,
-    color: '#666' as const,
-    marginBottom: '12px' as const,
-  } as const,
-  price: {
-    fontSize: '16px' as const,
-    fontWeight: 'bold' as const,
-    color: '#333' as const,
-  } as const,
-  actions: {
-    display: 'flex' as const,
-    gap: '8px' as const,
-    justifyContent: 'center' as const,
-    position: 'absolute' as const,
-    top: 'calc(280px - 20px)' as const,
-    left: '50%' as const,
-    transform: 'translate(-50%, -50%)' as const,
-    opacity: 0 as const,
-    transition: 'opacity 0.3s ease' as const,
-  } as const,
-  actionsHover: {
-    opacity: 1 as const,
-  } as const,
-  actionButton: {
-    background: 'white' as const,
-    border: 'none' as const,
-    padding: '8px' as const,
-    borderRadius: '50%' as const,
-    cursor: 'pointer' as const,
-    color: '#333' as const,
-    display: 'flex' as const,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
-    transition: 'background-color 0.3s ease' as const,
-  } as const,
-  addToCart: {
-    color: '#333' as const,
-  } as const,
-  quickView: {
-    color: '#333' as const,
-  } as const,
-  addToFavorites: {
-    color: '#333' as const,
-  } as const,
-  addToCompare: {
-    color: '#333' as const,
-  } as const,
-  hotTag: {
-    position: 'absolute' as const,
-    top: '10px' as const,
-    left: '10px' as const,
-    backgroundColor: '#ff4444' as const,
-    color: 'white' as const,
-    padding: '4px 8px' as const,
-    borderRadius: '4px' as const,
-  } as const,
-  saleTag: {
-    position: 'absolute' as const,
-    top: '10px' as const,
-    right: '10px' as const,
-    backgroundColor: '#4b8a08' as const,
-    color: 'white' as const,
-    padding: '4px 8px' as const,
-    borderRadius: '4px' as const,
-  } as const,
-  oldPrice: {
-    textDecoration: 'line-through' as const,
-    color: '#666' as const,
-    marginRight: '8px' as const,
-  } as const,
-  rating: {
-    display: 'flex' as const,
-    gap: '2px' as const,
-    justifyContent: 'center' as const,
-    alignItems: 'center' as const,
-  } as const,
-} as const;
+// Import MUI components needed directly in JSX (usually Link)
+import { Link as MuiLink, Typography, CircularProgress } from '@mui/material';
 
+// Import styled components using namespace
+import * as S from './styles';
+
+// Import other components and services
+import ProductQuickViewModal from '../ProductQuickViewModal/ProductQuickViewModal'; // Adjust path if needed
+import api from '../../../services/api'; // Assuming this path is correct
+// import { useCart } from '../../../contexts/CartContext'; // Uncomment if using Cart Context
+
+// --- Interfaces ---
 interface ProductImage {
-  id: number;
+  id: number | string; // Allow string IDs for images too
   url: string;
 }
 
 interface Product {
-  id: string;
+  id: string; // Keep ID as string, often better for APIs
   name: string;
   price: number;
   oldPrice?: number;
-  rating: number;
-  images: ProductImage[];
+  rating?: number; // Rating is optional
+  images?: ProductImage[]; // Images are optional
   isHot?: boolean;
   isSale?: boolean;
   description?: string;
+  // Add other potential fields like 'slug', 'stockStatus', etc.
 }
 
 interface ProductCardProps {
   product: Product;
+  // Add any other props needed, like onAddToCartSuccess, etc.
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+// --- Constants ---
+const PLACEHOLDER_IMAGE = '/images/placeholder.png'; // Ensure this exists in your public folder
 
-  const handleAddToCart = async () => {
+// --- ProductCard Component (Arrow Function) ---
+export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  // const { addToCart } = useCart(); // Use if context is preferred over direct API call
+  const [showModal, setShowModal] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  // Add state for wishlist/compare if those become API calls
+  // const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
+
+  const {
+    id,
+    name,
+    price,
+    oldPrice,
+    rating = 0, // Default rating to 0
+    images,
+    isHot,
+    isSale,
+    description,
+  } = product;
+
+  const imageUrl = images && images.length > 0 ? images[0].url : PLACEHOLDER_IMAGE;
+
+  // --- Event Handlers ---
+  const handleAddToCart = async (event: React.MouseEvent) => {
+    event.preventDefault(); // Prevent link navigation if needed
+    event.stopPropagation();
+    setIsAddingToCart(true);
     try {
-      const response = await fetch('/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: product.id, quantity: 1 }),
+      // Using direct API call as in original example
+      const response = await api.post('/api/cart/add', {
+        productId: id,
+        quantity: 1
       });
-      if (response.ok) {
-        alert('Product added to cart!');
+      if (response.status === 200 || response.status === 201) {
+        console.log('Product added to cart:', response.data);
+        // Add user feedback (e.g., toast/snackbar) instead of alert
+        // showSnackbar('Product added to cart!', 'success');
       } else {
-        alert('Error adding to cart');
+        // Handle non-2xx responses that aren't errors
+        console.warn('Problem adding to cart:', response);
+         // showSnackbar(`Error: ${response.statusText}`, 'error');
       }
+    // } catch (err: any) { // More specific error typing if possible
     } catch (err) {
-      alert('Error adding to cart');
+      console.error('Error adding to cart:', err);
+      // showSnackbar('Failed to add product to cart.', 'error');
+    } finally {
+      setIsAddingToCart(false);
     }
   };
 
-  const handleQuickView = () => {
+  const handleQuickView = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     setShowModal(true);
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <FaStar 
-        key={i} 
-        style={{ 
-          color: i < Math.floor(rating) ? '#28a745' : '#e4e5e9',
-          marginRight: '2px'
-        }} 
-      />
-    ));
+  const handleAddToWishlist = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // Replace alert with API call + feedback
+    // setIsAddingToWishlist(true); -> make API call -> setIsAddingToWishlist(false);
+    console.log(`Adding ${name} to wishlist (API call placeholder)`);
+    // showSnackbar(`${name} added to wishlist!`, 'info');
+    alert(`Added ${name} to favorites (placeholder)`);
   };
 
-  const cardStyle = {
-    ...styles.container,
-    ...(isHovered && styles.containerHover),
+   const handleAddToCompare = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // Replace alert with API call or context update + feedback
+    console.log(`Adding ${name} to compare list (placeholder)`);
+    alert(`Added ${name} to compare list (placeholder)`);
   };
 
-  const imageStyle = {
-    ...styles.image,
-    ...(isHovered && styles.imageHover),
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.onerror = null; // Prevent infinite loop
+    target.src = PLACEHOLDER_IMAGE;
   };
 
-  const actionsStyle = {
-    ...styles.actions,
-    ...(isHovered && styles.actionsHover),
+  // --- Render Helpers ---
+  const renderRatingStars = () => {
+    if (rating <= 0) return null; // Don't render if no rating
+    return (
+      <S.RatingContainer>
+        {Array.from({ length: 5 }, (_, i) => (
+          <FaStar key={i} style={{ color: i < Math.round(rating) ? undefined : '#e4e5e9' }} />
+          // Using undefined relies on RatingContainer's inherited color for filled stars
+        ))}
+        {/* Optional: Display numeric rating */}
+        {/* <Typography variant="caption" sx={{ ml: 0.5 }}>({rating.toFixed(1)})</Typography> */}
+      </S.RatingContainer>
+    );
   };
 
   return (
     <>
-      <div 
-        style={cardStyle} 
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div style={{ position: 'relative' }}>
-          {product.isHot && <div style={styles.hotTag}>Hot</div>}
-          {product.isSale && <div style={styles.saleTag}>Sale</div>}
-          <Link to={`/products/${product.id}`}>
-            <img 
-              src={product.images[0]?.url || ''} 
-              alt={product.name} 
-              style={imageStyle} 
-            />
-          </Link>
-          <div style={actionsStyle}>
-            <button 
-              style={{ ...styles.actionButton, ...styles.addToCart }} 
+      <S.CardWrapper>
+        <S.MediaContainer>
+          {isHot && <S.HotTag component="span">Hot</S.HotTag>}
+          {isSale && <S.SaleTag component="span">Sale</S.SaleTag>}
+
+          {/* Link wrapping the image */}
+           <MuiLink component={RouterLink} to={`/products/${id}`} underline="none">
+              <S.ProductImage
+                component="img"
+                className="product-image" // Class for hover effect targeting
+                image={imageUrl}
+                alt={name}
+                onError={handleImageError}
+              />
+           </MuiLink>
+
+          {/* Actions Overlay - uses class name for hover targeting */}
+          <S.ActionsOverlay className="product-actions-overlay">
+            <S.ActionButton
+              aria-label="Add to Cart"
               title="Add to Cart"
               onClick={handleAddToCart}
+              disabled={isAddingToCart} // Disable while adding
             >
-              <FaShoppingCart style={{ color: '#333' }} />
-            </button>
-            <button 
-              style={{ ...styles.actionButton, ...styles.quickView }} 
+              {isAddingToCart ? <CircularProgress size={18} color="inherit" /> : <FaShoppingCart />}
+            </S.ActionButton>
+            <S.ActionButton
+              aria-label="Quick View"
               title="Quick View"
               onClick={handleQuickView}
             >
-              <FaSearch style={{ color: '#333' }} />
-            </button>
-            <button 
-              style={{ ...styles.actionButton, ...styles.addToFavorites }} 
-              title="Add to Favorites"
-              onClick={() => alert(`Added ${product.name} to favorites`)}
+              <FaSearch />
+            </S.ActionButton>
+            <S.ActionButton
+              aria-label="Add to Wishlist"
+              title="Add to Wishlist"
+              onClick={handleAddToWishlist}
             >
-              <FaHeart style={{ color: '#333' }} />
-            </button>
-            <button 
-              style={{ ...styles.actionButton, ...styles.addToCompare }} 
+              <FaHeart />
+            </S.ActionButton>
+            <S.ActionButton
+              aria-label="Add to Compare"
               title="Add to Compare"
-              onClick={() => alert(`Added ${product.name} to compare list`)}
+              onClick={handleAddToCompare}
             >
-              <FaLayerGroup style={{ color: '#333' }} />
-            </button>
-          </div>
-          <div style={styles.details}>
-            <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: '#333' }}>
-              <h3 style={styles.title}>{product.name}</h3>
-            </Link>
-            <p style={styles.description}>{product.description}</p>
-            <div style={{ marginBottom: '12px' }}>
-              {product.oldPrice && (
-                <span style={styles.oldPrice}>${product.oldPrice.toFixed(2)}</span>
-              )}
-              <span style={styles.price}>${product.price.toFixed(2)}</span>
-            </div>
-            <div style={styles.rating}>
-              {renderStars(product.rating)}
-            </div>
-          </div>
-        </div>
-      </div>
+              <FaLayerGroup />
+            </S.ActionButton>
+          </S.ActionsOverlay>
 
+        </S.MediaContainer>
+
+        <S.ContentArea>
+          {/* Box to group top content (name, desc, price) */}
+          <div>
+            {/* Use StyledProductLink only if specific styling needed, else basic MuiLink is fine */}
+            <MuiLink component={RouterLink} to={`/products/${id}`} underline="none" color="inherit">
+                <S.ProductName variant="h6" component="h3">
+                {name}
+                </S.ProductName>
+            </MuiLink>
+
+            {description && (
+              <S.ProductDescription variant="body2">
+                {description}
+              </S.ProductDescription>
+            )}
+
+            <S.PriceContainer>
+              <S.CurrentPrice component="span">
+                ${price.toFixed(2)}
+              </S.CurrentPrice>
+              {oldPrice && oldPrice > price && (
+                <S.OldPrice component="span">
+                  ${oldPrice.toFixed(2)}
+                </S.OldPrice>
+              )}
+            </S.PriceContainer>
+          </div>
+
+          {/* Rating pushes down due to flexbox justify-content */}
+          {renderRatingStars()}
+
+        </S.ContentArea>
+      </S.CardWrapper>
+
+      {/* Quick View Modal */}
       {showModal && (
         <ProductQuickViewModal
+          // Pass necessary product details to the modal
           product={{
-            ...product,
-            image: product.images[0]?.url,
-            id: product.id.toString()
-          }}
+             id: id,
+             name: name,
+             price: price,
+             oldPrice: oldPrice,
+             rating: rating,
+             description: description, // Pass full description maybe
+             image: imageUrl, // Pass current image
+             // Add other required fields by the modal
+           }}
           onClose={() => setShowModal(false)}
         />
       )}
@@ -268,4 +244,5 @@ const ProductCard = ({ product }: ProductCardProps) => {
   );
 };
 
-export default ProductCard;
+// Using named export as requested in the prompt context
+// export default ProductCard; // Remove default export if using named

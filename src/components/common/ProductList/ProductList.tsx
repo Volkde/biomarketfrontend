@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ProductCard from '../ProductCard/ProductCard';
+import { ProductCard } from '../ProductCard/ProductCard';
 import { Container, Title, LoadingContainer } from './styles';
 import { Box, Typography } from '@mui/material';
 
