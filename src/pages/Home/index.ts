@@ -1,3 +1,3 @@
-import Home from "./Home";
+import { Root as HomePage } from "./ui/Root";
 
-export { Home as HomePage };
+export { HomePage };

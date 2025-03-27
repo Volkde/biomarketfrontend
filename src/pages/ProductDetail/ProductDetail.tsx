@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import ProductImages from '../../components/ProductsList/ui/ProductCard/ui/Images/Images';
-import ProductReviews from '../../components/ProductsList/ui/ProductReviews/ProductReviews';
-import { styles } from './styles';
-import api from '../../services/api';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import ProductImages from "../../components/ProductCard/ui/Images/Images";
+import ProductReviews from "../../components/ProductsGrid/ui/ProductReviews/ProductReviews";
+import api from "../../services/api";
+import { styles } from "./styles";
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +19,7 @@ const ProductDetail: React.FC = () => {
         setProduct(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to load product');
+        setError("Failed to load product");
         setLoading(false);
       }
     };
@@ -28,14 +28,14 @@ const ProductDetail: React.FC = () => {
 
   const handleAddToCart = async () => {
     try {
-      const response = await api.post('/api/cart', { productId: id, quantity });
+      const response = await api.post("/api/cart", { productId: id, quantity });
       if (response.status === 200) {
-        alert('Product added to cart!');
+        alert("Product added to cart!");
       } else {
-        alert('Error adding to cart');
+        alert("Error adding to cart");
       }
     } catch (err) {
-      alert('Error adding to cart');
+      alert("Error adding to cart");
     }
   };
 
@@ -53,7 +53,7 @@ const ProductDetail: React.FC = () => {
         <div style={styles.infoSection}>
           <h1 style={styles.productName}>{product.name}</h1>
           <div style={styles.rating}>
-            <span>⭐ {product.rating || 'No rating'}</span>
+            <span>⭐ {product.rating || "No rating"}</span>
             <span>({product.reviews?.length || 0} reviews)</span>
           </div>
           <p style={styles.price}>${product.price}</p>
@@ -61,11 +61,17 @@ const ProductDetail: React.FC = () => {
 
           <div style={styles.addToCart}>
             <div style={styles.quantity}>
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={styles.quantityButton}>
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                style={styles.quantityButton}
+              >
                 -
               </button>
               <span style={styles.quantityText}>{quantity}</span>
-              <button onClick={() => setQuantity(quantity + 1)} style={styles.quantityButton}>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                style={styles.quantityButton}
+              >
                 +
               </button>
             </div>

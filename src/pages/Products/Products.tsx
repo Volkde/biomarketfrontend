@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import ProductList from '../../components/common/ProductList/ProductList';
-import ProductFilters from '../../components/common/ProductFilters/ProductFilters';
-import { styles } from './styles';
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import ProductList from "../../components/common/ProductList/ProductList";
+import ProductFilters from "../../components/ProductsGrid/ui/Filters/Filters";
+import { styles } from "./styles";
 
 const Products: React.FC = () => {
   const location = useLocation();
@@ -10,16 +10,16 @@ const Products: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
-    categoryId: '',
-    minPrice: '',
-    maxPrice: '',
-    minRating: '',
-    sort: 'price,asc',
+    categoryId: "",
+    minPrice: "",
+    maxPrice: "",
+    minRating: "",
+    sort: "price,asc",
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const searchQuery = new URLSearchParams(location.search).get('search') || '';
+  const searchQuery = new URLSearchParams(location.search).get("search") || "";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,7 +27,7 @@ const Products: React.FC = () => {
       try {
         const queryParams = new URLSearchParams({
           page: currentPage.toString(),
-          size: '12',
+          size: "12",
           ...(searchQuery && { q: searchQuery }),
           ...(filters.categoryId && { categoryId: filters.categoryId }),
           ...(filters.minPrice && { minPrice: filters.minPrice }),
@@ -42,7 +42,7 @@ const Products: React.FC = () => {
         setTotalPages(data.totalPages || 0);
         setLoading(false);
       } catch (err) {
-        setError('Failed to load products');
+        setError("Failed to load products");
         setLoading(false);
       }
     };
@@ -65,11 +65,16 @@ const Products: React.FC = () => {
   return (
     <div style={styles.productsPage}>
       <h1 style={styles.h1}>Shop</h1>
-      {searchQuery && <p style={styles.searchQuery}>Search results for: "{searchQuery}"</p>}
+      {searchQuery && (
+        <p style={styles.searchQuery}>Search results for: "{searchQuery}"</p>
+      )}
 
       <div style={styles.layout}>
         <div style={styles.filters}>
-          <ProductFilters filters={filters} onFilterChange={handleFilterChange} />
+          <ProductFilters
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
         </div>
 
         <div style={styles.productList}>
@@ -79,11 +84,15 @@ const Products: React.FC = () => {
 
       {totalPages > 1 && (
         <div style={styles.pagination}>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              style={page === currentPage ? styles.activePage : styles.paginationButton}
+              style={
+                page === currentPage
+                  ? styles.activePage
+                  : styles.paginationButton
+              }
             >
               {page}
             </button>

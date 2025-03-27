@@ -1,32 +1,39 @@
 import { Typography } from "@mui/material";
-import { StyledPageWrapper, StyledText } from "./styles";
 
 function About() {
   return (
-    <StyledPageWrapper>
-      <Typography variant="h1" component="h2">
+    <>
+      <Typography variant="h1" component="h1">
         About
       </Typography>
-      <StyledText>Разработчики</StyledText>
-      <StyledText>Backend:</StyledText>
+      <Typography variant="h2" component="h2">
+        Разработчики
+      </Typography>
+      <Typography variant="h3" component="h3">
+        Backend
+      </Typography>
       <ul>
         <li>Nesterov Ilya</li>
         <li>Saratov Sergej</li>
         <li>Tereshchenko Kristina</li>
       </ul>
-      <StyledText>Frontend:</StyledText>
+      <Typography variant="h3" component="h3">
+        Frontend
+      </Typography>
       <ul>
         <li>Stoianov Maksym</li>
         <li>Demishev Oleh</li>
         <li>Fesenko Bogdan</li>
         <li>Rotärmel Eugen</li>
       </ul>
-      <StyledText>QA:</StyledText>
+      <Typography variant="h3" component="h3">
+        QA
+      </Typography>
       <ul>
         <li>Darievych Maryna</li>
         <li>Kharina Olga</li>
       </ul>
-    </StyledPageWrapper>
+    </>
   );
 }
 

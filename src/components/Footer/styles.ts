@@ -1,4 +1,4 @@
-import { Box, Typography, Stack, Link as MuiLink, styled } from "@mui/material";
+import { Box, Link as MuiLink, Stack, styled, Typography } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 
 export const StyledFooter = styled(Box)`
@@ -17,7 +17,7 @@ export const FooterContainer = styled(Box)`
   margin: 0 auto;
   padding: 0 20px;
   gap: 30px;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -38,7 +38,7 @@ export const LogoContainer = styled(Box)`
   font-size: 24px;
   font-weight: bold;
   color: white;
-  
+
   span {
     margin-left: 5px;
   }
@@ -79,14 +79,14 @@ export const FooterLink = styled(MuiLink)`
   display: block;
   position: relative;
   padding-left: 5px;
-  
+
   &:hover {
     color: white;
     transform: translateX(5px);
   }
-  
+
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     left: -5px;
     top: 50%;
@@ -98,7 +98,7 @@ export const FooterLink = styled(MuiLink)`
     border-color: transparent transparent transparent rgba(255, 255, 255, 0);
     transition: all 0.3s ease;
   }
-  
+
   &:hover:before {
     left: 0;
     border-color: transparent transparent transparent rgba(255, 255, 255, 0.8);
@@ -121,7 +121,7 @@ export const SocialLink = styled(MuiLink)`
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-3px) scale(1.1);
@@ -146,4 +146,4 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 15px;
   color: white;
-`; 
+`;
