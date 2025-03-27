@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProductCard } from '../common/ProductCard'; // Добавление именованного импорта
 import { useEffect, useState } from "react";
 
 interface Product {
@@ -11,7 +12,7 @@ function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
 
   async function fetchProducts() {
-    const res = await axios.get("/api/products/all");
+    const res = await axios.get("/api/products");
     setProducts(res.data);
   }
 

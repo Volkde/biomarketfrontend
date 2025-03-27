@@ -2,15 +2,16 @@ import { Typography } from "@mui/material";
 import ProductsList from "components/ProductsList/ProductsList";
 import { StyledPageWrapper } from "./styles";
 
-function HomePage() {
+const Home = () => {
   return (
-    <StyledPageWrapper>
+
+   <StyledPageWrapper>
       <Typography variant="h1" component="h2">
         Home
       </Typography>
       <ProductsList />
-    </StyledPageWrapper>
+   </StyledPageWrapper>
   );
-}
+};
 
-export default HomePage;
+export default Home;
