@@ -81,7 +81,7 @@ function Root() {
           <SidebarButton onClick={handleNavSidebarOpen} />
           <LogoButton alt="FramVibe" url="/public/logo.jpg" />
           <Space />
-          <Search />
+          <Search apiUrl={""} />
           <Space />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {isLogin && (
