@@ -1,4 +1,4 @@
-import { ProductCardProps } from '../types';
+import { ProductCardProps } from "../Root";
 
 export interface FeaturedProductCardProps extends ProductCardProps {
   product: {

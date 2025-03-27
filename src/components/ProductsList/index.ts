@@ -1,3 +1,3 @@
-import ProductsList from "./ui/Root/Root";
+import { ProductsList } from "./ui/Root";
 
 export { ProductsList };

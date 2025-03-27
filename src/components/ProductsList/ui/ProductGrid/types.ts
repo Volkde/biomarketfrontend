@@ -1,17 +1,7 @@
+import { Product } from "../Root";
+
 export interface ProductGridProps {
-  products: {
-    id: string;
-    image: string;
-    name: string;
-    price: number;
-    oldPrice?: number;
-    rating: number;
-    reviews: number;
-    isNew?: boolean;
-    isOrganic?: boolean;
-    isSale?: boolean;
-    featured?: boolean;
-  }[];
+  products?: Product[];
   columns?: number;
   spacing?: number;
 }

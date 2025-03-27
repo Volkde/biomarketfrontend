@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ProductGrid from "../ProductGrid";
 import { Product } from "./types";
 
-function ProductsList() {
+function Root() {
   const [products, setProducts] = useState<Product[]>([]);
 
   async function fetchProducts() {
@@ -14,17 +15,7 @@ function ProductsList() {
     fetchProducts();
   }, []);
 
-  const elProducts = products.map(p => (
-    <li key={p.id}>
-      Title: {p.title} Price: {p.price}
-    </li>
-  ));
-
-  return (
-    <div>
-      <ul>{elProducts}</ul>
-    </div>
-  );
+  return <ProductGrid products={products} />;
 }
 
-export default ProductsList;
+export default Root;

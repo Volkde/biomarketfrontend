@@ -1,18 +1,18 @@
-import { Typography } from '@mui/material';
-import { DescriptionProps } from './types';
+import { Typography } from "@mui/material";
 import {
   StyledDescription,
-  StyledTitle,
   StyledDescriptionText,
-  StyledFeaturesList,
   StyledFeatureItem,
-} from './styles';
+  StyledFeaturesList,
+  StyledTitle,
+} from "./styles";
+import { DescriptionProps } from "./types";
 
 const Description = ({
   title,
   description,
   features,
-  size = 'medium',
+  size = "medium",
 }: DescriptionProps) => {
   return (
     <StyledDescription>

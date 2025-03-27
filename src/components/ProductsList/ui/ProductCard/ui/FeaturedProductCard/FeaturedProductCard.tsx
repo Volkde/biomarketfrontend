@@ -1,9 +1,8 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
-import { ProductCardProps } from '../types';
+import { Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { ProductCardProps } from "../Root";
 
-const StyledFeaturedContent = styled('div')`
+const StyledFeaturedContent = styled("div")`
   position: absolute;
   top: 0;
   left: 0;
@@ -28,7 +27,7 @@ const FeaturedProductCard = ({ product }: ProductCardProps) => {
   return (
     <StyledFeaturedContent>
       <StyledFeaturedTitle variant="h6">
-        {product.featuredTitle || 'Featured Product'}
+        {product.featuredTitle || "Featured Product"}
       </StyledFeaturedTitle>
       {product.featuredDescription && (
         <StyledFeaturedDescription variant="body2">

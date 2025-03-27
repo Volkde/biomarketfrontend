@@ -1,8 +1,8 @@
-import { Typography } from '@mui/material';
-import { PriceProps } from './types';
-import { StyledPrice } from './styles';
+import { Typography } from "@mui/material";
+import { StyledPrice } from "./styles";
+import { PriceProps } from "./types";
 
-const Price = ({ price, currency = '$' }: PriceProps) => {
+const Price = ({ price, currency = "$" }: PriceProps) => {
   return (
     <StyledPrice>
       <Typography variant="h6" component="span">

@@ -1,1 +1,1 @@
-export { default as ButtonView } from './ButtonView';
+export { default as AddToCartButton } from "./AddToCartButton";

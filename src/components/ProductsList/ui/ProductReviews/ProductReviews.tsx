@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { styles } from './styles';
+import React, { useState } from "react";
+import { styles } from "./styles";
 
 interface ProductReviewsProps {
-  reviews?: { id: number; userId: number; rating: number; comment: string; dateCreated: string }[];
+  reviews?: {
+    id: number;
+    userId: number;
+    rating: number;
+    comment: string;
+    dateCreated: string;
+  }[];
   productId: string;
 }
 
-const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) => {
-  const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
+const ProductReviews: React.FC<ProductReviewsProps> = ({
+  reviews = [],
+  productId,
+}) => {
+  const [newReview, setNewReview] = useState({ rating: 0, comment: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitReview = async (e: React.FormEvent) => {
@@ -16,8 +25,8 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) =
 
     try {
       const response = await fetch(`/api/products/${productId}/reviews`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           rating: newReview.rating,
           comment: newReview.comment,
@@ -26,13 +35,13 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) =
         }),
       });
       if (response.ok) {
-        alert('Review added! It will appear after moderation.');
-        setNewReview({ rating: 0, comment: '' });
+        alert("Review added! It will appear after moderation.");
+        setNewReview({ rating: 0, comment: "" });
       } else {
-        alert('Error adding review');
+        alert("Error adding review");
       }
     } catch (err) {
-      alert('Error adding review');
+      alert("Error adding review");
     } finally {
       setIsSubmitting(false);
     }
@@ -40,9 +49,9 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) =
 
   return (
     <div style={styles.reviews}>
-      {reviews?.length > 0 ? (
+      {reviews.length > 0 ? (
         <ul style={styles.reviewList}>
-          {reviews.map((review) => (
+          {reviews.map(review => (
             <li key={review.id} style={styles.reviewItem}>
               <div style={styles.reviewHeader}>
                 <span style={styles.user}>User #{review.userId}</span>
@@ -66,13 +75,17 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) =
             <label style={styles.label}>Rating:</label>
             <select
               value={newReview.rating}
-              onChange={(e) => setNewReview({ ...newReview, rating: Number(e.target.value) })}
+              onChange={e =>
+                setNewReview({ ...newReview, rating: Number(e.target.value) })
+              }
               style={styles.select}
               required
             >
               <option value="0">Select rating</option>
-              {[1, 2, 3, 4, 5].map((num) => (
-                <option key={num} value={num}>{num} ⭐</option>
+              {[1, 2, 3, 4, 5].map(num => (
+                <option key={num} value={num}>
+                  {num} ⭐
+                </option>
               ))}
             </select>
           </div>
@@ -80,14 +93,20 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ reviews, productId }) =
             <label style={styles.label}>Comment:</label>
             <textarea
               value={newReview.comment}
-              onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+              onChange={e =>
+                setNewReview({ ...newReview, comment: e.target.value })
+              }
               placeholder="Your review..."
               style={styles.textarea}
               required
             />
           </div>
-          <button type="submit" style={styles.submitButton} disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit Review'}
+          <button
+            type="submit"
+            style={styles.submitButton}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit Review"}
           </button>
         </form>
       </div>

@@ -5,43 +5,15 @@ import { Price } from "../ProductCard/ui/Price";
 import { Rating } from "../ProductCard/ui/Rating";
 import { StockStatus } from "../ProductCard/ui/StockStatus";
 import { Tags } from "../ProductCard/ui/Tags";
+import { Product } from "../Root";
 import {
   StyledGridContainer,
   StyledProductCard,
   StyledProductImage,
   StyledProductInfo,
 } from "./styles";
+import { ProductGridProps } from "./types";
 
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-  oldPrice?: number;
-  rating: number;
-  reviews: number;
-  isNew?: boolean;
-  isOrganic?: boolean;
-  isSale?: boolean;
-  featured?: boolean;
-  category: string;
-}
-
-interface ProductGridProps {
-  products?: Product[];
-}
-
-/**
- * Компонент сетки продуктов
- *
- * @param products - массив продуктов для отображения
- *
- * @example
- * // Пример использования
- * <ProductGrid
- *   products={products}
- * />
- */
 const ProductGrid = ({ products = [] }: ProductGridProps) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [activeFilter, setActiveFilter] = useState("all");

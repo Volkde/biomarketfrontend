@@ -23,11 +23,12 @@ function Home() {
         ))}
       </Grid2>
 
+      <ProductsList />
+
       <Typography variant="h2" component="h2">
         Products
       </Typography>
 
-      <ProductsList />
       <Grid2
         container
         wrap="wrap"
