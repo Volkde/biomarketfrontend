@@ -1,5 +1,6 @@
+import { Box } from "@mui/material";
 import { links } from "./data.ts";
-import { StyledFooter, StyledNavContainer, StyledNavLink } from "./styles.ts";
+import { StyledNavContainer, StyledNavLink } from "./styles.ts";
 
 function Footer() {
   const elLinks = links.map(({ text, path }) => (
@@ -15,9 +16,9 @@ function Footer() {
   ));
 
   return (
-    <StyledFooter>
+    <Box component="footer" sx={{ flexGrow: 1, p: 3 }}>
       <StyledNavContainer>{elLinks}</StyledNavContainer>
-    </StyledFooter>
+    </Box>
   );
 }
 

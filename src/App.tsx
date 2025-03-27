@@ -1,20 +1,21 @@
 import { ThemeProvider } from "@mui/material";
-import AppRoutes from "components/AppRoutes/AppRoutes";
-import Layout from "components/Layout/Layout";
-import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { routes } from "./app/routes.ts";
+import { store } from "./store/store";
 import GlobalStyles from "./styles/GlobalStyles";
 import theme from "./theme";
 
 function App() {
+  const router = createBrowserRouter(routes);
+
   return (
-    <BrowserRouter>
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Layout>
-          <AppRoutes />
-        </Layout>
+        <RouterProvider router={router} />
       </ThemeProvider>
-    </BrowserRouter>
+    </Provider>
   );
 }
 

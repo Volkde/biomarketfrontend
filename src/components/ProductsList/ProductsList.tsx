@@ -1,17 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-}
+import { Product } from "./types";
 
 function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
 
   async function fetchProducts() {
-    const res = await axios.get("/api/products/all");
+    const res = await axios.get("/api/products");
     setProducts(res.data);
   }
 

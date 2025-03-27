@@ -1,16 +1,22 @@
+import { Box } from "@mui/material";
+import { CartSidebar } from "components/CartSidebar";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { Main } from "components/Main";
-import { LayoutWrapper } from "./styles";
-import type { LayoutProps } from "./types";
+import { NavSidebar } from "components/NavSidebar";
+import { Outlet } from "react-router";
 
-function Layout({ children }: LayoutProps) {
+function Layout() {
   return (
-    <LayoutWrapper>
+    <Box>
       <Header />
-      <Main>{children}</Main>
+      <NavSidebar />
+      <CartSidebar />
+      <Main>
+        <Outlet />
+      </Main>
       <Footer />
-    </LayoutWrapper>
+    </Box>
   );
 }
 
