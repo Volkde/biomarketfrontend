@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ProductCard } from '../common/ProductCard'; // Добавление именованного импорта
 import { useEffect, useState } from "react";
 import { Product } from "./types";
 
