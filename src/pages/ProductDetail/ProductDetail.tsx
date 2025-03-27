@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import ProductImages from '../../components/product/ProductImages/ProductImages';
-import ProductReviews from '../../components/product/ProductReviews/ProductReviews';
+import ProductImages from '../../components/ProductsList/ui/ProductCard/ui/Images/Images';
+import ProductReviews from '../../components/ProductsList/ui/ProductReviews/ProductReviews';
 import { styles } from './styles';
 import api from '../../services/api';
 
