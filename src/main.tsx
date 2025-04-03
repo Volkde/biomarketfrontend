@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import App from "./app/App";
 
 const container = document.getElementById("root");
 
@@ -12,7 +12,7 @@ if (container) {
   root.render(
     <StrictMode>
       <App />
-    </StrictMode>,
+    </StrictMode>
   );
 } else {
   throw new Error("Root element with ID 'root' was not found in the document.");

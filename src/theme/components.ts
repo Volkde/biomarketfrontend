@@ -5,8 +5,8 @@ export const components: Components = {
     styleOverrides: {
       root: {
         textTransform: "none",
-        borderRadius: 8,
-      },
-    },
-  },
+        borderRadius: 8
+      }
+    }
+  }
 };

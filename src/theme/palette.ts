@@ -6,20 +6,20 @@ export const palette: PaletteOptions = {
     main: "#1976d2",
     light: "#42a5f5",
     dark: "#1565c0",
-    contrastText: "#fff",
+    contrastText: "#fff"
   },
   secondary: {
     main: "#d32f2f",
     light: "#ef5350",
     dark: "#c62828",
-    contrastText: "#fff",
+    contrastText: "#fff"
   },
   background: {
     default: "#f4f6f8",
-    paper: "#ffffff",
+    paper: "#ffffff"
   },
   text: {
     primary: "#212121",
-    secondary: "#757575",
-  },
+    secondary: "#757575"
+  }
 };
