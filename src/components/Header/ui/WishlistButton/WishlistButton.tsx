@@ -5,7 +5,7 @@ import { WishlistButtonProps } from "./types";
 function WishlistButton({
   id,
   wishlistItemsCount,
-  onClick,
+  onClick
 }: WishlistButtonProps) {
   return (
     <Tooltip title="Open settings">

@@ -5,18 +5,12 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import {
-  SearchContainer,
-  SearchHistoryContainer,
-  StyledAlert,
-  StyledInputBase,
-  StyledSnackbar,
-} from "./styles";
+import { StyledAlert, StyledInputBase, StyledSnackbar } from "./styles";
 import { SearchProps } from "./types";
 
 const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
@@ -47,7 +41,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
         setShowHistory(false);
       }
     }, 500),
-    [apiUrl, onSearchResults],
+    [apiUrl, onSearchResults]
   );
 
   useEffect(() => {
@@ -84,7 +78,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
       setIsListening(false);
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = () => {
       setError("Ошибка при распознавании голоса");
       setIsListening(false);
     };
@@ -92,7 +86,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
 
   return (
     <Box position="relative" width="100%">
-      <SearchContainer>
+      <Box>
         <StyledInputBase
           placeholder="Поиск..."
           value={searchTerm}
@@ -105,10 +99,10 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
         <IconButton onClick={startVoiceInput} disabled={isListening}>
           <MicIcon />
         </IconButton>
-      </SearchContainer>
+      </Box>
 
       {showHistory && searchHistory.length > 0 && (
-        <SearchHistoryContainer>
+        <Box>
           <List>
             {searchHistory.map((term, index) => (
               <ListItem
@@ -120,7 +114,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
               </ListItem>
             ))}
           </List>
-        </SearchHistoryContainer>
+        </Box>
       )}
 
       <StyledSnackbar

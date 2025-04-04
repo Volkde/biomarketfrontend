@@ -1,23 +1,22 @@
-import { Chip } from '@mui/material';
-import { TagsProps } from './types';
-import { StyledTagsContainer } from './styles';
+import { Box, Chip } from "@mui/material";
+import { TagsProps } from "./types";
 
-const Tags = ({ tags, size = 'medium', spacing = 0.5 }: TagsProps) => {
+const Tags = ({ tags }: TagsProps) => {
   return (
-    <StyledTagsContainer spacing={spacing}>
+    <Box>
       {tags.map((tag, index) => (
         <Chip
           key={index}
           label={tag.label}
-          size={size}
-          color={tag.color || 'primary'}
-          variant={tag.variant || 'outlined'}
+          size="medium"
+          color={tag.color || "primary"}
+          variant={tag.variant || "outlined"}
           sx={{
-            fontSize: size === 'small' ? '0.75rem' : size === 'large' ? '1rem' : '0.875rem',
+            fontSize: "0.875rem"
           }}
         />
       ))}
-    </StyledTagsContainer>
+    </Box>
   );
 };
 

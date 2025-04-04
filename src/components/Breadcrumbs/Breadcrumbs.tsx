@@ -1,16 +1,17 @@
 import {
   Breadcrumbs as BasicBreadcrumbs,
   Link,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { pages } from "./data";
+import { BreadcrumbsProps } from "./types";
 
-function Breadcrumbs() {
+function Breadcrumbs({ pathname }: BreadcrumbsProps) {
   const location = useLocation();
 
   let currentPath = "";
-  const breadcrumbs = location.pathname
+  const breadcrumbs = (pathname ?? location.pathname)
     .split("/")
     .filter(Boolean)
     .map(part => {
@@ -18,7 +19,7 @@ function Breadcrumbs() {
 
       return {
         path: currentPath,
-        label: pages[part]?.title || part,
+        label: pages[part]?.title || part
       };
     });
 
@@ -26,7 +27,7 @@ function Breadcrumbs() {
     // Add home page
     breadcrumbs.unshift({
       path: "/",
-      label: "Home",
+      label: "Home"
     });
   }
 
@@ -45,7 +46,7 @@ function Breadcrumbs() {
       >
         {label}
       </Link>
-    ),
+    )
   );
 
   return (

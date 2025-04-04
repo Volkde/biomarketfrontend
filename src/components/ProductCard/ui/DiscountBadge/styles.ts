@@ -22,25 +22,25 @@ export const StyledDiscountBadge = styled("div")<StyledDiscountBadgeProps>(
     ...(position === "top-left" && {
       top: 0,
       left: 0,
-      transform: "translate(-50%, -50%)",
+      transform: "translate(-50%, -50%)"
     }),
 
     ...(position === "top-right" && {
       top: 0,
       right: 0,
-      transform: "translate(50%, -50%)",
+      transform: "translate(50%, -50%)"
     }),
 
     ...(position === "bottom-left" && {
       bottom: 0,
       left: 0,
-      transform: "translate(-50%, 50%)",
+      transform: "translate(-50%, 50%)"
     }),
 
     ...(position === "bottom-right" && {
       bottom: 0,
       right: 0,
-      transform: "translate(50%, 50%)",
-    }),
-  }),
+      transform: "translate(50%, 50%)"
+    })
+  })
 );

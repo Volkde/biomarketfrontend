@@ -1,22 +1,12 @@
-import { Category } from "./Category";
-import { ProductImage } from "./ProductImage";
-
 export interface Product {
-  id?: number | string;
-  name: string;
-  description?: string;
-  images?: ProductImage[];
+  id?: string | number;
+  title: string;
+  description: string;
+  image: string;
   price: number;
-  oldPrice?: number;
-  quantity: number;
+  discounted: number;
+  inStock: boolean;
+  categoryId: number;
+  sellerId: number;
   rating: number;
-  reviews: number;
-  isNew?: boolean;
-  isOrganic?: boolean;
-  isSale?: boolean;
-  featured?: boolean;
-  category: string | Category;
-  seller_id: number;
-  dateProduction: string;
-  dateExperetion: string;
 }

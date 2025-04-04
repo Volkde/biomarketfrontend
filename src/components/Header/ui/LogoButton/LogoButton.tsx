@@ -12,7 +12,7 @@ function LogoButton({ url, alt }: LogoButtonProps) {
           alt={alt}
           src={url}
           style={{
-            maxHeight: "40px",
+            maxHeight: "40px"
           }}
         />
       ) : (

@@ -7,19 +7,18 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
 import { useState } from "react";
-import { SidebarProps } from "./types";
 
 // TODO: Links
 
-function NavSidebar(props: SidebarProps) {
+function NavSidebar() {
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleDrawerClose = () => {
     setOpen(false);

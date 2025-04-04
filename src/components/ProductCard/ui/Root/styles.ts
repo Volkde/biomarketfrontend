@@ -1,102 +1,103 @@
-import { styled } from '@mui/material/styles';
 import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
   Box,
+  Card,
+  CardContent,
+  CardMedia,
   IconButton,
   Link as MuiLink, // Import MUI Link for base styling if needed
-} from '@mui/material';
+  Typography
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-// Main Card Wrapper
-export const CardWrapper = styled(Card)(({ theme }) => ({
-  position: 'relative',
-  width: '100%', // Take full width of parent container (e.g., grid item)
-  maxWidth: '300px', // Optional: Set a max-width if needed
-  height: '100%', // Allow card to grow vertically if needed by content
-  display: 'flex',
-  flexDirection: 'column',
+export const StyledProductCard = styled(Card)(({ theme }) => ({
+  position: "relative",
+  width: "100%",
+  maxWidth: "300px",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
   borderRadius: theme.shape.borderRadius,
-  overflow: 'hidden',
-  transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+  overflow: "hidden",
+  transition: "box-shadow 0.3s ease, transform 0.3s ease",
   border: `1px solid ${theme.palette.divider}`,
 
-  '&:hover': {
+  "&:hover": {
     boxShadow: theme.shadows[4],
-    transform: 'translateY(-4px)',
+    transform: "translateY(-4px)",
     // Show actions overlay on hover
-    '& .product-actions-overlay': {
+    "& .product-actions-overlay": {
       opacity: 1,
-      transform: 'translate(-50%, 0)', // Slide up from bottom center
+      transform: "translate(-50%, 0)" // Slide up from bottom center
     },
     // Optional: Slightly zoom/change image on hover
-    '& .product-image': {
-       // transform: 'scale(1.03)', // Example zoom effect
-       opacity: 0.9,
+    "& .product-image": {
+      // transform: 'scale(1.03)', // Example zoom effect
+      opacity: 0.9
     }
-  },
+  }
 }));
 
 // Container for Image and Actions Overlay
 export const MediaContainer = styled(Box)({
-  position: 'relative',
-  width: '100%',
+  position: "relative",
+  width: "100%",
   // Use aspectRatio for responsive height, or set fixed height
   // aspectRatio: '1 / 1', // Example for square image
-   height: '250px', // Fixed height based on original example
-  overflow: 'hidden', // Clip image zoom if any
+  height: "250px", // Fixed height based on original example
+  overflow: "hidden" // Clip image zoom if any
 });
 
 // Product Image using CardMedia
 export const ProductImage = styled(CardMedia)(({ theme }) => ({
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover', // or 'contain' depending on desired look
-  transition: 'opacity 0.3s ease, transform 0.5s ease', // Added transform transition
-  backgroundColor: theme.palette.grey[100], // Placeholder background
+  width: "100%",
+  height: "100%",
+  objectFit: "cover", // or 'contain' depending on desired look
+  transition: "opacity 0.3s ease, transform 0.5s ease", // Added transform transition
+  backgroundColor: theme.palette.grey[100] // Placeholder background
 })) as typeof CardMedia; // Cast required for component prop
 
 // Base styles for Tags (Hot, Sale)
 const BaseTag = styled(Typography)(({ theme }) => ({
-  position: 'absolute',
+  position: "absolute",
   top: theme.spacing(1.5),
   color: theme.palette.common.white,
   padding: theme.spacing(0.5, 1.25),
   borderRadius: theme.shape.borderRadius,
-  fontSize: '0.75rem',
+  fontSize: "0.75rem",
   fontWeight: 600,
   lineHeight: 1.2,
   zIndex: 1,
-  pointerEvents: 'none', // Don't interfere with hover/clicks
+  pointerEvents: "none" // Don't interfere with hover/clicks
 })) as typeof Typography;
 
 // Hot Tag specific style
-export const HotTag = styled(BaseTag)<{ component?: React.ElementType }>(({ theme }) => ({
-  left: theme.spacing(1.5),
-  backgroundColor: theme.palette.error.main, // Use theme color
-}));
+export const HotTag = styled(BaseTag)<{ component?: React.ElementType }>(
+  ({ theme }) => ({
+    left: theme.spacing(1.5),
+    backgroundColor: theme.palette.error.main // Use theme color
+  })
+);
 
 // Sale Tag specific style
 export const SaleTag = styled(BaseTag)(({ theme }) => ({
   right: theme.spacing(1.5),
-  backgroundColor: theme.palette.success.dark, // Use theme color
+  backgroundColor: theme.palette.success.dark // Use theme color
 }));
 
 // Actions Overlay (appears on hover)
 export const ActionsOverlay = styled(Box)(({ theme }) => ({
-  position: 'absolute',
+  position: "absolute",
   bottom: theme.spacing(1.5), // Position near the bottom of the image area
-  left: '50%',
-  transform: 'translate(-50%, 10px)', // Start slightly below and centered
-  display: 'flex',
+  left: "50%",
+  transform: "translate(-50%, 10px)", // Start slightly below and centered
+  display: "flex",
   gap: theme.spacing(1),
   padding: theme.spacing(0.5),
-  backgroundColor: 'rgba(255, 255, 255, 0.85)', // Semi-transparent background
+  backgroundColor: "rgba(255, 255, 255, 0.85)", // Semi-transparent background
   borderRadius: theme.shape.borderRadius,
   zIndex: 2,
   opacity: 0, // Hidden by default
-  transition: 'opacity 0.3s ease, transform 0.3s ease',
+  transition: "opacity 0.3s ease, transform 0.3s ease"
 }));
 
 // Action Button using IconButton
@@ -105,99 +106,98 @@ export const ActionButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.secondary,
   border: `1px solid ${theme.palette.divider}`,
   padding: theme.spacing(0.75), // Adjust padding for icon size
-  '&:hover': {
+  "&:hover": {
     backgroundColor: theme.palette.action.hover,
-    color: theme.palette.primary.main, // Highlight color on hover
+    color: theme.palette.primary.main // Highlight color on hover
   },
   // Adjust icon size if needed
-  '& svg': {
-      fontSize: '1.1rem',
+  "& svg": {
+    fontSize: "1.1rem"
   }
 }));
 
 // Content Area using CardContent
 export const ContentArea = styled(CardContent)(({ theme }) => ({
   padding: theme.spacing(2),
-  textAlign: 'center',
+  textAlign: "center",
   // Allow content area to grow if needed, but keep actions at bottom
   flexGrow: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between', // Push rating down if needed
-  minHeight: '130px', // Approximate height needed for content
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between", // Push rating down if needed
+  minHeight: "130px" // Approximate height needed for content
 }));
 
 // Product Name (using Typography, styled for ellipsis)
 export const ProductName = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
-  fontSize: '1rem',
+  fontSize: "1rem",
   color: theme.palette.text.primary,
   marginBottom: theme.spacing(0.5),
   // Ellipsis for long names
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  display: '-webkit-box',
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
   WebkitLineClamp: 2,
-  WebkitBoxOrient: 'vertical',
-  minHeight: '2.4em', // Approx height for 2 lines
+  WebkitBoxOrient: "vertical",
+  minHeight: "2.4em" // Approx height for 2 lines
 })) as typeof Typography;
 
 // Product Description (optional, shorter text)
 export const ProductDescription = styled(Typography)(({ theme }) => ({
-  fontSize: '0.8rem',
+  fontSize: "0.8rem",
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(1),
   // Ellipsis for long descriptions
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  display: '-webkit-box',
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
   WebkitLineClamp: 1, // Limit to 1 line
-  WebkitBoxOrient: 'vertical',
+  WebkitBoxOrient: "vertical"
 })) as typeof Typography;
-
 
 // Container for Price info
 export const PriceContainer = styled(Box)(({ theme }) => ({
-  margin: theme.spacing(1, 0),
+  margin: theme.spacing(1, 0)
 }));
 
 // Current Price styling
 export const CurrentPrice = styled(Typography)(({ theme }) => ({
-  fontSize: '1.1rem',
-  fontWeight: 'bold',
+  fontSize: "1.1rem",
+  fontWeight: "bold",
   color: theme.palette.primary.main, // Use theme primary color for price
-  display: 'inline-block', // Allow side-by-side with old price
+  display: "inline-block" // Allow side-by-side with old price
 })) as typeof Typography;
 
 // Old Price (strikethrough) styling
 export const OldPrice = styled(Typography)(({ theme }) => ({
-  fontSize: '0.9rem',
+  fontSize: "0.9rem",
   color: theme.palette.text.disabled,
-  textDecoration: 'line-through',
+  textDecoration: "line-through",
   marginLeft: theme.spacing(1),
-  display: 'inline-block',
+  display: "inline-block"
 })) as typeof Typography;
 
 // Rating container
 export const RatingContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   marginTop: theme.spacing(1),
   gap: theme.spacing(0.25),
-  minHeight: '1.2em', // Reserve space
+  minHeight: "1.2em", // Reserve space
   color: theme.palette.warning.main, // Star color from theme
-  '& svg': {
-      fontSize: '1rem', // Star size
+  "& svg": {
+    fontSize: "1rem" // Star size
   }
 }));
 
 // Styled MUI Link (if specific link styling is needed beyond basic integration)
 // Generally avoid custom styles here if using component={RouterLink}
-export const StyledProductLink = styled(MuiLink)(({ theme }) => ({
-  textDecoration: 'none',
-  color: 'inherit', // Inherit color from parent
-  '&:hover': {
+export const StyledProductLink = styled(MuiLink)(() => ({
+  textDecoration: "none",
+  color: "inherit", // Inherit color from parent
+  "&:hover": {
     // Optional: Add hover effect specific to link if needed
-  },
+  }
 }));

@@ -1,8 +1,5 @@
-export interface Image {
-  id: number;
-  url: string;
-}
+import { ImageProps } from "../Image";
 
 export interface ImagesProps {
-  images?: Image[];
+  images?: ImageProps[];
 }

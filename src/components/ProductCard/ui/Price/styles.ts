@@ -5,5 +5,5 @@ export const StyledPrice = styled("div")(({ theme }) => ({
   alignItems: "baseline",
   gap: theme.spacing(0.5),
   color: theme.palette.primary.main,
-  fontWeight: "bold",
+  fontWeight: "bold"
 }));

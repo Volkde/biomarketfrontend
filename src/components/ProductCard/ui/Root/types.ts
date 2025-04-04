@@ -1,19 +1,4 @@
-export interface ProductImage {
-  id: number | string;
-  url: string;
-}
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  oldPrice?: number;
-  rating?: number;
-  images?: ProductImage[];
-  isHot?: boolean;
-  isSale?: boolean;
-  description?: string;
-}
+import { Product } from "types/Product";
 
 export interface ProductCardProps {
   product: Product;

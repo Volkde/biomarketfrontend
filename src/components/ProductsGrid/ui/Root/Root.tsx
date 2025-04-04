@@ -1,54 +1,69 @@
-import { Container, Grid2 } from "@mui/material";
-import axios from "axios";
+import { Container, Grid } from "@mui/material";
 import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
+import { productsActions } from "store/redux/products/slice/productsSlice";
 import { Filters } from "../Filters";
 import { Pagination } from "../Pagination";
-import { Product, RootProps } from "./types";
+import { RootProps } from "./types";
 
 function Root({
   filters = false,
   limit = 8,
   page = 1,
-  pagination = false,
+  pagination = false
 }: RootProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
-
-  async function fetchProducts() {
-    // TODO: fetchProducts()
-    const res = await axios.get("/api/products");
-    setProducts(res.data);
-    setIsLoading(false);
-  }
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    dispatch(
+      productsActions.fetchGetProducts({
+        limit,
+        page
+      })
+    );
+  }, [dispatch, limit, page]);
 
-  const count = isLoading ? 8 : products.length;
+  const {
+    status,
+    products = [],
+    page: currentPage = 1,
+    totalPages = 1,
+    error
+  } = useAppSelector(selectProductsState);
 
-  const elProducts = isLoading
-    ? Array.from(new Array(count)).map(item => (
-        <ProductCartSkeleton key={item} />
-      ))
-    : products.map(product => (
+  const elProducts = useMemo(() => {
+    if (status === "success" && products.length > 0) {
+      return products.map(product => (
         <ProductCard key={product.id} product={product} />
       ));
+    } else if (status !== "error") {
+      return Array.from({ length: 8 }).map((_, index) => (
+        <ProductCartSkeleton key={index} />
+      ));
+    }
+
+    return null;
+  }, [status, products]);
 
   return (
     <Container>
       {filters && <Filters />}
-      <Grid2
-        container
-        wrap="wrap"
-        justifyContent="center"
-        rowSpacing={1}
-        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-      >
-        {elProducts}
-      </Grid2>
-      {pagination && <Pagination count={count} />}
+      {status !== "error" ? (
+        <Grid
+          container
+          wrap="wrap"
+          justifyContent="center"
+          rowSpacing={1}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        >
+          {elProducts}
+        </Grid>
+      ) : (
+        <p>Error: {error || "Something went wrong"}</p>
+      )}
+      {pagination && <Pagination page={currentPage} count={totalPages} />}
     </Container>
   );
 }

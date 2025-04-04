@@ -1,16 +1,19 @@
-import { createAppSlice } from "store/createAppSlice";
-import { fetchLogin, Payload as FetchLoginPayload } from "../api/fetchLogin";
-import { fetchLogout } from "../api/fetchLogout";
-import { fetchProfile } from "../api/fetchProfile";
-import { fetchRefresh } from "../api/fetchRefresh";
+import {
+  fetchLogin,
+  Payload as FetchLoginPayload
+} from "shared/api/auth/fetchLogin";
+import { fetchLogout } from "shared/api/auth/fetchLogout";
+import { fetchProfile } from "shared/api/auth/fetchProfile";
+import { fetchRefresh } from "shared/api/auth/fetchRefresh";
 import {
   fetchRegister,
   Payload as FetchRegisterPayload
-} from "../api/fetchRegister";
+} from "shared/api/auth/fetchRegister";
 import {
   fetchResetPassword,
   Payload as FetchResetPasswordPayload
-} from "../api/fetchResetPassword";
+} from "shared/api/auth/fetchResetPassword";
+import { createAppSlice } from "store/createAppSlice";
 import { LoginState } from "../types/LoginState";
 
 const initialState: LoginState = {
@@ -31,8 +34,8 @@ export const authSlice = createAppSlice({
       async (payload: FetchLoginPayload, { rejectWithValue }) => {
         try {
           return await fetchLogin(payload);
-        } catch (error) {
-          return rejectWithValue(error);
+        } catch (error: any) {
+          return rejectWithValue(error?.message);
         }
       },
       {
@@ -60,9 +63,10 @@ export const authSlice = createAppSlice({
     logout: create.asyncThunk(
       async (_, { rejectWithValue }) => {
         try {
-          return await fetchLogout();
-        } catch (error) {
-          return rejectWithValue(error);
+          await fetchLogout();
+          return;
+        } catch (error: any) {
+          return rejectWithValue(error?.message);
         }
       },
       {
@@ -90,8 +94,8 @@ export const authSlice = createAppSlice({
       async (_, { rejectWithValue }) => {
         try {
           return await fetchProfile();
-        } catch (error) {
-          return rejectWithValue(error);
+        } catch (error: any) {
+          return rejectWithValue(error?.message);
         }
       },
       {
@@ -118,8 +122,8 @@ export const authSlice = createAppSlice({
       async (_, { rejectWithValue }) => {
         try {
           return await fetchRefresh();
-        } catch (error) {
-          return rejectWithValue(error);
+        } catch (error: any) {
+          return rejectWithValue(error?.message);
         }
       },
       {
@@ -148,8 +152,8 @@ export const authSlice = createAppSlice({
       async (payload: FetchRegisterPayload, { rejectWithValue }) => {
         try {
           return await fetchRegister(payload);
-        } catch (error) {
-          return rejectWithValue(error);
+        } catch (error: any) {
+          return rejectWithValue(error?.message);
         }
       },
       {
@@ -160,7 +164,7 @@ export const authSlice = createAppSlice({
         fulfilled: (state: LoginState, { payload }) =>
           Object.assign(state, initialState, {
             status: "success",
-            isAuthenticated: false,
+            isAuthenticated: true,
             user: payload?.user
           }),
         rejected: (state: LoginState, { payload }: any) =>
@@ -178,8 +182,8 @@ export const authSlice = createAppSlice({
       async (payload: FetchResetPasswordPayload, { rejectWithValue }) => {
         try {
           return await fetchResetPassword(payload);
-        } catch (error) {
-          return rejectWithValue(error);
+        } catch (error: any) {
+          return rejectWithValue(error?.message);
         }
       },
       {
@@ -196,7 +200,12 @@ export const authSlice = createAppSlice({
           state.error = payload?.message;
         }
       }
-    )
+    ),
+
+    /**
+     * resetLoginState
+     */
+    resetLoginState: create.reducer(() => initialState)
   })
 });
 

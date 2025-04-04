@@ -4,9 +4,8 @@ import { styles } from "./styles";
 import { AddToCartButtonProps } from "./types";
 
 const AddToCartButton = ({
-  onClick,
   isAddingToCart = false,
-  isAnimating = false,
+  onClick
 }: AddToCartButtonProps) => {
   return (
     <Button

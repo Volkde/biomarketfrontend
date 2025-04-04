@@ -70,7 +70,7 @@ export const FooterTitle = styled(Typography)`
   }
 `;
 
-export const FooterLink = styled(MuiLink)`
+export const FooterLink = styled(NavLink)`
   text-decoration: none;
   color: rgba(255, 255, 255, 0.8);
   font-size: 15px;

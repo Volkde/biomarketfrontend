@@ -11,6 +11,7 @@ export default defineConfig({
       app: path.resolve(__dirname, "src/assets"),
       components: path.resolve(__dirname, "src/components"),
       pages: path.resolve(__dirname, "src/pages"),
+      shared: path.resolve(__dirname, "src/shared"),
       store: path.resolve(__dirname, "src/store"),
       styles: path.resolve(__dirname, "src/styles"),
       theme: path.resolve(__dirname, "src/theme")
@@ -20,7 +21,9 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api": {
-        target: "http://localhost:8080"
+        // target: "http://localhost:8080",
+        target: "https://farmvibe-app-2u9sj.ondigitalocean.app/",
+        changeOrigin: true
       }
     }
   }

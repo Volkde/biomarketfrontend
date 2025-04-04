@@ -15,10 +15,10 @@ export const styles = {
     transition: "all 0.3s ease",
     "&:hover": {
       opacity: 1,
-      transform: "translateY(0) scale(1)",
+      transform: "translateY(0) scale(1)"
     },
     "&.adding": {
-      backgroundColor: "#28a745",
-    },
-  } as CSSProperties,
+      backgroundColor: "#28a745"
+    }
+  } as CSSProperties
 };
