@@ -1,25 +1,24 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
-import CardContent from '@mui/material/CardContent';
-
+import Button from "@mui/material/Button";
+import CardContent from "@mui/material/CardContent";
+import Link from "@mui/material/Link";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
-  Wrapper,
-  Title,
-  List,
-  CartItem,
-  ProductImage,
-  Info,
-  Name,
-  Vendor,
-  Unit,
-  Controls,
-  Quantity,
-  Price,
-  Total,
   Actions,
-} from './styles';
+  CartItem,
+  Controls,
+  Info,
+  List,
+  Name,
+  Price,
+  ProductImage,
+  Quantity,
+  Title,
+  Total,
+  Unit,
+  Vendor,
+  Wrapper,
+} from "./styles";
 
 interface CartItemType {
   id: number;
@@ -38,28 +37,28 @@ const Cart = () => {
 
   useEffect(() => {
     axios
-      .get('/api/cart')
-      .then((res) => setCart(res.data))
-      .catch(() => setError('Failed to load cart'))
+      .get("/api/cart")
+      .then(res => setCart(res.data))
+      .catch(() => setError("Failed to load cart"))
       .finally(() => setLoading(false));
   }, []);
 
   const updateQuantity = (id: number, delta: number) => {
-    const item = cart.find((i) => i.id === id);
+    const item = cart.find(i => i.id === id);
     if (!item) return;
     const newQuantity = Math.max(1, item.quantity + delta);
     axios.put(`/api/cart/${id}`, { quantity: newQuantity }).then(() => {
-      setCart((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
+      setCart(prev =>
+        prev.map(item =>
+          item.id === id ? { ...item, quantity: newQuantity } : item,
+        ),
       );
     });
   };
 
   const removeItem = (id: number) => {
     axios.delete(`/api/cart/${id}`).then(() => {
-      setCart((prev) => prev.filter((item) => item.id !== id));
+      setCart(prev => prev.filter(item => item.id !== id));
     });
   };
 
@@ -72,7 +71,7 @@ const Cart = () => {
     <Wrapper>
       <Title>Your Cart</Title>
       <List>
-        {cart.map((item) => (
+        {cart.map(item => (
           <CartItem key={item.id}>
             <ProductImage src={item.image} alt={item.name} />
             <CardContent style={{ flex: 1 }}>
@@ -82,11 +81,22 @@ const Cart = () => {
                 <Unit>{item.unit}</Unit>
               </Info>
               <Controls>
-                <Button size="small" onClick={() => updateQuantity(item.id, -1)}>-</Button>
+                <Button
+                  size="small"
+                  onClick={() => updateQuantity(item.id, -1)}
+                >
+                  -
+                </Button>
                 <Quantity>{item.quantity}</Quantity>
-                <Button size="small" onClick={() => updateQuantity(item.id, 1)}>+</Button>
+                <Button size="small" onClick={() => updateQuantity(item.id, 1)}>
+                  +
+                </Button>
                 <Price>{(item.price * item.quantity).toFixed(2)} €</Price>
-                <Button size="small" color="error" onClick={() => removeItem(item.id)}>
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => removeItem(item.id)}
+                >
                   Remove
                 </Button>
               </Controls>

@@ -1,20 +1,26 @@
-import { useState, useEffect, useCallback } from 'react';
-import { IconButton, CircularProgress, Box, List, ListItem, ListItemText } from '@mui/material';
-import { Search as SearchIcon, Mic as MicIcon} from '@mui/icons-material';
-import axios from 'axios';
-import { debounce } from 'lodash';
-import { SearchProps } from './types';
+import { Mic as MicIcon, Search as SearchIcon } from "@mui/icons-material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import axios from "axios";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useState } from "react";
 import {
   SearchContainer,
-  StyledInputBase,
   SearchHistoryContainer,
-  StyledSnackbar,
   StyledAlert,
-} from './styles';
-
+  StyledInputBase,
+  StyledSnackbar,
+} from "./styles";
+import { SearchProps } from "./types";
 
 const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -28,20 +34,20 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
       try {
         setLoading(true);
         const response = await axios.get(`${apiUrl}?q=${term}`);
-        console.log('Search results:', response.data);
+        console.log("Search results:", response.data);
         if (onSearchResults) {
           onSearchResults(response.data);
         }
-        setSearchHistory((prev) => [term, ...prev.slice(0, 4)]);
+        setSearchHistory(prev => [term, ...prev.slice(0, 4)]);
       } catch (err) {
-        setError('Ошибка при выполнении поиска');
-        console.error('Search error:', err);
+        setError("Ошибка при выполнении поиска");
+        console.error("Search error:", err);
       } finally {
         setLoading(false);
         setShowHistory(false);
       }
     }, 500),
-    [apiUrl, onSearchResults]
+    [apiUrl, onSearchResults],
   );
 
   useEffect(() => {
@@ -65,7 +71,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
 
   const startVoiceInput = () => {
     const recognition = new (window as any).webkitSpeechRecognition();
-    recognition.lang = 'ru-RU';
+    recognition.lang = "ru-RU";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
@@ -79,7 +85,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
     };
 
     recognition.onerror = (event: any) => {
-      setError('Ошибка при распознавании голоса');
+      setError("Ошибка при распознавании голоса");
       setIsListening(false);
     };
   };
@@ -90,7 +96,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
         <StyledInputBase
           placeholder="Поиск..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
         />
         <IconButton onClick={() => handleSearch(searchTerm)} disabled={loading}>
@@ -105,7 +111,11 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
         <SearchHistoryContainer>
           <List>
             {searchHistory.map((term, index) => (
-              <ListItem component="button" key={index} onClick={() => handleHistoryClick(term)}>
+              <ListItem
+                component="button"
+                key={index}
+                onClick={() => handleHistoryClick(term)}
+              >
                 <ListItemText primary={term} />
               </ListItem>
             ))}

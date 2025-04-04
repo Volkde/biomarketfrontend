@@ -7,20 +7,21 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-			"@": path.resolve(__dirname, "src"),
       assets: path.resolve(__dirname, "src/assets"),
+      app: path.resolve(__dirname, "src/assets"),
       components: path.resolve(__dirname, "src/components"),
       pages: path.resolve(__dirname, "src/pages"),
       store: path.resolve(__dirname, "src/store"),
       styles: path.resolve(__dirname, "src/styles"),
-    },
+      theme: path.resolve(__dirname, "src/theme")
+    }
   },
   server: {
     open: true,
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
-      },
-    },
-  },
+        target: "http://localhost:8080"
+      }
+    }
+  }
 });
