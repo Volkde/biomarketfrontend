@@ -1,8 +1,9 @@
+import { ReduxStateStatus } from "types/ReduxStateStatus";
 import { User } from "types/User";
 
 export interface LoginState {
-  status: "default" | "loading" | "success" | "error";
-  error?: string;
+  status: ReduxStateStatus;
   isAuthenticated: boolean;
   user?: User;
+  error?: string;
 }

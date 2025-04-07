@@ -1,8 +1,9 @@
 import { Category } from "types/Category";
+import { ReduxStateStatus } from "types/ReduxStateStatus";
 
 export interface CategoryState {
-  status: "default" | "loading" | "success" | "error";
-  category: Category | undefined;
-  categories: Category[];
+  status: ReduxStateStatus;
+  categories?: Category[];
+  category?: Category;
   error?: string;
 }
