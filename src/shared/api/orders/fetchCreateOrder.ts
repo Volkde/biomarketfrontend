@@ -1,7 +1,7 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Order } from "types/Order";
 
-export interface Payload extends Order {}
+export type Payload = Order;
 
 export interface Result {
   order: Order;

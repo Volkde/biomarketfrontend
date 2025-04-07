@@ -1,7 +1,7 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { User } from "types/User";
 
-export interface Payload extends User {}
+export type Payload = User;
 
 export interface Result {
   user: User;

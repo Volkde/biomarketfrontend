@@ -1,7 +1,7 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Category } from "types/Category";
 
-export interface Payload extends Category {}
+export type Payload = Category;
 
 export interface Result {
   category: Category;
