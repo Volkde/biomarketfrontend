@@ -1,12 +1,11 @@
-import { Link as MuiLink } from "@mui/material";
-import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { Link as MuiLink, Typography, Box } from "@mui/material";
+import { useState, useCallback } from "react";
+import { FaSearch, FaLeaf, FaShoppingCart, FaEye } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 import api from "../../../../services/api";
-import { AddToCartButton } from "../AddToCartButton";
-import { Description } from "../Description";
 import { DiscountBadge } from "../DiscountBadge";
 import { FavoriteButton } from "../FavoriteButton";
+import { ProductQuickViewModal } from "../ProductQuickViewModal";
 import { FeaturedProductCard } from "../FeaturedProductCard";
 import { Images } from "../Images";
 import { Price } from "../Price";
@@ -16,23 +15,32 @@ import { Tags } from "../Tags";
 import * as S from "./styles";
 import { ProductCardProps } from "./types";
 
-// --- Constants ---
-const PLACEHOLDER_IMAGE = "/images/placeholder.png";
-
-// --- ProductCard Component (Arrow Function) ---
 const Root = ({ product, isFeatured = false }: ProductCardProps) => {
   const [showModal, setShowModal] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Получаем заголовок продукта
+  const productTitle = product.title || product.name;
 
-  const handleQuickView = () => {
-    setShowModal(true);
-  };
+  const handleFavoriteToggle = useCallback(async () => {
+    try {
+      // Toggle favorite status
+      const newStatus = !isFavorite;
+      setIsFavorite(newStatus);
+      
+      // Call API to update favorite status
+      await api.post(`/api/favorites/${product.id}`, { isFavorite: newStatus });
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  }, [isFavorite, product.id]);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleQuickView = useCallback(() => setShowModal(true), []);
+  const handleCloseModal = useCallback(() => setShowModal(false), []);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = useCallback(async () => {
     setIsAddingToCart(true);
     try {
       const response = await api.post("/api/cart/add", {
@@ -49,80 +57,140 @@ const Root = ({ product, isFeatured = false }: ProductCardProps) => {
     } finally {
       setIsAddingToCart(false);
     }
-  };
+  }, [product.id]);
 
   return (
-    <S.StyledProductCard>
-      {/* Изображения продукта */}
-      <Images product={product} />
+    <S.StyledProductCard 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <S.ImageContainer>
+        <Images product={product} images={product.images as any} />
+        
+        {/* Quick action buttons that appear on hover */}
+        <S.QuickActionOverlay>
+          <S.ActionButton onClick={handleQuickView}>
+            <FaEye /> Quick View
+          </S.ActionButton>
+          <S.ActionButton onClick={handleAddToCart} disabled={isAddingToCart}>
+            {isAddingToCart ? 'Adding...' : <><FaShoppingCart /> Add</>}
+          </S.ActionButton>
+        </S.QuickActionOverlay>
 
-      {/* Бейдж скидки */}
-      {product.oldPrice && (
-        <DiscountBadge
-          discount={(
-            ((product.oldPrice - product.price) / product.oldPrice) *
-            100
-          ).toFixed(0)}
-        />
-      )}
+        {/* Tags */}
+        <Box sx={{ position: 'absolute', top: 10, left: 10, zIndex: 2, display: 'flex', gap: 1 }}>
+          {product.isOrganic && (
+            <Box sx={{ 
+              bgcolor: 'success.main', 
+              color: 'white', 
+              borderRadius: 1, 
+              px: 1, 
+              py: 0.5,
+              fontSize: '0.75rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5
+            }}>
+              <FaLeaf /> Organic
+            </Box>
+          )}
+          
+          {product.isLimited && (
+            <Box sx={{ 
+              bgcolor: 'warning.main', 
+              color: 'white', 
+              borderRadius: 1, 
+              px: 1, 
+              py: 0.5,
+              fontSize: '0.75rem'
+            }}>
+              Limited
+            </Box>
+          )}
+        </Box>
 
-      {/* Информация о продукте */}
-      <S.StyledProductInfo>
-        {/* Теги */}
+        {/* Discount badge */}
+        {product.oldPrice && product.discounted && (
+          <DiscountBadge
+            discount={Math.round(
+              ((product.oldPrice - product.price) / product.oldPrice) * 100
+            )}
+          />
+        )}
+      </S.ImageContainer>
+
+      <S.ContentArea>
+        {/* Tags for Hot and Sale items */}
         <Tags
           tags={[
-            product.isNew && { label: "New", color: "primary" },
-            product.isOrganic && { label: "Organic", color: "success" },
-            product.isSale && { label: "Sale", color: "error" },
-            product.featured && { label: "Featured", color: "warning" },
+            product.isHot && { label: "Hot", color: "warning" },
+            product.discounted && { label: "Sale", color: "error" },
           ].filter(Boolean)}
         />
 
-        {/* Название продукта */}
-        <S.StyledProductName>
+        {/* Product title with link */}
+        <S.ProductName variant="h6" component="h3">
           <MuiLink component={RouterLink} to={`/product/${product.id}`}>
-            {product.name}
+            {productTitle}
           </MuiLink>
-        </S.StyledProductName>
+        </S.ProductName>
 
-        {/* Описание */}
-        <Description description={product.description} />
+        {/* Short description (УТП) */}
+        {product.shortDescription && (
+          <S.ProductDescription variant="body2" color="text.secondary">
+            {product.shortDescription}
+          </S.ProductDescription>
+        )}
 
-        {/* Рейтинг */}
-        <Rating value={product.rating} />
-
-        {/* Цена */}
-        <Price
-          price={product.price}
-          oldPrice={product.oldPrice}
-          isSale={product.isSale}
+        {/* Rating */}
+        <Rating 
+          value={product.rating || 0} 
+          count={typeof product.reviews === 'number' ? product.reviews : product.reviews?.length || 0}
         />
-
-        {/* Статус наличия */}
-        <StockStatus status="in_stock" />
-
-        {/* Кнопки */}
-        <S.StyledButtons>
-          <FavoriteButton productId={product.id} />
-          <AddToCartButton
-            productId={product.id}
-            onAddToCart={handleAddToCart}
-            isAdding={isAddingToCart}
+        
+        {/* Price */}
+        <S.PriceContainer>
+          <Price
+            price={product.price}
+            oldPrice={product.oldPrice}
+            isSale={product.discounted}
           />
-          <S.StyledQuickViewButton onClick={handleQuickView}>
-            <FaSearch /> Quick View
-          </S.StyledQuickViewButton>
-        </S.StyledButtons>
-      </S.StyledProductInfo>
+        </S.PriceContainer>
+        
+        {/* Stock status */}
+        <StockStatus status={product.quantity > 0 ? "in_stock" : "out_of_stock"} />
 
-      {/* Модальное окно быстрого просмотра */}
+        {/* Action buttons */}
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          mt: 'auto',
+          pt: 1 
+        }}>
+          <Box>
+            <S.ActionButton 
+              onClick={handleAddToCart} 
+              disabled={isAddingToCart || product.quantity <= 0}
+              style={{ padding: '6px 12px' }}
+            >
+              {isAddingToCart ? 'Adding...' : <><FaShoppingCart /> Add</>}
+            </S.ActionButton>
+          </Box>
+          
+          <FavoriteButton 
+            isFavorite={isFavorite}
+            onToggle={handleFavoriteToggle}
+          />
+        </Box>
+      </S.ContentArea>
+
       <ProductQuickViewModal
         open={showModal}
         onClose={handleCloseModal}
         product={product}
       />
 
-      {/* Специальный контент для выделенных продуктов */}
       {isFeatured && <FeaturedProductCard product={product} />}
     </S.StyledProductCard>
   );

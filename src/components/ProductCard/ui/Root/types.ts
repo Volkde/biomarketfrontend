@@ -1,20 +1,12 @@
-export interface ProductImage {
-  id: number | string;
-  url: string;
-}
+import { Product as ProductType } from '../../../../types/product';
+import { ProductImage } from '../../../../types/ProductImage';
+import { ProductReview } from '../../../../types/product';
 
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  oldPrice?: number;
-  rating?: number;
-  images?: ProductImage[];
-  isHot?: boolean;
-  isSale?: boolean;
-  description?: string;
-}
+// Экспортируем типы для совместимости с существующим кодом
+export type { ProductImage, ProductReview };
+export type Product = ProductType;
 
 export interface ProductCardProps {
   product: Product;
+  isFeatured?: boolean;
 }

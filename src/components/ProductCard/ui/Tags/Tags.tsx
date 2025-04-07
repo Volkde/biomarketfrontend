@@ -1,13 +1,28 @@
 import { Chip } from '@mui/material';
-import { TagsProps } from './types';
+import { Tag, TagsProps } from './types';
 import { StyledTagsContainer } from './styles';
 
+/**
+ * Компонент отображения тегов продукта
+ * 
+ * @param tags - массив тегов (может содержать условные выражения)
+ * @param size - размер тегов (small, medium, large)
+ * @param spacing - расстояние между тегами
+ */
 const Tags = ({ tags, size = 'medium', spacing = 0.5 }: TagsProps) => {
+  // Фильтруем массив, чтобы убрать недействительные значения
+  const validTags = tags.filter((tag): tag is Tag => !!tag);
+  
+  // Если нет действительных тегов, не отображаем компонент
+  if (validTags.length === 0) {
+    return null;
+  }
+  
   return (
     <StyledTagsContainer spacing={spacing}>
-      {tags.map((tag, index) => (
+      {validTags.map((tag, index) => (
         <Chip
-          key={index}
+          key={`${tag.label}-${index}`}
           label={tag.label}
           size={size}
           color={tag.color || 'primary'}

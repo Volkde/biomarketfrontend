@@ -5,7 +5,8 @@ import { ErrorPage } from "pages/ErrorPage";
 import { HomePage } from "pages/Home";
 import { LoginPage } from "pages/Login";
 import { NotFoundPage } from "pages/NotFound";
-import { ProductPage } from "pages/Product";
+import ProductDetail from "pages/ProductDetail/ProductDetail";
+import { ProductsPage } from "pages/Products";
 import { SearchPage } from "pages/Search";
 import { SignupPage } from "pages/Signup";
 import { RouteObject } from "react-router";
@@ -41,12 +42,12 @@ export const routes: RouteObject[] = [
         Component: AboutPage
       },
       {
-        path: "products/:productId",
-        Component: ProductPage,
-        loader: ({ request, params }) =>
-          fetch(`/api/product/${params.productId}`, {
-            signal: request.signal
-          })
+        path: "products",
+        Component: ProductsPage
+      },
+      {
+        path: "product/:id",
+        Component: ProductDetail
       },
       {
         path: "*",

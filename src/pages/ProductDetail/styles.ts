@@ -1,93 +1,61 @@
-export const styles = {
-  productDetail: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '20px',
+import { styled } from '@mui/material/styles';
+import { Box, Typography, Button } from '@mui/material';
+
+export const PageContainer = styled(Box)(({ theme }) => ({
+  paddingTop: theme.spacing(8),
+  paddingBottom: theme.spacing(8),
+}));
+
+export const Section = styled(Box)(({ theme }) => ({
+  backgroundColor: '#FFFFFF',
+  borderRadius: theme.spacing(1),
+  padding: theme.spacing(4),
+  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+export const ProductName = styled(Typography)(({ theme }) => ({
+  fontWeight: 'bold',
+  color: '#2E7D32',
+  borderBottom: '2px solid #A5D6A7',
+  paddingBottom: theme.spacing(1),
+}));
+
+export const Price = styled(Typography)({
+  fontWeight: 'bold',
+  color: '#4CAF50',
+});
+
+export const OldPrice = styled(Typography)({
+  textDecoration: 'line-through',
+  color: '#8D6E63',
+  marginLeft: 8,
+});
+
+export const DescriptionBox = styled(Box)(({ theme }) => ({
+  backgroundColor: '#FAFAF0',
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(1),
+  border: '1px solid #F5F5DC',
+}));
+
+export const AddToCartButton = styled(Button)({
+  fontWeight: 'bold',
+  backgroundColor: '#66BB6A',
+  boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+  '&:hover': {
+    backgroundColor: '#388E3C',
+    transform: 'translateY(-2px)',
+    transition: 'all 0.2s',
   },
-  productContainer: {
-    display: 'flex',
-    gap: '40px',
-    marginBottom: '40px',
+});
+
+export const FavoriteButton = styled(Button)({
+  borderColor: '#A1887F',
+  color: '#8D6E63',
+  '&:hover': {
+    backgroundColor: '#F5F5DC',
+    color: '#4CAF50',
   },
-  imagesSection: {
-    flex: 1,
-  },
-  infoSection: {
-    flex: 1,
-  },
-  productName: {
-    fontSize: '28px',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  },
-  rating: {
-    display: 'flex',
-    gap: '10px',
-    fontSize: '16px',
-    color: '#888',
-    marginBottom: '10px',
-  },
-  price: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: '20px',
-  },
-  description: {
-    fontSize: '16px',
-    lineHeight: 1.6,
-    color: '#555',
-    marginBottom: '20px',
-  },
-  addToCart: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '20px',
-  },
-  quantity: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-  },
-  quantityButton: {
-    backgroundColor: '#f0f0f0',
-    border: 'none',
-    padding: '5px 10px',
-    cursor: 'pointer',
-    fontSize: '16px',
-  },
-  quantityText: {
-    fontSize: '16px',
-  },
-  addButton: {
-    backgroundColor: 'rgb(118, 150, 62)',
-    color: 'white',
-    border: 'none',
-    padding: '10px 20px',
-    borderRadius: '20px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    fontWeight: 500,
-    ':hover': {
-      backgroundColor: 'rgb(100, 128, 53)',
-    },
-  },
-  reviewsSection: {
-    marginTop: '40px',
-  },
-  reviewsTitle: {
-    fontSize: '24px',
-    marginBottom: '20px',
-  },
-  '@media (max-width: 768px)': {
-    productContainer: {
-      flexDirection: 'column',
-    },
-    imagesSection: {
-      width: '100%',
-    },
-    infoSection: {
-      width: '100%',
-    },
-  },
-};
+});

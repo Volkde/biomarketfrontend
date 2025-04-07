@@ -22,7 +22,7 @@ function Root() {
     null,
   );
 
-  const isLogin = false; // TODO isLogin
+  const isLogin = true; // Временно установим true для отображения иконок
   const cartItemsCount = 5; // TODO cartItemsCount
   const wishlistItemsCount = 3; // TODO wishlistItemsCount
   const isNavSidebarOpen = false;
@@ -39,11 +39,13 @@ function Root() {
   };
 
   const handleCartSidebarOpen = () => {
-    // TODO: handleCartSidebarOpen()
+    // Диспатчим действие для открытия корзины
+    document.dispatchEvent(new CustomEvent('openCartSidebar'));
   };
 
   const handleCartSidebarClose = () => {
-    // TODO: handleCartSidebarClose()
+    // Диспатчим действие для закрытия корзины
+    document.dispatchEvent(new CustomEvent('closeCartSidebar'));
   };
 
   const handleAccountMenuOpen = (event: MouseEvent<HTMLElement>) => {
@@ -79,27 +81,26 @@ function Root() {
       >
         <Toolbar>
           <SidebarButton onClick={handleNavSidebarOpen} />
-          <LogoButton alt="FramVibe" url="/public/logo.jpg" />
+          <LogoButton alt="BioMarketplace" url="/logo.jpg" />
           <Space />
           <Search apiUrl={""} />
           <Space />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {isLogin && (
-              <>
-                <CartButton
-                  id={cartId}
-                  cartItemsCount={cartItemsCount}
-                  onClick={handleCartSidebarOpen}
-                />
-                <WishlistButton
-                  id="wishlist"
-                  wishlistItemsCount={wishlistItemsCount}
-                  onClick={() => {
-                    navigate("/wishlist");
-                  }}
-                />
-              </>
-            )}
+            {/* Убираем проверку isLogin, чтобы кнопки всегда отображались */}
+            <>
+              <CartButton
+                id={cartId}
+                cartItemsCount={cartItemsCount}
+                onClick={handleCartSidebarOpen}
+              />
+              <WishlistButton
+                id="wishlist"
+                wishlistItemsCount={wishlistItemsCount}
+                onClick={() => {
+                  navigate("/wishlist");
+                }}
+              />
+            </>
             <AccountButton
               id={accountMenuId}
               open={isAccountMenuOpen}
