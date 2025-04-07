@@ -9,9 +9,11 @@ export interface Result {
   category: Category;
 }
 
-export async function fetchDeleteCategory(payload: Payload): Promise<Result> {
+export async function fetchDeleteCategory({
+  categoryId
+}: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/category/${payload.categoryId}`
+    `/api/category/${categoryId}`
   );
 
   return response.data;

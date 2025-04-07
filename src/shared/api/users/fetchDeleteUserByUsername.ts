@@ -9,11 +9,11 @@ export interface Result {
   user: User;
 }
 
-export async function fetchDeleteUserByUsername(
-  params: Params
-): Promise<Result> {
+export async function fetchDeleteUserByUsername({
+  username
+}: Params): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/users/by-username/${params.username}`
+    `/api/users/by-username/${username}`
   );
 
   return response.data;
