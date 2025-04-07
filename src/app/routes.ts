@@ -48,11 +48,6 @@ export const routes: RouteObject[] = [
       {
         path: "products/:productId",
         Component: ProductPage
-        // TODO: Как loader подружить с redux?
-        // loader: ({ request, params }) =>
-        //   fetch(`/api/product/${params.productId}`, {
-        //     signal: request.signal
-        //   })
       },
       {
         path: "*",

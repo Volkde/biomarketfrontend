@@ -1,6 +1,9 @@
+import { Order } from "./Order";
+
 export interface OrderItem {
-  id?: number | string;
-  productId: number | string;
+  id?: number;
+  productId: number;
   quantity: number;
   price: number;
+  order: Order;
 }

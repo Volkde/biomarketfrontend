@@ -1,8 +1,7 @@
 export interface Seller {
-  id: string | number;
-  userId: string | number;
-  name: string;
-  description: string;
-  logoUrl: string;
+  id: number;
+  storeName: string;
+  storeDescription: string;
+  storeLogo: string;
   rating: number;
 }

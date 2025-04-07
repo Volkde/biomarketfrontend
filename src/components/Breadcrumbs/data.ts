@@ -1,4 +1,3 @@
-// TODO: Получить название страниц из сервера.
 export const pages: Record<string, { title: string }> = {
   home: {
     title: "Home"
