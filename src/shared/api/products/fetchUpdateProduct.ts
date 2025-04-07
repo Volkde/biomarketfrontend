@@ -3,13 +3,12 @@ import { Product } from "types/Product";
 
 export interface Payload extends Product {}
 
-export interface Response {
+export interface Result {
   product: Product;
-  message?: string;
 }
 
-export async function fetchUpdateProduct(payload: Payload): Promise<Response> {
-  const response = await axiosInstance.put<Response>(
+export async function fetchUpdateProduct(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
     `/api/products/${payload.id}`,
     payload
   );

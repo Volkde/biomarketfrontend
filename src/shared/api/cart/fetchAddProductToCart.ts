@@ -1,14 +1,15 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 
 export interface Payload {
-  email: string;
+  userId: number;
+  productId: number;
 }
 
 export type Result = void;
 
-export async function fetchResetPassword(payload: Payload): Promise<Result> {
+export async function fetchAddProductToCart(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    "/api/auth/reset-password",
+    `/api/users/${payload.userId}/product/${payload.productId}`,
     payload
   );
 

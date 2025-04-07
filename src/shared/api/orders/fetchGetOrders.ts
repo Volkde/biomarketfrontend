@@ -1,13 +1,13 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Order } from "types/Order";
 
-export interface Response {
+export interface Result {
   orders: Order[];
   totalOrders?: number;
 }
 
-export async function fetchGetOrders(): Promise<Response> {
-  const response = await axiosInstance.get<Response>("/api/orders");
+export async function fetchGetOrders(): Promise<Result> {
+  const response = await axiosInstance.get<Result>("/api/orders");
 
   return response.data;
 }

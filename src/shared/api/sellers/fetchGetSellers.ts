@@ -1,13 +1,13 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Seller } from "types/Seller";
 
-export interface Response {
+export interface Result {
   sellers: Seller[];
   totalUsers?: number;
 }
 
-export async function fetchGetSellers(): Promise<Response> {
-  const response = await axiosInstance.get<Response>("/api/sellers");
+export async function fetchGetSellers(): Promise<Result> {
+  const response = await axiosInstance.get<Result>("/api/sellers");
 
   return response.data;
 }

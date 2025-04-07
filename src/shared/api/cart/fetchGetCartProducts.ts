@@ -1,18 +1,17 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { convertToSearchParams } from "shared/utils/convertToSearchParams";
-import { Category } from "types/Category";
+import { Product } from "types/Product";
 
 export interface Params {
-  categoryId: number;
+  userId: number;
 }
 
-export interface Result {
-  category: Category;
-}
+// TODO: Бэк должен вернуть объект
+export type Result = Product[];
 
-export async function fetchGetCategoryById(params: Params): Promise<Result> {
+export async function fetchGetCartProducts(params: Params): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/categories/${params.categoryId}`,
+    `/api/users/all-products-by-user-id/${params.userId}`,
     {
       params: convertToSearchParams(params)
     }

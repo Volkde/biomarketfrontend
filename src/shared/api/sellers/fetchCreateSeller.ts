@@ -3,13 +3,12 @@ import { Seller } from "types/Seller";
 
 export interface Payload extends Seller {}
 
-export interface Response {
+export interface Result {
   seller: Seller;
-  message?: string;
 }
 
-export async function fetchCreateSeller(payload: Payload): Promise<Response> {
-  const response = await axiosInstance.post<Response>("/api/sellers", payload);
+export async function fetchCreateSeller(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.post<Result>("/api/sellers", payload);
 
   return response.data;
 }

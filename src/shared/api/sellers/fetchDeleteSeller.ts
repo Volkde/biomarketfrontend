@@ -2,16 +2,15 @@ import { axiosInstance } from "shared/api/axiosInstance";
 import { Seller } from "types/Seller";
 
 export interface Params {
-  sellerId: string | number;
+  sellerId: number;
 }
 
-export interface Response {
+export interface Result {
   seller: Seller;
-  message?: string;
 }
 
-export async function fetchDeleteSeller(params: Params): Promise<Response> {
-  const response = await axiosInstance.delete<Response>(
+export async function fetchDeleteSeller(params: Params): Promise<Result> {
+  const response = await axiosInstance.delete<Result>(
     `/api/sellers/${params.sellerId}`
   );
 

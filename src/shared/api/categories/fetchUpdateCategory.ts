@@ -3,12 +3,12 @@ import { Category } from "types/Category";
 
 export interface Payload extends Category {}
 
-export interface Response {
+export interface Result {
   category: Category;
 }
 
-export async function fetchUpdateCategory(payload: Payload): Promise<Response> {
-  const response = await axiosInstance.put<Response>(
+export async function fetchUpdateCategory(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
     `/api/categories/${payload.id}`,
     payload
   );

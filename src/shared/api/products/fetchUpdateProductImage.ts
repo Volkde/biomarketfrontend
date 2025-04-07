@@ -1,23 +1,22 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 
 export interface Payload {
-  productId: string | number;
+  productId: number;
   image: File;
 }
 
-export interface Response {
+export interface Result {
   imageUrl: string;
-  message?: string;
 }
 
 export async function fetchUpdateProductImage({
   productId,
   image
-}: Payload): Promise<Response> {
+}: Payload): Promise<Result> {
   const formData = new FormData();
   formData.append("image", image);
 
-  const response = await axiosInstance.put<Response>(
+  const response = await axiosInstance.put<Result>(
     `/api/products/${productId}/images`,
     formData
   );

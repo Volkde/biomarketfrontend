@@ -17,14 +17,14 @@ export interface Params {
   page?: number;
 }
 
-export interface Response {
+export interface Result {
   products: Product[];
   page?: number;
   totalPages?: number;
 }
 
-export async function fetchGetProducts(params: Params): Promise<Response> {
-  const response = await axiosInstance.get<Response>("/api/products", {
+export async function fetchGetProducts(params: Params): Promise<Result> {
+  const response = await axiosInstance.get<Result>("/api/products", {
     params: convertToSearchParams(params)
   });
 

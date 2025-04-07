@@ -4,16 +4,15 @@ import { Review } from "types/Review";
 
 export interface Payload extends Review {}
 
-export interface Response {
+export interface Result {
   product: Product;
   review: Review;
-  message?: string;
 }
 
 export async function fetchCreateProductReview(
   payload: Payload
-): Promise<Response> {
-  const response = await axiosInstance.post<Response>(
+): Promise<Result> {
+  const response = await axiosInstance.post<Result>(
     `/api/products/${payload.id}/reviews`,
     payload
   );
