@@ -1,203 +1,266 @@
+import { styled } from '@mui/material/styles';
 import {
-  Box,
   Card,
-  CardContent,
   CardMedia,
-  IconButton,
+  CardContent,
+  Typography,
+  Box,
   Link as MuiLink, // Import MUI Link for base styling if needed
-  Typography
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+} from '@mui/material';
 
-export const StyledProductCard = styled(Card)(({ theme }) => ({
-  position: "relative",
-  width: "100%",
-  maxWidth: "300px",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  borderRadius: theme.shape.borderRadius,
-  overflow: "hidden",
-  transition: "box-shadow 0.3s ease, transform 0.3s ease",
+// Основная обертка карточки
+export const CardWrapper = styled(Card)(({ theme }) => ({
+  position: 'relative',
+  width: '100%',
+  maxWidth: '300px',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: theme.shape.borderRadius * 1.5, // Увеличенные скругления для органичного вида
+  overflow: 'hidden',
+  transition: 'all 0.35s ease',
   border: `1px solid ${theme.palette.divider}`,
+  backgroundColor: '#FFFFFF',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)',
 
-  "&:hover": {
-    boxShadow: theme.shadows[4],
-    transform: "translateY(-4px)",
-    // Show actions overlay on hover
-    "& .product-actions-overlay": {
+  '&:hover': {
+    boxShadow: '0 12px 24px rgba(0, 0, 0, 0.08)',
+    transform: 'translateY(-6px)',
+    // Показываем оверлей действий при наведении
+    '& .product-actions-overlay': {
       opacity: 1,
-      transform: "translate(-50%, 0)" // Slide up from bottom center
+      transform: 'translate(-50%, 0)',
     },
-    // Optional: Slightly zoom/change image on hover
-    "& .product-image": {
-      // transform: 'scale(1.03)', // Example zoom effect
-      opacity: 0.9
+    // Эффект при наведении на изображение
+    '& .product-image': {
+      transform: 'scale(1.03)',
+      opacity: 0.95,
     }
-  }
+  },
 }));
 
-// Container for Image and Actions Overlay
-export const MediaContainer = styled(Box)({
-  position: "relative",
-  width: "100%",
-  // Use aspectRatio for responsive height, or set fixed height
-  // aspectRatio: '1 / 1', // Example for square image
-  height: "250px", // Fixed height based on original example
-  overflow: "hidden" // Clip image zoom if any
-});
+// Основной контейнер карточки продукта
+export const StyledProductCard = styled(CardWrapper)(({ theme }) => ({
+  width: '100%',
+  maxWidth: '300px',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: theme.shape.borderRadius * 1.5,
+  overflow: 'hidden',
+  transition: 'all 0.35s ease',
+  border: `1px solid ${theme.palette.divider}`,
+  backgroundColor: '#FFFFFF',
+  '&:hover': {
+    boxShadow: '0 12px 24px rgba(0, 0, 0, 0.08)',
+    transform: 'translateY(-6px)',
+  },
+}));
+
+// Контейнер для изображения и оверлея действий
+export const ImageContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  width: '100%',
+  height: '250px',
+  overflow: 'hidden',
+  borderRadius: `${theme.shape.borderRadius * 1.5}px ${theme.shape.borderRadius * 1.5}px 0 0`,
+  backgroundColor: '#FAFAF0', // Натуральный светлый фон, как в фильтрах
+}));
 
 // Product Image using CardMedia
 export const ProductImage = styled(CardMedia)(({ theme }) => ({
-  width: "100%",
-  height: "100%",
-  objectFit: "cover", // or 'contain' depending on desired look
-  transition: "opacity 0.3s ease, transform 0.5s ease", // Added transform transition
-  backgroundColor: theme.palette.grey[100] // Placeholder background
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover', // or 'contain' depending on desired look
+  transition: 'opacity 0.3s ease, transform 0.5s ease', // Added transform transition
+  backgroundColor: theme.palette.grey[100], // Placeholder background
 })) as typeof CardMedia; // Cast required for component prop
 
 // Base styles for Tags (Hot, Sale)
 const BaseTag = styled(Typography)(({ theme }) => ({
-  position: "absolute",
+  position: 'absolute',
   top: theme.spacing(1.5),
   color: theme.palette.common.white,
   padding: theme.spacing(0.5, 1.25),
   borderRadius: theme.shape.borderRadius,
-  fontSize: "0.75rem",
+  fontSize: '0.75rem',
   fontWeight: 600,
   lineHeight: 1.2,
   zIndex: 1,
-  pointerEvents: "none" // Don't interfere with hover/clicks
+  pointerEvents: 'none', // Don't interfere with hover/clicks
 })) as typeof Typography;
 
 // Hot Tag specific style
-export const HotTag = styled(BaseTag)<{ component?: React.ElementType }>(
-  ({ theme }) => ({
-    left: theme.spacing(1.5),
-    backgroundColor: theme.palette.error.main // Use theme color
-  })
-);
+export const HotTag = styled(BaseTag)<{ component?: React.ElementType }>(({ theme }) => ({
+  left: theme.spacing(1.5),
+  backgroundColor: theme.palette.error.main, // Use theme color
+}));
 
 // Sale Tag specific style
 export const SaleTag = styled(BaseTag)(({ theme }) => ({
   right: theme.spacing(1.5),
-  backgroundColor: theme.palette.success.dark // Use theme color
+  backgroundColor: theme.palette.success.dark, // Use theme color
 }));
 
-// Actions Overlay (appears on hover)
-export const ActionsOverlay = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  bottom: theme.spacing(1.5), // Position near the bottom of the image area
-  left: "50%",
-  transform: "translate(-50%, 10px)", // Start slightly below and centered
-  display: "flex",
-  gap: theme.spacing(1),
-  padding: theme.spacing(0.5),
-  backgroundColor: "rgba(255, 255, 255, 0.85)", // Semi-transparent background
-  borderRadius: theme.shape.borderRadius,
+// Оверлей быстрых действий (появляется при наведении)
+export const QuickActionOverlay = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: theme.spacing(2),
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  backdropFilter: 'blur(1.5px)',
   zIndex: 2,
-  opacity: 0, // Hidden by default
-  transition: "opacity 0.3s ease, transform 0.3s ease"
+  opacity: 0,
+  visibility: 'hidden',
+  transition: 'all 0.35s ease',
+  
+  // Показывается при наведении на карточку
+  '&:hover': {
+    opacity: 1,
+    visibility: 'visible',
+  },
 }));
 
-// Action Button using IconButton
-export const ActionButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  color: theme.palette.text.secondary,
-  border: `1px solid ${theme.palette.divider}`,
-  padding: theme.spacing(0.75), // Adjust padding for icon size
-  "&:hover": {
-    backgroundColor: theme.palette.action.hover,
-    color: theme.palette.primary.main // Highlight color on hover
+// Кнопка действия для быстрых действий
+export const ActionButton = styled('button')(({ theme }) => ({
+  backgroundColor: theme.palette.common.white,
+  color: theme.palette.text.primary,
+  border: 'none',
+  borderRadius: theme.shape.borderRadius * 1.5,
+  padding: theme.spacing(1, 2),
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: theme.spacing(1),
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+  transition: 'all 0.25s ease',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    transform: 'translateY(-3px)',
+    boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)',
   },
-  // Adjust icon size if needed
-  "& svg": {
-    fontSize: "1.1rem"
+  '&:disabled': {
+    backgroundColor: theme.palette.action.disabledBackground,
+    color: theme.palette.action.disabled,
+    cursor: 'not-allowed',
+  },
+  '& svg': {
+    fontSize: '1rem',
   }
 }));
 
-// Content Area using CardContent
+// Область контента с использованием CardContent
 export const ContentArea = styled(CardContent)(({ theme }) => ({
-  padding: theme.spacing(2),
-  textAlign: "center",
-  // Allow content area to grow if needed, but keep actions at bottom
+  padding: theme.spacing(2.5),
+  textAlign: 'center',
+  // Позволяем области контента расти при необходимости, но держим действия внизу
   flexGrow: 1,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between", // Push rating down if needed
-  minHeight: "130px" // Approximate height needed for content
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  minHeight: '150px', // Примерная высота, необходимая для контента
+  backgroundColor: '#FFFFFF',
 }));
 
-// Product Name (using Typography, styled for ellipsis)
+// Название продукта (с использованием Typography, стилизованного для многоточия)
 export const ProductName = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
-  fontSize: "1rem",
+  fontSize: '1.05rem',
   color: theme.palette.text.primary,
-  marginBottom: theme.spacing(0.5),
-  // Ellipsis for long names
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  display: "-webkit-box",
+  marginBottom: theme.spacing(0.75),
+  // Многоточие для длинных названий
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
   WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
-  minHeight: "2.4em" // Approx height for 2 lines
+  WebkitBoxOrient: 'vertical',
+  minHeight: '2.5em', // Примерная высота для 2 строк
+  lineHeight: 1.25,
+  letterSpacing: '0.01em',
 })) as typeof Typography;
 
-// Product Description (optional, shorter text)
+// Описание продукта (опционально, короткий текст)
 export const ProductDescription = styled(Typography)(({ theme }) => ({
-  fontSize: "0.8rem",
+  fontSize: '0.85rem',
   color: theme.palette.text.secondary,
-  marginBottom: theme.spacing(1),
-  // Ellipsis for long descriptions
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  display: "-webkit-box",
-  WebkitLineClamp: 1, // Limit to 1 line
-  WebkitBoxOrient: "vertical"
+  marginBottom: theme.spacing(1.25),
+  // Многоточие для длинных описаний
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  WebkitLineClamp: 1, // Ограничение до 1 строки
+  WebkitBoxOrient: 'vertical',
+  fontStyle: 'italic',
+  opacity: 0.85,
 })) as typeof Typography;
 
-// Container for Price info
-export const PriceContainer = styled(Box)(({ theme }) => ({
-  margin: theme.spacing(1, 0)
+// Container for favorite button
+export const FavoriteButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  marginTop: theme.spacing(1),
 }));
 
-// Current Price styling
+// Контейнер для информации о цене
+export const PriceContainer = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(1.5, 0),
+  padding: theme.spacing(0.5, 0),
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
+
+// Стиль текущей цены
 export const CurrentPrice = styled(Typography)(({ theme }) => ({
-  fontSize: "1.1rem",
-  fontWeight: "bold",
-  color: theme.palette.primary.main, // Use theme primary color for price
-  display: "inline-block" // Allow side-by-side with old price
+  fontSize: '1.2rem',
+  fontWeight: 'bold',
+  color: theme.palette.primary.main, // Используем основной цвет темы для цены
+  display: 'inline-block', // Позволяет располагаться рядом со старой ценой
+  letterSpacing: '0.02em',
 })) as typeof Typography;
 
-// Old Price (strikethrough) styling
+// Стиль старой цены (зачеркнутой)
 export const OldPrice = styled(Typography)(({ theme }) => ({
-  fontSize: "0.9rem",
+  fontSize: '0.95rem',
   color: theme.palette.text.disabled,
-  textDecoration: "line-through",
-  marginLeft: theme.spacing(1),
-  display: "inline-block"
+  textDecoration: 'line-through',
+  marginLeft: theme.spacing(1.25),
+  display: 'inline-block',
+  opacity: 0.8,
 })) as typeof Typography;
 
-// Rating container
+// Контейнер рейтинга
 export const RatingContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: theme.spacing(1),
-  gap: theme.spacing(0.25),
-  minHeight: "1.2em", // Reserve space
-  color: theme.palette.warning.main, // Star color from theme
-  "& svg": {
-    fontSize: "1rem" // Star size
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: theme.spacing(1.25),
+  gap: theme.spacing(0.35),
+  minHeight: '1.3em', // Резервируем место
+  color: theme.palette.warning.main, // Цвет звезды из темы
+  '& svg': {
+      fontSize: '1.1rem', // Размер звезды
+      filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
   }
 }));
 
 // Styled MUI Link (if specific link styling is needed beyond basic integration)
 // Generally avoid custom styles here if using component={RouterLink}
 export const StyledProductLink = styled(MuiLink)(() => ({
-  textDecoration: "none",
-  color: "inherit", // Inherit color from parent
-  "&:hover": {
+  textDecoration: 'none',
+  color: 'inherit', // Inherit color from parent
+  '&:hover': {
     // Optional: Add hover effect specific to link if needed
-  }
+  },
 }));

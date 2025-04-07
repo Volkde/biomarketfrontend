@@ -1,3 +1,1 @@
-import { default as ProductsGrid } from "./Root";
-
-export { ProductsGrid };
+export { default as ProductsGridRoot } from './Root';

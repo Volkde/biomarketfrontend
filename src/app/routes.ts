@@ -5,7 +5,7 @@ import { ErrorPage } from "pages/ErrorPage";
 import { HomePage } from "pages/Home";
 import { LoginPage } from "pages/Login";
 import { NotFoundPage } from "pages/NotFound";
-import { ProductPage } from "pages/Product";
+import ProductDetail from "pages/ProductDetail/ProductDetail";
 import { ProductsPage } from "pages/Products";
 import { SearchPage } from "pages/Search";
 import { SignupPage } from "pages/Signup";
@@ -46,8 +46,8 @@ export const routes: RouteObject[] = [
         Component: ProductsPage
       },
       {
-        path: "products/:productId",
-        Component: ProductPage
+        path: "product/:id",
+        Component: ProductDetail
       },
       {
         path: "*",

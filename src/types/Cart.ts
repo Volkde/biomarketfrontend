@@ -1,10 +1,6 @@
 import { CartItem } from "./CartItem";
 
 export interface Cart {
-  id?: number;
+  id: string | number;
   items: CartItem[];
-  // products: Product[];
-  // allActiveProducts: Product[];
-  // activeProductsAveragePrice: number;
-  // activeProductsTotalCost: number;
 }

@@ -4,11 +4,16 @@ import {
   StyledDescriptionText,
   StyledFeatureItem,
   StyledFeaturesList,
-  StyledTitle
+  StyledTitle,
 } from "./styles";
 import { DescriptionProps } from "./types";
 
-const Description = ({ title, description, features }: DescriptionProps) => {
+const Description = ({
+  title,
+  description,
+  features,
+  size = "medium",
+}: DescriptionProps) => {
   return (
     <StyledDescription>
       <StyledTitle>{title}</StyledTitle>

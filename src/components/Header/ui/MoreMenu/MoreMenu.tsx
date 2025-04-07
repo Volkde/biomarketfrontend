@@ -4,7 +4,7 @@ import {
   Logout as LogoutIcon,
   PersonAdd as PersonAddIcon,
   Settings as SettingsIcon,
-  ShoppingBasketOutlined as ShoppingBasketOutlinedIcon
+  ShoppingBasketOutlined as ShoppingBasketOutlinedIcon,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -12,11 +12,9 @@ import {
   Divider,
   ListItemIcon,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useAppDispatch } from "store/hooks";
-import { authActions } from "store/redux/auth/slice/authSlice";
 import { MoreMenuProps } from "./types";
 
 function MoreMenu({
@@ -26,10 +24,10 @@ function MoreMenu({
   cartItemsCount,
   wishlistItemsCount,
   login,
-  handleClose
+  handleClose,
+  handleAccountMenuOpen,
 }: MoreMenuProps) {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   return (
     <Menu
@@ -50,7 +48,7 @@ function MoreMenu({
               width: 32,
               height: 32,
               ml: -0.5,
-              mr: 1
+              mr: 1,
             },
             "&::before": {
               content: '""',
@@ -62,10 +60,10 @@ function MoreMenu({
               height: 10,
               bgcolor: "background.paper",
               transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0
-            }
-          }
-        }
+              zIndex: 0,
+            },
+          },
+        },
       }}
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
@@ -107,17 +105,7 @@ function MoreMenu({
             </ListItemIcon>
             Settings
           </MenuItem>
-          <MenuItem
-            onClick={async () => {
-              try {
-                await dispatch(authActions.logout());
-
-                navigate("/");
-              } catch (error) {
-                console.error("logout:", error);
-              }
-            }}
-          >
+          <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <LogoutIcon fontSize="small" />
             </ListItemIcon>

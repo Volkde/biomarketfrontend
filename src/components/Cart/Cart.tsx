@@ -17,7 +17,7 @@ import {
   Total,
   Unit,
   Vendor,
-  Wrapper
+  Wrapper,
 } from "./styles";
 
 interface CartItemType {
@@ -50,8 +50,8 @@ const Cart = () => {
     axios.put(`/api/cart/${id}`, { quantity: newQuantity }).then(() => {
       setCart(prev =>
         prev.map(item =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
+          item.id === id ? { ...item, quantity: newQuantity } : item,
+        ),
       );
     });
   };

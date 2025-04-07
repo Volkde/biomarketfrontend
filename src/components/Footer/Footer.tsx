@@ -9,7 +9,7 @@ import {
   LogoContainer,
   SocialContainer,
   SocialLink,
-  StyledFooter
+  StyledFooter,
 } from "./styles.ts";
 
 const Footer = () => {

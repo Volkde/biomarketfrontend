@@ -9,7 +9,7 @@
     "upgrade:deps": "npx npm-check-updates -u && npm install",
     "dev": "vite",
     "start": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "format": "prettier --write .",
@@ -37,6 +37,7 @@
     "react-router": "^7.4.1",
     "react-router-dom": "^7.4.1",
     "styled-components": "^6.1.16",
+    "swr": "^2.3.3",
     "uuid": "^11.1.0",
     "yup": "^1.6.1"
   },

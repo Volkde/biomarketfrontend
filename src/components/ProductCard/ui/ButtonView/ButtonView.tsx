@@ -1,10 +1,48 @@
 import { Done as DoneIcon, ShoppingCart } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import { useCart } from "contexts/CartContext";
+import { useState } from "react";
 
-function ButtonView() {
-  const isAddingToCart = false;
-  const handleAddToCart = () => {
-    // TODO
+type ButtonViewProps = {};
+
+function ButtonView(props: ButtonViewProps) {
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+
+  // Get cart functions and currency
+  const { addToCart } = useCart();
+  const { currency } = useCurrency();
+
+  const handleAddToCart = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    setIsAddingToCart(true);
+    setIsAnimating(true);
+
+    // Add to cart using context
+    addToCart({
+      id,
+      name,
+      image,
+      price,
+      category,
+    });
+
+    setTimeout(() => {
+      setIsAddingToCart(false);
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 300);
+    }, 1000);
   };
 
   return (

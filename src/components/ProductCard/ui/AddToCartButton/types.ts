@@ -1,4 +1,10 @@
 export interface AddToCartButtonProps {
-  isAddingToCart?: boolean;
   onClick: () => void;
+  isAddingToCart?: boolean;
+  isAnimating?: boolean;
+  disabled?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  fullWidth?: boolean;
+  showIcon?: boolean;
+  label?: string;
 }

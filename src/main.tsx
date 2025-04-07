@@ -4,6 +4,8 @@ import App from "./app/App";
 
 const container = document.getElementById("root");
 
+// TODO: Что принято выносить в main.tsx а что в App.tsx
+
 if (container) {
   const root = createRoot(container);
 

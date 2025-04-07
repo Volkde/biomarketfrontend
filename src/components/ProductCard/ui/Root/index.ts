@@ -1,4 +1,4 @@
 import { default as ProductCard } from "./Root";
-import type { ProductCardProps } from "./types";
+import type { Product, ProductCardProps, ProductImage } from "./types";
 
-export { ProductCard, ProductCardProps };
+export { Product, ProductCard, ProductCardProps, ProductImage };

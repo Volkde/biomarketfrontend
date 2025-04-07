@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useNavigate, useRouteError } from "react-router-dom";
 
 function ErrorPage() {
@@ -8,7 +8,6 @@ function ErrorPage() {
 
   return (
     <div>
-      <Breadcrumbs />
       <h1>Упс! Что-то пошло не так.</h1>
       <p>Мы уже работаем над этим.</p>
       <p>

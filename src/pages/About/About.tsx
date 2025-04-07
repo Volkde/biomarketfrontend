@@ -1,10 +1,8 @@
 import { Typography } from "@mui/material";
-import { Breadcrumbs } from "components/Breadcrumbs";
 
 function About() {
   return (
     <>
-      <Breadcrumbs />
       <Typography variant="h1" component="h1">
         About
       </Typography>

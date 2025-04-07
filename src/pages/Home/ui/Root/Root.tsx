@@ -1,11 +1,9 @@
 import { Skeleton, Typography } from "@mui/material";
-import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductsGrid } from "components/ProductsGrid";
 
 function Root() {
   return (
     <>
-      <Breadcrumbs />
       <Skeleton variant="rounded" height={450} />
 
       <Typography variant="h2" component="h2">

@@ -1,1 +1,1 @@
-export { default as StockStatus } from "./StockStatus";
+export { default as StockStatus } from './StockStatus';

@@ -1,3 +1,2 @@
-import CartSidebar from "./CartSidebar";
-
-export { CartSidebar };
+export { CartSidebar } from './CartSidebar';
+export type { CartProduct, CartSidebarProps } from './types';

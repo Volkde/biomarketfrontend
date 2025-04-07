@@ -1,29 +1,30 @@
+// TODO: Получить название страниц из сервера.
 export const pages: Record<string, { title: string }> = {
   home: {
-    title: "Home"
+    title: "Home",
   },
   about: {
-    title: "About Us"
+    title: "About Us",
   },
   profile: {
-    title: "Profile"
+    title: "Profile",
   },
   login: {
-    title: "Login"
+    title: "Login",
   },
   signup: {
-    title: "Signup"
+    title: "Signup",
   },
   wishlist: {
-    title: "Wishlist"
+    title: "Wishlist",
   },
   products: {
-    title: "Products"
+    title: "Products",
   },
   cat1: {
-    title: "Category 1"
+    title: "Category 1",
   },
   cat2: {
-    title: "Category 2"
-  }
+    title: "Category 2",
+  },
 };

@@ -13,6 +13,6 @@ export const StyledFavoriteButton = styled("button")<{
   transition: "color 0.2s ease",
 
   "&:hover": {
-    opacity: 0.8
-  }
+    opacity: 0.8,
+  },
 }));

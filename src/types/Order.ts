@@ -1,12 +1,12 @@
-import { Delivery } from "./Delivery";
 import { OrderItem } from "./OrderItem";
 
 export interface Order {
-  id?: number;
-  status: boolean;
+  id?: number | string;
+  buyerId: number;
   totalPrice: number;
-  dateCreated: string;
-  userId: number;
   items: OrderItem[];
-  delivery: Delivery;
+  paymentMethod: string;
+  deliveryAddress: string;
+  isSubscription: boolean;
+  subscriptionFrequency: string;
 }

@@ -1,23 +1,24 @@
-export interface FiltersProps {
-  filters: {
-    categoryId: string;
-    minPrice: string;
-    maxPrice: string;
-    minRating: string;
-    sort: string;
-  };
-  onFilterChange: (filters: any) => void;
-}
+import { Dispatch, SetStateAction } from 'react';
+import { ViewMode } from '../Root/types';
 
-export interface Filters {
+export interface FiltersState {
   categoryId: string;
-  minPrice: string;
-  maxPrice: string;
+  minPrice: number;
+  maxPrice: number;
   minRating: string;
   sort: string;
+  isOrganic: boolean;
+  isLocal: boolean;
 }
 
 export interface Category {
   id: string;
   name: string;
+}
+
+export interface FiltersProps {
+  filters: FiltersState;
+  onFilterChange: (filters: FiltersState) => void;
+  viewMode?: ViewMode;
+  onViewModeChange?: Dispatch<SetStateAction<ViewMode>>;
 }
