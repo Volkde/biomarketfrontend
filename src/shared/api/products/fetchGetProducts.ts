@@ -5,13 +5,13 @@ import { Product } from "types/Product";
 export interface Params {
   searchTerm?: string;
   categoryId?: number;
-  priceMin?: number;
-  priceMax?: number;
+  minPrice?: number;
+  maxPrice?: number;
   sellerId?: number;
   ratingMin?: number;
   inStock?: boolean;
   discount?: boolean;
-  sortBy?: "price" | "rating" | "popularity" | "new";
+  sortBy?: "price" | "title";
   sortOrder?: "asc" | "desc";
   limit?: number;
   page?: number;

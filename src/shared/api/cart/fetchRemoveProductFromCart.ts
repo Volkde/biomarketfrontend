@@ -11,7 +11,9 @@ export async function fetchRemoveProductFromCart({
   userId,
   productId
 }: Payload): Promise<Result> {
-  await axiosInstance.delete<Result>(
+  const response = await axiosInstance.delete<Result>(
     `/api/users/remove-user/${userId}/product/${productId}`
   );
+
+  return response.data;
 }

@@ -1,18 +1,18 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { convertToSearchParams } from "shared/utils/convertToSearchParams";
-import { Product } from "types/Product";
+import { Address } from "types/Address";
 
 export interface Params {
-  productId: number;
+  userId: number;
 }
 
-export interface Result {
-  product: Product;
-}
+export type Result = Address[];
 
-export async function fetchGetProductById(params: Params): Promise<Result> {
+export async function fetchGetAddressesByUserId(
+  params: Params
+): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/products/${params.productId}`,
+    `/api/address/all-addresses-by-user/${params.userId}`,
     {
       params: convertToSearchParams(params)
     }

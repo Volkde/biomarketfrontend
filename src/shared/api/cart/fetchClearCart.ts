@@ -7,5 +7,9 @@ export interface Payload {
 export type Result = void;
 
 export async function fetchClearCart({ userId }: Payload): Promise<Result> {
-  await axiosInstance.delete<Result>(`/api/users/clear-cart/${userId}`);
+  const response = await axiosInstance.delete<Result>(
+    `/api/users/clear-cart/${userId}`
+  );
+
+  return response.data;
 }
