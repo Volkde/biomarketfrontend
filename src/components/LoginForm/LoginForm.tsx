@@ -36,7 +36,7 @@ const LoginForm = () => {
         await dispatch(authActions.login(values)).unwrap();
 
         navigate("/");
-      } catch (error) {
+      } catch (error: any) {
         formik.setErrors({
           email: "Invalid email or password. Please try again.",
           password: "Invalid email or password. Please try again."

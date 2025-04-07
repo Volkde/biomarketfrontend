@@ -7,17 +7,13 @@ function Root() {
     <>
       <Breadcrumbs />
       <Skeleton variant="rounded" height={450} />
-
       <Typography variant="h2" component="h2">
         Top Categories
       </Typography>
-
       <Typography variant="h2" component="h2">
         Products
       </Typography>
-
       <ProductsGrid filters={true} limit={8} page={1} pagination={true} />
-
       <Typography variant="body1" component="p">
         Material UI components Every Material UI component available so far.
         Material UI aims to provide building blocks for developers to create

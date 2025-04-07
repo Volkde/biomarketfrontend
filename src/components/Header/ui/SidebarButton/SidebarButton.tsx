@@ -11,6 +11,7 @@ function SidebarButton({ id, onClick }: SidebarButtonProps) {
       aria-label="open drawer"
       onClick={onClick}
       color="inherit"
+      edge="start"
     >
       <MenuIcon />
     </IconButton>

@@ -47,8 +47,8 @@ export const authSlice = createAppSlice({
       async (payload: FetchLoginPayload, { rejectWithValue }) => {
         try {
           return await fetchLogin(payload);
-        } catch (error: any) {
-          return rejectWithValue(error?.message);
+        } catch (error) {
+          return rejectWithValue(error);
         }
       },
       {
@@ -78,10 +78,9 @@ export const authSlice = createAppSlice({
     logout: create.asyncThunk<FetchLogoutResult>(
       async (_, { rejectWithValue }) => {
         try {
-          await fetchLogout();
-          return;
-        } catch (error: any) {
-          return rejectWithValue(error?.message);
+          return await fetchLogout();
+        } catch (error) {
+          return rejectWithValue(error);
         }
       },
       {
@@ -109,8 +108,8 @@ export const authSlice = createAppSlice({
       async (_, { rejectWithValue }) => {
         try {
           return await fetchProfile();
-        } catch (error: any) {
-          return rejectWithValue(error?.message);
+        } catch (error) {
+          return rejectWithValue(error);
         }
       },
       {
@@ -140,8 +139,8 @@ export const authSlice = createAppSlice({
       async (_, { rejectWithValue }) => {
         try {
           return await fetchRefresh();
-        } catch (error: any) {
-          return rejectWithValue(error?.message);
+        } catch (error) {
+          return rejectWithValue(error);
         }
       },
       {
@@ -169,8 +168,8 @@ export const authSlice = createAppSlice({
       async (payload: FetchRegisterPayload, { rejectWithValue }) => {
         try {
           return await fetchRegister(payload);
-        } catch (error: any) {
-          return rejectWithValue(error?.message);
+        } catch (error) {
+          return rejectWithValue(error);
         }
       },
       {
@@ -204,8 +203,8 @@ export const authSlice = createAppSlice({
       async (payload: FetchResetPasswordPayload, { rejectWithValue }) => {
         try {
           return await fetchResetPassword(payload);
-        } catch (error: any) {
-          return rejectWithValue(error?.message);
+        } catch (error) {
+          return rejectWithValue(error);
         }
       },
       {

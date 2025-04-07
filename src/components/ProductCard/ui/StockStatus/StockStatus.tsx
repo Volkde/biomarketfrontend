@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import { StockStatusProps } from "./types";
 import { StyledStockStatus } from "./styles";
+import { StockStatusProps } from "./types";
 
 const statusLabels: Record<string, string> = {
   in_stock: "In Stock",
@@ -9,17 +9,6 @@ const statusLabels: Record<string, string> = {
   pre_order: "Pre-Order"
 };
 
-/**
- * Компонент отображения статуса наличия товара
- *
- * @param status - текущий статус товара (in_stock, low_stock, out_of_stock, pre_order)
- * @param showLabel - флаг отображения текстового описания статуса
- * @param size - размер компонента (small, medium, large)
- *
- * @example
- * // Пример использования
- * <StockStatus status="in_stock" showLabel={true} size="medium" />
- */
 const StockStatus = ({
   status,
   showLabel = true,

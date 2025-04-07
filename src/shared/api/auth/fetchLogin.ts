@@ -12,6 +12,6 @@ export interface Result {
 
 export async function fetchLogin(payload: Payload): Promise<Result> {
   const response = await axiosInstance.post<Result>("/api/auth/login", payload);
-	
+
   return response.data;
 }

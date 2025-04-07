@@ -10,7 +10,13 @@ import {
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import { StyledAlert, StyledInputBase, StyledSnackbar } from "./styles";
+import {
+  SearchContainer,
+  SearchHistoryContainer,
+  StyledAlert,
+  StyledInputBase,
+  StyledSnackbar
+} from "./styles";
 import { SearchProps } from "./types";
 
 const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
@@ -78,15 +84,15 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
       setIsListening(false);
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: any) => {
       setError("Ошибка при распознавании голоса");
       setIsListening(false);
     };
   };
 
   return (
-    <Box position="relative" width="100%">
-      <Box>
+    <Box position="relative">
+      <SearchContainer>
         <StyledInputBase
           placeholder="Поиск..."
           value={searchTerm}
@@ -99,10 +105,10 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
         <IconButton onClick={startVoiceInput} disabled={isListening}>
           <MicIcon />
         </IconButton>
-      </Box>
+      </SearchContainer>
 
       {showHistory && searchHistory.length > 0 && (
-        <Box>
+        <SearchHistoryContainer>
           <List>
             {searchHistory.map((term, index) => (
               <ListItem
@@ -114,7 +120,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
               </ListItem>
             ))}
           </List>
-        </Box>
+        </SearchHistoryContainer>
       )}
 
       <StyledSnackbar

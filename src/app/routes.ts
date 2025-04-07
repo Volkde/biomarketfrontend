@@ -46,7 +46,7 @@ export const routes: RouteObject[] = [
         Component: ProductsPage
       },
       {
-        path: "products/:productId",
+        path: "product/:id",
         Component: ProductPage
       },
       {

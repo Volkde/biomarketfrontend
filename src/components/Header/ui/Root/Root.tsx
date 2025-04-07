@@ -1,10 +1,10 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
 import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
-import HeaderContext from "../../context/HeaderContext";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
@@ -18,7 +18,6 @@ import { WishlistButton } from "../WishlistButton";
 
 function Root() {
   const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,8 +34,8 @@ function Root() {
 
   const cartItemsCount = 5; // TODO cartItemsCount
   const wishlistItemsCount = 3; // TODO wishlistItemsCount
-  // const isNavSidebarOpen = false;
-  // const isCartSidebarOpen = false;
+  const isNavSidebarOpen = false;
+  const isCartSidebarOpen = false;
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
 
@@ -49,11 +48,13 @@ function Root() {
   // };
 
   const handleCartSidebarOpen = () => {
-    // TODO: handleCartSidebarOpen()
+    // Диспатчим действие для открытия корзины
+    document.dispatchEvent(new CustomEvent("openCartSidebar"));
   };
 
   // const handleCartSidebarClose = () => {
-  //   // TODO: handleCartSidebarClose()
+  //   // Диспатчим действие для закрытия корзины
+  //   document.dispatchEvent(new CustomEvent("closeCartSidebar"));
   // };
 
   const handleAccountMenuOpen = (event: MouseEvent<HTMLElement>) => {
@@ -78,7 +79,7 @@ function Root() {
   const moreMenuId = "primary-account-menu-mobile";
 
   return (
-    <HeaderContext.Provider value={{ sidebarIsOpen: false }}>
+    <>
       <AppBar
         position="fixed"
         color="inherit"
@@ -87,13 +88,28 @@ function Root() {
           borderBottom: "1px solid #ebebeb"
         }}
       >
+        <Toolbar
+          sx={{
+            backgroundColor: "#000"
+          }}
+        >
+          <Box>
+            <Link to="/">Language</Link>
+            <Link to="/">Currency</Link>
+          </Box>
+          <Space />
+          <Box>
+            <Link to="/">Track Your Order</Link>
+            <Link to="/">Newsletter</Link>
+            <Link to="/">Contact Us</Link>
+            <Link to="/">Faq's</Link>
+          </Box>
+          <Space />
+        </Toolbar>
         <Toolbar>
           <LogoButton alt="FramVibe" url="/logo.png" />
-          <SidebarButton onClick={handleNavSidebarOpen} />
           <Space />
-          <Search apiUrl={""} />
-          <Space />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             {isAuthenticated && (
               <>
                 <CartButton
@@ -119,13 +135,30 @@ function Root() {
               onClick={handleAccountMenuOpen}
             />
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", sm: "none" } }}>
             <MoreButton
               id={moreMenuId}
               open={isMoreMenuOpen}
               onClick={handleMoreMenuOpen}
             />
           </Box>
+        </Toolbar>
+        <Toolbar
+          sx={{
+            backgroundColor: "#6ab04c"
+          }}
+        >
+          <Box sx={{ display: { xs: "flex", sm: "none" } }}>
+            <SidebarButton onClick={handleNavSidebarOpen} />
+          </Box>
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+            <Link to="/">Home</Link>
+            <Link to="/products">Shop</Link>
+            <Link to="/blog">Blog</Link>
+            <Link to="/about">Contact Us</Link>
+          </Box>
+          <Space />
+          <Search apiUrl={""} />
         </Toolbar>
       </AppBar>
       <MoreMenu
@@ -145,7 +178,7 @@ function Root() {
         login={isAuthenticated}
         handleClose={handleMenuClose}
       />
-    </HeaderContext.Provider>
+    </>
   );
 }
 

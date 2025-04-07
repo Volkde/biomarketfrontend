@@ -2,8 +2,8 @@ import { Box, Breadcrumbs, Button } from "@mui/material";
 import { useNavigate, useRouteError } from "react-router-dom";
 
 function ErrorPage() {
-  const error = useRouteError();
   const navigate = useNavigate();
+  const error = useRouteError();
   console.error(error);
 
   return (
