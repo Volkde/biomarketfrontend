@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 
-export const StyledFavoriteButton = styled("button")<{
+export const StyledButton = styled("button")<{
   isFavorite: boolean;
   size: string;
 }>(({ theme, isFavorite, size }) => ({
@@ -13,6 +13,6 @@ export const StyledFavoriteButton = styled("button")<{
   transition: "color 0.2s ease",
 
   "&:hover": {
-    opacity: 0.8,
-  },
+    opacity: 0.8
+  }
 }));

@@ -1,30 +1,37 @@
-import styled from "@emotion/styled";
-import { Box } from "@mui/material";
-import { PriceProps } from "./types";
+import { styled } from "@mui/material/styles";
 
-interface StyledPriceProps {
-  isSale?: boolean;
-}
-
-export const PriceContainer = styled(Box)(({ theme }) => ({
+export const StyledPriceWrapper = styled("div")(({ theme }) => ({
   display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
   alignItems: "baseline",
-  gap: theme.spacing(1),
+  gap: "10px",
+
+  ins: {
+    textDecoration: "none"
+  }
 }));
 
-export const StyledPrice = styled("div")<StyledPriceProps>(({ theme, isSale }) => ({
+export const StyledPrice = styled("bdi")(({ theme }) => ({
   display: "flex",
   alignItems: "baseline",
-  gap: theme.spacing(0.5),
-  color: isSale ? theme.palette.error.main : theme.palette.primary.main,
-  fontWeight: "bold",
+  justifyContent: "center",
+
+  span: {
+    color: "#777",
+    fontSize: "14px",
+    fontWeight: "300"
+  }
 }));
 
-export const StyledOldPrice = styled("div")(({ theme }) => ({
+export const StyledOldPrice = styled("bdi")(({ theme }) => ({
   display: "flex",
   alignItems: "baseline",
-  gap: theme.spacing(0.5),
-  color: theme.palette.text.secondary,
-  textDecoration: "line-through",
-  opacity: 0.7,
+  justifyContent: "center",
+
+  span: {
+    color: "#777",
+    fontSize: "12px",
+    fontWeight: "300"
+  }
 }));
