@@ -157,7 +157,7 @@ export const deliverySlice = createAppSlice({
           { payload }: PayloadAction<FetchGetDeliveryByIdResult>
         ) => {
           state.status = "success";
-          state.deliveries = payload;
+          state.delivery = payload;
           state.error = initialState.error;
         },
         rejected: (state: DeliveryState, { payload }: PayloadAction<any>) => {
