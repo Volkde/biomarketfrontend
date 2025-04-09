@@ -5,6 +5,7 @@ import { addressSlice } from "./redux/address/slice/addressSlice";
 import { authSlice } from "./redux/auth/slice/authSlice";
 import { cartSlice } from "./redux/cart/slice/cartSlice";
 import { categorySlice } from "./redux/categories/slice/categorySlice";
+import { deliverySlice } from "./redux/delivery/slice/deliverySlice";
 import { ordersSlice } from "./redux/orders/slice/ordersSlice";
 import { productsSlice } from "./redux/products/slice/productsSlice";
 import { reviewsSlice } from "./redux/reviews/slice/reviewsSlice";
@@ -20,6 +21,7 @@ const rootReducer = combineSlices(
   addressSlice,
   cartSlice,
   categorySlice,
+  deliverySlice,
   ordersSlice,
   productsSlice,
   reviewsSlice,
