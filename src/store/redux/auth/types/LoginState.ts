@@ -3,7 +3,7 @@ import { User } from "types/User";
 
 export interface LoginState {
   status: ReduxStateStatus;
-  isAuthenticated: boolean;
+  isLogin: boolean;
   user?: User;
   error?: string;
 }

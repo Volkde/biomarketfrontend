@@ -29,10 +29,12 @@ import {
 import { createAppSlice } from "store/createAppSlice";
 import { LoginState } from "../types/LoginState";
 
+const keyIsLogin = "is_login";
+const isLogin = false; // localStorage.getItem(keyIsLogin) == "false";
 const initialState: LoginState = {
   status: "default",
   error: undefined,
-  isAuthenticated: false,
+  isLogin,
   user: undefined
 };
 
@@ -61,13 +63,17 @@ export const authSlice = createAppSlice({
           { payload }: PayloadAction<FetchLoginResult>
         ) => {
           state.status = "success";
-          state.isAuthenticated = true;
+          state.isLogin = true;
           state.user = payload?.user;
           state.error = initialState.error;
+
+          localStorage.setItem(keyIsLogin, "true");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
           state.error = payload?.message ?? "Unknown error";
+
+          localStorage.setItem(keyIsLogin, "false");
         }
       }
     ),
@@ -90,9 +96,11 @@ export const authSlice = createAppSlice({
         },
         fulfilled: (state: LoginState) => {
           state.status = "success";
-          state.isAuthenticated = false;
+          state.isLogin = false;
           state.user = initialState.user;
           state.error = initialState.error;
+
+          localStorage.setItem(keyIsLogin, "false");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
@@ -124,6 +132,8 @@ export const authSlice = createAppSlice({
           state.status = "success";
           state.user = payload.user;
           state.error = initialState.error;
+
+          localStorage.setItem(keyIsLogin, "true");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
@@ -150,13 +160,18 @@ export const authSlice = createAppSlice({
         },
         fulfilled: (state: LoginState) => {
           state.status = "success";
-          state.isAuthenticated = true;
+          state.isLogin = true;
           state.user = initialState.user;
           state.error = initialState.error;
+
+          localStorage.setItem(keyIsLogin, "true");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
+          state.isLogin = false;
           state.error = payload?.message ?? "Unknown error";
+
+          localStorage.setItem(keyIsLogin, "false");
         }
       }
     ),
@@ -182,9 +197,11 @@ export const authSlice = createAppSlice({
           { payload }: PayloadAction<FetchRegisterResult>
         ) => {
           state.status = "success";
-          state.isAuthenticated = true;
+          state.isLogin = false;
           state.user = payload?.user;
           state.error = initialState.error;
+
+          localStorage.setItem(keyIsLogin, "false");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
