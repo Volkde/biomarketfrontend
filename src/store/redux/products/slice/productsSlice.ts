@@ -16,13 +16,19 @@ import {
 } from "shared/api/products/fetchDeleteProduct";
 import {
   fetchGetProductById,
-  Params as FetchGetProductParams
+  Params as FetchGetProductByIdParams,
+  Result as FetchGetProductByIdResult
 } from "shared/api/products/fetchGetProductById";
 import {
   fetchGetProducts,
   Params as FetchGetProductsParams,
   Result as FetchGetProductsResult
 } from "shared/api/products/fetchGetProducts";
+import {
+  fetchUpdateProduct,
+  Payload as FetchUpdateProductPayload,
+  Result as FetchUpdateProductResult
+} from "shared/api/products/fetchUpdateProduct";
 import { createAppSlice } from "store/createAppSlice";
 import { ProductsState } from "../types/ProductsState";
 
@@ -144,6 +150,40 @@ export const productsSlice = createAppSlice({
     ),
 
     /**
+     * fetchGetProductById
+     */
+    fetchGetProductById: create.asyncThunk<
+      FetchGetProductByIdResult,
+      FetchGetProductByIdParams
+    >(
+      async (params: FetchGetProductByIdParams, { rejectWithValue }) => {
+        try {
+          return await fetchGetProductById(params);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: ProductsState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: ProductsState,
+          { payload }: PayloadAction<FetchGetProductByIdResult>
+        ) => {
+          state.status = "success";
+          state.product = payload?.product;
+          state.error = initialState.error;
+        },
+        rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
      * fetchGetProducts
      */
     fetchGetProducts: create.asyncThunk<
@@ -178,14 +218,17 @@ export const productsSlice = createAppSlice({
         }
       }
     ),
-
+		
     /**
-     * fetchGetProductById
+     * fetchUpdateProduct
      */
-    fetchGetProductById: create.asyncThunk(
-      async (params: FetchGetProductParams, { rejectWithValue }) => {
+    fetchUpdateProduct: create.asyncThunk<
+      FetchUpdateProductResult,
+      FetchUpdateProductPayload
+    >(
+      async (payload: FetchUpdateProductPayload, { rejectWithValue }) => {
         try {
-          return await fetchGetProductById(params);
+          return await fetchUpdateProduct(payload);
         } catch (error) {
           return rejectWithValue(error);
         }
@@ -195,7 +238,10 @@ export const productsSlice = createAppSlice({
           state.status = "loading";
           state.error = initialState.error;
         },
-        fulfilled: (state: ProductsState, { payload }: any) => {
+        fulfilled: (
+          state: ProductsState,
+          { payload }: PayloadAction<FetchUpdateProductResult>
+        ) => {
           state.status = "success";
           state.product = payload?.product;
           state.error = initialState.error;
