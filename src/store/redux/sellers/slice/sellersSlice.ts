@@ -28,6 +28,11 @@ import {
   Payload as FetchUpdateSellerPayload,
   Result as FetchUpdateSellerResult
 } from "shared/api/sellers/fetchUpdateSeller";
+import {
+  fetchUpdateSellerLogo,
+  Payload as FetchUpdateSellerLogoPayload,
+  Result as FetchUpdateSellerLogoResult
+} from "shared/api/sellers/fetchUpdateSellerLogo";
 import { createAppSlice } from "store/createAppSlice";
 import { SellersState } from "../types/SellersState";
 
@@ -35,6 +40,7 @@ const initialState: SellersState = {
   status: "default",
   sellers: [],
   seller: undefined,
+	logoUrl: undefined,
   error: undefined
 };
 
@@ -237,6 +243,40 @@ export const sellersSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.seller = payload.seller;
+          state.error = initialState.error;
+        },
+        rejected: (state: SellersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateSellerLogo
+     */
+    fetchUpdateSellerLogo: create.asyncThunk<
+      FetchUpdateSellerLogoResult,
+      FetchUpdateSellerLogoPayload
+    >(
+      async (payload: FetchUpdateSellerLogoPayload, { rejectWithValue }) => {
+        try {
+          return await fetchUpdateSellerLogo(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: SellersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: SellersState,
+          { payload }: PayloadAction<FetchUpdateSellerLogoResult>
+        ) => {
+          state.status = "success";
+          state.logoUrl = payload.logoUrl;
           state.error = initialState.error;
         },
         rejected: (state: SellersState, { payload }: PayloadAction<any>) => {

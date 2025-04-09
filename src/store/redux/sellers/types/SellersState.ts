@@ -5,5 +5,6 @@ export interface SellersState {
   status: ReduxStateStatus;
   sellers: Seller[];
   seller?: Seller;
+  logoUrl?: string;
   error?: string;
 }
