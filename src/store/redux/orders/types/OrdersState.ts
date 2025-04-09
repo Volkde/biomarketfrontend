@@ -5,5 +5,6 @@ export interface OrdersState {
   status: ReduxStateStatus;
   orders: Order[];
   order?: Order;
+  totalOrders?: number;
   error?: string;
 }
