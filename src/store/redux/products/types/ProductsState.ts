@@ -1,10 +1,12 @@
 import { Product } from "types/Product";
 import { ReduxStateStatus } from "types/ReduxStateStatus";
+import { Review } from "types/Review";
 
 export interface ProductsState {
   status: ReduxStateStatus;
   products?: Product[];
   product?: Product;
+  review?: Review;
   totalPages?: number;
   page?: number;
   error?: string;

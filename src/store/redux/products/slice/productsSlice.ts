@@ -5,6 +5,11 @@ import {
   Result as FetchCreateProductResult
 } from "shared/api/products/fetchCreateProduct";
 import {
+  fetchCreateProductReview,
+  Payload as FetchCreateProductReviewPayload,
+  Result as FetchCreateProductReviewResult
+} from "shared/api/products/fetchCreateProductReview";
+import {
   fetchGetProductById,
   Params as FetchGetProductParams
 } from "shared/api/products/fetchGetProductById";
@@ -20,6 +25,7 @@ const initialState: ProductsState = {
   status: "default",
   products: [],
   product: undefined,
+  review: undefined,
   totalPages: 1,
   page: 1,
   error: undefined
@@ -54,6 +60,41 @@ export const productsSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.product = payload?.product;
+          state.error = initialState.error;
+        },
+        rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchCreateProductReview
+     */
+    fetchCreateProductReview: create.asyncThunk<
+      FetchCreateProductReviewResult,
+      FetchCreateProductReviewPayload
+    >(
+      async (payload: FetchCreateProductReviewPayload, { rejectWithValue }) => {
+        try {
+          return await fetchCreateProductReview(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: ProductsState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: ProductsState,
+          { payload }: PayloadAction<FetchCreateProductReviewResult>
+        ) => {
+          state.status = "success";
+          state.product = payload?.product;
+          state.review = payload?.review;
           state.error = initialState.error;
         },
         rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
