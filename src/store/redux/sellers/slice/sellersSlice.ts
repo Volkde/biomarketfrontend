@@ -19,6 +19,10 @@ import {
   Params as FetchGetSellerByIdParams,
   Result as FetchGetSellerByIdResult
 } from "shared/api/sellers/fetchGetSellerById";
+import {
+  fetchGetSellers,
+  Result as FetchGetSellersResult
+} from "shared/api/sellers/fetchGetSellers";
 import { createAppSlice } from "store/createAppSlice";
 import { SellersState } from "../types/SellersState";
 
@@ -163,6 +167,37 @@ export const sellersSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.seller = payload.seller;
+          state.error = initialState.error;
+        },
+        rejected: (state: SellersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchGetSellers
+     */
+    fetchGetSellers: create.asyncThunk<FetchGetSellersResult>(
+      async (_, { rejectWithValue }) => {
+        try {
+          return await fetchGetSellers();
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: SellersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: SellersState,
+          { payload }: PayloadAction<FetchGetSellersResult>
+        ) => {
+          state.status = "success";
+          state.sellers = payload?.sellers ?? [];
           state.error = initialState.error;
         },
         rejected: (state: SellersState, { payload }: PayloadAction<any>) => {
