@@ -9,7 +9,7 @@ export interface Result {
 
 export async function fetchUpdateCategory(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    `/api/categories/${payload.id}`,
+    `/categories/${payload.id}`,
     payload
   );
 

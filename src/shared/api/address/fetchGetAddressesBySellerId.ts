@@ -12,7 +12,7 @@ export async function fetchGetAddressesBySellerId(
   params: Params
 ): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/address/all-addresses-by-seller/${params.sellerId}`,
+    `/address/all-addresses-by-seller/${params.sellerId}`,
     {
       params: convertToSearchParams(params)
     }

@@ -17,7 +17,7 @@ export async function fetchUpdateSellerLogo({
   formData.append("logo", logo);
 
   const response = await axiosInstance.put<Result>(
-    `/api/sellers/${sellerId}/logo`,
+    `/sellers/${sellerId}/logo`,
     formData
   );
 

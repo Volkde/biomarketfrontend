@@ -11,7 +11,7 @@ export interface Result {
 
 export async function fetchGetUserById(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    `/api/users/deactivate/${payload.userId}`,
+    `/users/deactivate/${payload.userId}`,
     payload
   );
 

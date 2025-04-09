@@ -13,7 +13,7 @@ export async function fetchCreateProductReview(
   payload: Payload
 ): Promise<Result> {
   const response = await axiosInstance.post<Result>(
-    `/api/products/${payload.id}/reviews`,
+    `/products/${payload.id}/reviews`,
     payload
   );
 

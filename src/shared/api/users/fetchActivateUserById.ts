@@ -11,7 +11,7 @@ export interface Result {
 
 export async function fetchActivateUserById(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    `/api/users/activate/${payload.userId}`,
+    `/users/activate/${payload.userId}`,
     payload
   );
 

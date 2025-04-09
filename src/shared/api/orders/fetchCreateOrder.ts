@@ -8,7 +8,7 @@ export interface Result {
 }
 
 export async function fetchCreateOrder(payload: Payload): Promise<Result> {
-  const response = await axiosInstance.post<Result>("/api/orders", payload);
+  const response = await axiosInstance.post<Result>("/orders", payload);
 
   return response.data;
 }

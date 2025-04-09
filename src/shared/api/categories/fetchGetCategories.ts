@@ -7,7 +7,7 @@ export interface Result {
 }
 
 export async function fetchGetCategories(): Promise<Result> {
-  const response = await axiosInstance.get<Result>("/api/category");
+  const response = await axiosInstance.get<Result>("/category");
 
   return response.data;
 }

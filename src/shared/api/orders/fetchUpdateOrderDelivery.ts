@@ -15,7 +15,7 @@ export async function fetchUpdateOrderDelivery(
   payload: Payload
 ): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    `/api/orders/${payload.orderId}/delivery`,
+    `/orders/${payload.orderId}/delivery`,
     payload
   );
 

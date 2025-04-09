@@ -11,7 +11,7 @@ export interface Result {
 
 export async function fetchDeleteAddress(payload: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/address/${payload.addressId}`
+    `/address/${payload.addressId}`
   );
 
   return response.data;

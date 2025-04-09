@@ -12,7 +12,7 @@ export interface Result {
 
 export async function fetchGetCategoryById(params: Params): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/categories/${params.categoryId}`,
+    `/categories/${params.categoryId}`,
     {
       params: convertToSearchParams(params)
     }

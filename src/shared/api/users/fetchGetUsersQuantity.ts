@@ -4,7 +4,7 @@ import { axiosInstance } from "shared/api/axiosInstance";
 export type Result = number;
 
 export async function fetchGetUsersQuantity(): Promise<Result> {
-  const response = await axiosInstance.get<Result>("/api/users/quantity");
+  const response = await axiosInstance.get<Result>("/users/quantity");
 
   return response.data;
 }

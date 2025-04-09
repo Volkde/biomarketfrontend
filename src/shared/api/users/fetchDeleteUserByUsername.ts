@@ -13,7 +13,7 @@ export async function fetchDeleteUserByUsername({
   username
 }: Params): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/users/by-username/${username}`
+    `/users/by-username/${username}`
   );
 
   return response.data;

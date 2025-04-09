@@ -17,7 +17,7 @@ export async function fetchUpdateUserAvatar({
   formData.append("avatar", avatar);
 
   const response = await axiosInstance.put<Result>(
-    `/api/users/${userId}/avatar`,
+    `/users/${userId}/avatar`,
     formData
   );
 

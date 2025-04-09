@@ -10,9 +10,7 @@ export interface Result {
 }
 
 export async function fetchDeleteSeller({ sellerId }: Params): Promise<Result> {
-  const response = await axiosInstance.delete<Result>(
-    `/api/sellers/${sellerId}`
-  );
+  const response = await axiosInstance.delete<Result>(`/sellers/${sellerId}`);
 
   return response.data;
 }

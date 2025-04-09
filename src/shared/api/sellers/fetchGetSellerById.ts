@@ -12,7 +12,7 @@ export interface Result {
 
 export async function fetchGetSellerById(params: Params): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/sellers/${params.sellerId}`,
+    `/sellers/${params.sellerId}`,
     {
       params: convertToSearchParams(params)
     }

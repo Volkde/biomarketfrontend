@@ -9,7 +9,7 @@ export interface Result {
 
 export async function fetchUpdateSeller(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    `/api/sellers/${payload.id}`,
+    `/sellers/${payload.id}`,
     payload
   );
 

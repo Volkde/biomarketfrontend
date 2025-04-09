@@ -8,7 +8,7 @@ export type Result = void;
 
 export async function fetchResetPassword(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    "/api/auth/reset-password",
+    "/auth/reset-password",
     payload
   );
 

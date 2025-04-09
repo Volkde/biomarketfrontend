@@ -11,7 +11,7 @@ export type Result = Product[];
 
 export async function fetchGetCartProducts(params: Params): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/users/all-products-by-user-id/${params.userId}`,
+    `/users/all-products-by-user-id/${params.userId}`,
     {
       params: convertToSearchParams(params)
     }

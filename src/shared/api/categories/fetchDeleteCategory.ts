@@ -13,7 +13,7 @@ export async function fetchDeleteCategory({
   categoryId
 }: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/category/${categoryId}`
+    `/category/${categoryId}`
   );
 
   return response.data;

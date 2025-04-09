@@ -12,7 +12,7 @@ export interface Result {
 
 export async function fetchGetAddressById(params: Params): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/address/${params.addressId}`,
+    `/address/${params.addressId}`,
     {
       params: convertToSearchParams(params)
     }

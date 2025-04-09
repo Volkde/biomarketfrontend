@@ -12,7 +12,7 @@ export async function fetchGetAddressesByUserId(
   params: Params
 ): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/address/all-addresses-by-user/${params.userId}`,
+    `/address/all-addresses-by-user/${params.userId}`,
     {
       params: convertToSearchParams(params)
     }

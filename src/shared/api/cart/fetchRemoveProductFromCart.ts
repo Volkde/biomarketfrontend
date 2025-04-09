@@ -12,7 +12,7 @@ export async function fetchRemoveProductFromCart({
   productId
 }: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/users/remove-user/${userId}/product/${productId}`
+    `/users/remove-user/${userId}/product/${productId}`
   );
 
   return response.data;

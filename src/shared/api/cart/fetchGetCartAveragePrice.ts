@@ -12,7 +12,7 @@ export async function fetchGetCartAveragePrice(
   params: Params
 ): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/users/product-average-price/${params.userId}`,
+    `/users/product-average-price/${params.userId}`,
     {
       params: convertToSearchParams(params)
     }

@@ -8,7 +8,7 @@ export type Result = void;
 
 export async function fetchClearCart({ userId }: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/users/clear-cart/${userId}`
+    `/users/clear-cart/${userId}`
   );
 
   return response.data;

@@ -7,7 +7,7 @@ export interface Payload {
 export type Result = void;
 
 export async function fetchDeleteOrder({ orderId }: Payload): Promise<Result> {
-  const response = await axiosInstance.delete<Result>(`/api/orders/${orderId}`);
+  const response = await axiosInstance.delete<Result>(`/orders/${orderId}`);
 
   return response.data;
 }

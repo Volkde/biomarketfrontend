@@ -8,7 +8,7 @@ export interface Result {
 }
 
 export async function fetchCreateUser(payload: Payload): Promise<Result> {
-  const response = await axiosInstance.post<Result>("/api/users", payload);
+  const response = await axiosInstance.post<Result>("/users", payload);
 
   return response.data;
 }

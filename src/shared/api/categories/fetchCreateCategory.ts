@@ -8,7 +8,7 @@ export interface Result {
 }
 
 export async function fetchCreateCategory(payload: Payload): Promise<Result> {
-  const response = await axiosInstance.post<Result>("/api/category", payload);
+  const response = await axiosInstance.post<Result>("/category", payload);
 
   return response.data;
 }

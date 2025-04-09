@@ -6,7 +6,7 @@ export type Payload = Address;
 export type Result = Address;
 
 export async function fetchCreateAddress(payload: Payload): Promise<Result> {
-  const response = await axiosInstance.post<Result>("/api/address", payload);
+  const response = await axiosInstance.post<Result>("/address", payload);
 
   return response.data;
 }

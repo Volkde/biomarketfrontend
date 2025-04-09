@@ -11,12 +11,9 @@ export interface Result {
 }
 
 export async function fetchGetUserById(params: Params): Promise<Result> {
-  const response = await axiosInstance.get<Result>(
-    `/api/users/${params.userId}`,
-    {
-      params: convertToSearchParams(params)
-    }
-  );
+  const response = await axiosInstance.get<Result>(`/users/${params.userId}`, {
+    params: convertToSearchParams(params)
+  });
 
   return response.data;
 }

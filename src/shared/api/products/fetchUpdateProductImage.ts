@@ -17,7 +17,7 @@ export async function fetchUpdateProductImage({
   formData.append("image", image);
 
   const response = await axiosInstance.put<Result>(
-    `/api/products/${productId}/images`,
+    `/products/${productId}/images`,
     formData
   );
 

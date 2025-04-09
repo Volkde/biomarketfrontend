@@ -9,7 +9,7 @@ export interface Result {
 
 export async function fetchGetUserById(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
-    `/api/users/${payload.id}`,
+    `/users/${payload.id}`,
     payload
   );
 

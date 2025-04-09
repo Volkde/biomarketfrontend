@@ -7,7 +7,7 @@ export interface Result {
 }
 
 export async function fetchGetUsers(): Promise<Result> {
-  const response = await axiosInstance.get<Result>("/api/users");
+  const response = await axiosInstance.get<Result>("/users");
 
   return response.data;
 }

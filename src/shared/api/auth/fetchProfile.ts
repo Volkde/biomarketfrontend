@@ -6,7 +6,7 @@ export interface Result {
 }
 
 export async function fetchProfile(): Promise<Result> {
-  const response = await axiosInstance.post<Result>("/api/auth/profile");
+  const response = await axiosInstance.post<Result>("/auth/profile");
 
   return response.data;
 }

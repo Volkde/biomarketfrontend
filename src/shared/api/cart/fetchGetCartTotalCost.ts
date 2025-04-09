@@ -10,7 +10,7 @@ export type Result = number;
 
 export async function fetchGetCartTotalCost(params: Params): Promise<Result> {
   const response = await axiosInstance.get<Result>(
-    `/api/users/total-cost/${params.userId}`,
+    `/users/total-cost/${params.userId}`,
     {
       params: convertToSearchParams(params)
     }

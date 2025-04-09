@@ -24,7 +24,7 @@ export interface Result {
 }
 
 export async function fetchGetProducts(params: Params): Promise<Result> {
-  const response = await axiosInstance.get<Result>("/api/products", {
+  const response = await axiosInstance.get<Result>("/products", {
     params: convertToSearchParams(params)
   });
 

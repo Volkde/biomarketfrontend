@@ -13,7 +13,7 @@ export async function fetchDeleteSellerByStoreName({
   storeName
 }: Params): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
-    `/api/sellers/by-storeName/${storeName}`
+    `/sellers/by-storeName/${storeName}`
   );
 
   return response.data;
