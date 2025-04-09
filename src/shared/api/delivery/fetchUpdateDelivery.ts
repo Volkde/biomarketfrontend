@@ -5,7 +5,7 @@ export type Payload = Delivery;
 
 export type Result = Delivery;
 
-export async function fetchDeleteDelivery(payload: Payload): Promise<Result> {
+export async function fetchUpdateDelivery(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(`/delivery`, payload);
 
   return response.data;

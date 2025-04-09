@@ -4,6 +4,11 @@ import {
   Payload as FetchCreateDeliveryPayload,
   Result as FetchCreateDeliveryResult
 } from "shared/api/delivery/fetchCreateDelivery";
+import {
+  fetchDeleteDelivery,
+  Payload as FetchDeleteDeliveryPayload,
+  Result as FetchDeleteDeliveryResult
+} from "shared/api/delivery/fetchDeleteDelivery";
 import { createAppSlice } from "store/createAppSlice";
 import { DeliveryState } from "../types/DeliveryState";
 
@@ -42,6 +47,37 @@ export const deliverySlice = createAppSlice({
         ) => {
           state.status = "success";
           state.delivery = payload;
+          state.error = initialState.error;
+        },
+        rejected: (state: DeliveryState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchDeleteDelivery
+     */
+    fetchDeleteDelivery: create.asyncThunk<
+      FetchDeleteDeliveryResult,
+      FetchDeleteDeliveryPayload
+    >(
+      async (payload: FetchDeleteDeliveryPayload, { rejectWithValue }) => {
+        try {
+          return await fetchDeleteDelivery(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: DeliveryState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (state: DeliveryState) => {
+          state.status = "success";
+          state.delivery = initialState.delivery;
           state.error = initialState.error;
         },
         rejected: (state: DeliveryState, { payload }: PayloadAction<any>) => {
