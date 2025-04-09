@@ -1,5 +1,10 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
+  fetchActivateUserById,
+  Payload as FetchActivateUserByIdPayload,
+  Result as FetchActivateUserByIdResult
+} from "shared/api/users/fetchActivateUserById";
+import {
   fetchCreateUser,
   Payload as FetchCreateUserPayload,
   Result as FetchCreateUserResult
@@ -18,6 +23,40 @@ export const usersSlice = createAppSlice({
   name: "USERS",
   initialState,
   reducers: create => ({
+    /**
+     * fetchActivateUserById
+     */
+    fetchActivateUserById: create.asyncThunk<
+      FetchActivateUserByIdResult,
+      FetchActivateUserByIdPayload
+    >(
+      async (payload: FetchActivateUserByIdPayload, { rejectWithValue }) => {
+        try {
+          return await fetchActivateUserById(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: UsersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: UsersState,
+          { payload }: PayloadAction<FetchActivateUserByIdResult>
+        ) => {
+          state.status = "success";
+          state.user = payload.user;
+          state.error = initialState.error;
+        },
+        rejected: (state: UsersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
     /**
      * fetchCreateUser
      */
