@@ -1,41 +1,25 @@
-import { Rating as MuiRating, Typography } from "@mui/material";
+import { Star as StarIcon } from "@mui/icons-material";
+import { Rating as MuiRating, Typography, useTheme } from "@mui/material";
 import { StyledRating, StyledRatingCount } from "./styles";
 import { RatingProps } from "./types";
 
-/**
- * Компонент отображения рейтинга продукта
- * 
- * @param value - значение рейтинга
- * @param max - максимальное значение рейтинга (по умолчанию 5)
- * @param count - количество отзывов
- * @param size - размер компонента (small, medium, large)
- * @param readOnly - флаг только для чтения (по умолчанию true)
- * @param onChange - функция обратного вызова при изменении рейтинга
- */
-const Rating = ({ 
-  value, 
-  max = 5, 
-  count, 
-  size = "medium", 
-  readOnly = true,
-  onChange,
-  precision = 0.5
-}: RatingProps) => {
+const Rating = ({ value, max = 5, count, size = "small" }: RatingProps) => {
+  const theme = useTheme();
+
   return (
     <StyledRating>
-      <MuiRating 
-        value={value} 
-        max={max} 
-        readOnly={readOnly} 
-        size={size} 
-        precision={precision}
-        onChange={(_, newValue) => {
-          if (onChange && newValue !== null) {
-            onChange(newValue);
-          }
+      <MuiRating
+        value={value}
+        max={max}
+        readOnly
+        size={size}
+        precision={0.5}
+        sx={{
+          color: theme.palette.primary.main
         }}
+        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
       />
-      {count !== undefined && (
+      {count && (
         <StyledRatingCount>
           <Typography variant="body2">({count})</Typography>
         </StyledRatingCount>
