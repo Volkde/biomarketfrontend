@@ -4,6 +4,11 @@ import {
   Payload as FetchCreateOrderPayload,
   Result as FetchCreateOrderResult
 } from "shared/api/orders/fetchCreateOrder";
+import {
+  fetchDeleteOrder,
+  Payload as FetchDeleteOrderPayload,
+  Result as FetchDeleteOrderResult
+} from "shared/api/orders/fetchDeleteOrder";
 import { createAppSlice } from "store/createAppSlice";
 import { OrdersState } from "../types/OrdersState";
 
@@ -43,6 +48,36 @@ export const ordersSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.order = payload.order;
+          state.error = initialState.error;
+        },
+        rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchDeleteOrder
+     */
+    fetchDeleteOrder: create.asyncThunk<
+      FetchDeleteOrderResult,
+      FetchDeleteOrderPayload
+    >(
+      async (payload: FetchDeleteOrderPayload, { rejectWithValue }) => {
+        try {
+          return await fetchDeleteOrder(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: OrdersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (state: OrdersState) => {
+          state.status = "success";
           state.error = initialState.error;
         },
         rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
