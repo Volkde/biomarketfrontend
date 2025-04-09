@@ -34,6 +34,10 @@ import {
   Result as FetchGetUsersResult
 } from "shared/api/users/fetchGetUsers";
 import {
+  fetchGetUsersQuantity,
+  Result as FetchGetUsersQuantityResult
+} from "shared/api/users/fetchGetUsersQuantity";
+import {
   fetchUpdateUser,
   Payload as FetchUpdateUserPayload,
   Result as FetchUpdateUserResult
@@ -49,6 +53,7 @@ import { UsersState } from "../types/UsersState";
 const initialState: UsersState = {
   status: "default",
   users: [],
+	usersQuantity: undefined,
   user: undefined,
   avatarUrl: undefined,
   error: undefined
@@ -287,6 +292,37 @@ export const usersSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.users = payload?.users ?? [];
+          state.error = initialState.error;
+        },
+        rejected: (state: UsersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchGetUsersQuantity
+     */
+    fetchGetUsersQuantity: create.asyncThunk<FetchGetUsersQuantityResult>(
+      async (_, { rejectWithValue }) => {
+        try {
+          return await fetchGetUsersQuantity();
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: UsersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: UsersState,
+          { payload }: PayloadAction<FetchGetUsersQuantityResult>
+        ) => {
+          state.status = "success";
+          state.usersQuantity = payload;
           state.error = initialState.error;
         },
         rejected: (state: UsersState, { payload }: PayloadAction<any>) => {
