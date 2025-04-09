@@ -14,6 +14,11 @@ import {
   Result as FetchGetDeliveriesResult
 } from "shared/api/delivery/fetchGetDeliveries";
 import {
+  fetchGetDeliveryById,
+  Params as FetchGetDeliveryByIdParams,
+  Result as FetchGetDeliveryByIdResult
+} from "shared/api/delivery/fetchGetDeliveryById";
+import {
   fetchUpdateDelivery,
   Payload as FetchUpdateDeliveryPayload,
   Result as FetchUpdateDeliveryResult
@@ -100,9 +105,7 @@ export const deliverySlice = createAppSlice({
     /**
      * fetchGetDeliveries
      */
-    fetchGetDeliveries: create.asyncThunk<
-      FetchGetDeliveriesResult
-    >(
+    fetchGetDeliveries: create.asyncThunk<FetchGetDeliveriesResult>(
       async (_, { rejectWithValue }) => {
         try {
           return await fetchGetDeliveries();
@@ -118,6 +121,40 @@ export const deliverySlice = createAppSlice({
         fulfilled: (
           state: DeliveryState,
           { payload }: PayloadAction<FetchGetDeliveriesResult>
+        ) => {
+          state.status = "success";
+          state.deliveries = payload;
+          state.error = initialState.error;
+        },
+        rejected: (state: DeliveryState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchGetDeliveryById
+     */
+    fetchGetDeliveryById: create.asyncThunk<
+      FetchGetDeliveryByIdResult,
+      FetchGetDeliveryByIdParams
+    >(
+      async (params: FetchGetDeliveryByIdParams, { rejectWithValue }) => {
+        try {
+          return await fetchGetDeliveryById(params);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: DeliveryState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: DeliveryState,
+          { payload }: PayloadAction<FetchGetDeliveryByIdResult>
         ) => {
           state.status = "success";
           state.deliveries = payload;
