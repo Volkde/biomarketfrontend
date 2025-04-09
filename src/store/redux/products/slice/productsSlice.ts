@@ -10,6 +10,11 @@ import {
   Result as FetchCreateProductReviewResult
 } from "shared/api/products/fetchCreateProductReview";
 import {
+  fetchDeleteProduct,
+  Payload as FetchDeleteProductPayload,
+  Result as FetchDeleteProductResult
+} from "shared/api/products/fetchDeleteProduct";
+import {
   fetchGetProductById,
   Params as FetchGetProductParams
 } from "shared/api/products/fetchGetProductById";
@@ -95,6 +100,40 @@ export const productsSlice = createAppSlice({
           state.status = "success";
           state.product = payload?.product;
           state.review = payload?.review;
+          state.error = initialState.error;
+        },
+        rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchDeleteProduct
+     */
+    fetchDeleteProduct: create.asyncThunk<
+      FetchDeleteProductResult,
+      FetchDeleteProductPayload
+    >(
+      async (payload: FetchDeleteProductPayload, { rejectWithValue }) => {
+        try {
+          return await fetchDeleteProduct(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: ProductsState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: ProductsState,
+          { payload }: PayloadAction<FetchDeleteProductResult>
+        ) => {
+          state.status = "success";
+          state.product = payload?.product;
           state.error = initialState.error;
         },
         rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
