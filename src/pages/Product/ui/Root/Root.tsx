@@ -1,15 +1,13 @@
-import { Container } from "@mui/material";
+import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
-import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
+import { ProductCartSkeleton } from "components/ProductCard";
 import { useEffect, useMemo } from "react";
-import { useLocation } from "react-router-dom";
-import { replaceLastPathSegment } from "shared/utils/replaceLastPathSegment";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
 
 function Root() {
-  const location = useLocation();
   const dispatch = useAppDispatch();
 
   // TODO: productId
@@ -25,19 +23,64 @@ function Root() {
 
   const { status, product, error } = useAppSelector(selectProductsState);
 
-  const pathname = replaceLastPathSegment(location.pathname, product?.title);
+  const pathname = `/shop/${product?.title}`;
 
-  // const handleAddToCart = async () => {
-  //   // TODO: Используй redux
-  // };
+  const handleAddToCart = async () => {
+    // TODO: Используй redux
+  };
 
-  // const handleFavoriteToggle = async () => {
-  //   // TODO: Используй redux
-  // };
+  const handleFavoriteToggle = async () => {
+    // TODO: Используй redux
+  };
 
   const elProduct = useMemo(() => {
     if (status === "success" && product) {
-      return <ProductCard product={product} />;
+      return (
+        <Grid container direction="row" gap={5}>
+          <Box
+            sx={{
+              width: "45%"
+            }}
+          >
+            <img
+              src={product.image}
+              style={{
+                width: "100%"
+              }}
+            />
+          </Box>
+          <Box>
+            <Typography variant="h2">{product.title}</Typography>
+            <Box>
+              <Typography component="span">Price:</Typography>
+              <ins>
+                <bdi>
+                  <span>$</span>
+                  <span>{product.price}</span>
+                </bdi>
+              </ins>
+            </Box>
+            {product.oldPrice && (
+              <Box>
+                <Typography component="span">Old price:</Typography>
+                <ins>
+                  <bdi>
+                    <span>$</span>
+                    <span>{product.oldPrice}</span>
+                  </bdi>
+                </ins>
+              </Box>
+            )}
+            <Typography component="p">{product.description}</Typography>
+            <Button variant="contained" onClick={handleAddToCart}>
+              Add to cart
+            </Button>
+            <Button onClick={handleFavoriteToggle}>
+              <FavoriteBorderIcon />
+            </Button>
+          </Box>
+        </Grid>
+      );
     } else if (status !== "error") {
       return <ProductCartSkeleton />;
     }
