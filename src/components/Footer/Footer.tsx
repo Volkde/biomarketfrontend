@@ -39,12 +39,12 @@ const Footer = () => {
 
         <FooterSection>
           <FooterTitle>Categories</FooterTitle>
-          <FooterLink to="/products?category=fruits">
+          <FooterLink to="/shop?category=fruits">
             Fruits & Vegetables
           </FooterLink>
-          <FooterLink to="/products?category=dairy">Dairy & Eggs</FooterLink>
-          <FooterLink to="/products?category=bakery">Bakery</FooterLink>
-          <FooterLink to="/products?category=meat">Meat & Fish</FooterLink>
+          <FooterLink to="/shop?category=dairy">Dairy & Eggs</FooterLink>
+          <FooterLink to="/shop?category=bakery">Bakery</FooterLink>
+          <FooterLink to="/shop?category=meat">Meat & Fish</FooterLink>
         </FooterSection>
 
         <FooterSection>

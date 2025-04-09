@@ -112,9 +112,9 @@ export const cartSlice = createAppSlice({
       FetchGetCartAveragePriceResult,
       FetchGetCartAveragePriceParams
     >(
-      async (payload: FetchGetCartAveragePriceParams, { rejectWithValue }) => {
+      async (params: FetchGetCartAveragePriceParams, { rejectWithValue }) => {
         try {
-          return await fetchGetCartAveragePrice(payload);
+          return await fetchGetCartAveragePrice(params);
         } catch (error) {
           return rejectWithValue(error);
         }
@@ -146,9 +146,9 @@ export const cartSlice = createAppSlice({
       FetchGetCartProductsResult,
       FetchGetCartProductsParams
     >(
-      async (payload: FetchGetCartProductsParams, { rejectWithValue }) => {
+      async (params: FetchGetCartProductsParams, { rejectWithValue }) => {
         try {
-          return await fetchGetCartProducts(payload);
+          return await fetchGetCartProducts(params);
         } catch (error) {
           return rejectWithValue(error);
         }
@@ -180,9 +180,9 @@ export const cartSlice = createAppSlice({
       FetchGetCartTotalCostResult,
       FetchGetCartTotalCostParams
     >(
-      async (payload: FetchGetCartTotalCostParams, { rejectWithValue }) => {
+      async (params: FetchGetCartTotalCostParams, { rejectWithValue }) => {
         try {
-          return await fetchGetCartTotalCost(payload);
+          return await fetchGetCartTotalCost(params);
         } catch (error) {
           return rejectWithValue(error);
         }

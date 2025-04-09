@@ -1,6 +1,8 @@
 import { CartItem } from "./CartItem";
 
 export interface Cart {
-  id?: number;
+  cartId?: number;
+  userId: number;
   items: CartItem[];
+  totalCartPrice?: number;
 }

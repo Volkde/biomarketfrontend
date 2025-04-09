@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Banner } from "../Banner";
 
 function Root() {
-  const { t } = useTranslation("page-home");
+  const { t } = useTranslation();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

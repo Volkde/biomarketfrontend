@@ -1,13 +1,20 @@
-import { Breadcrumbs, Container } from "@mui/material";
+import { Container } from "@mui/material";
+import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
 import { useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { replaceLastPathSegment } from "shared/utils/replaceLastPathSegment";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
 
-function ProductPage() {
+function Root() {
+  const location = useLocation();
   const dispatch = useAppDispatch();
+
+  // TODO: productId
   const productId = 1;
+
   useEffect(() => {
     dispatch(
       productsActions.fetchGetProductById({
@@ -18,13 +25,15 @@ function ProductPage() {
 
   const { status, product, error } = useAppSelector(selectProductsState);
 
-  const handleAddToCart = async () => {
-    // TODO: Используй redux
-  };
+  const pathname = replaceLastPathSegment(location.pathname, product?.title);
 
-  const handleFavoriteToggle = async () => {
-    // TODO: Используй redux
-  };
+  // const handleAddToCart = async () => {
+  //   // TODO: Используй redux
+  // };
+
+  // const handleFavoriteToggle = async () => {
+  //   // TODO: Используй redux
+  // };
 
   const elProduct = useMemo(() => {
     if (status === "success" && product) {
@@ -38,10 +47,10 @@ function ProductPage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Breadcrumbs />
+      <Breadcrumbs pathname={pathname} />
       {elProduct}
     </Container>
   );
 }
 
-export default ProductPage;
+export default Root;
