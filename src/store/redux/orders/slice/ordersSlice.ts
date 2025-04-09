@@ -14,6 +14,20 @@ import {
   Params as FetchGetOrderByIdParams,
   Result as FetchGetOrderByIdResult
 } from "shared/api/orders/fetchGetOrderById";
+import {
+  fetchGetOrders,
+  Result as FetchGetOrdersResult
+} from "shared/api/orders/fetchGetOrders";
+import {
+  fetchUpdateOrderDelivery,
+  Payload as FetchUpdateOrderDeliveryPayload,
+  Result as FetchUpdateOrderDeliveryResult
+} from "shared/api/orders/fetchUpdateOrderDelivery";
+import {
+  fetchUpdateOrderStatus,
+  Payload as FetchUpdateOrderStatusPayload,
+  Result as FetchUpdateOrderStatusResult
+} from "shared/api/orders/fetchUpdateOrderStatus";
 import { createAppSlice } from "store/createAppSlice";
 import { OrdersState } from "../types/OrdersState";
 
@@ -21,6 +35,7 @@ const initialState: OrdersState = {
   status: "default",
   orders: [],
   order: undefined,
+  totalOrders: undefined,
   error: undefined
 };
 
@@ -114,6 +129,106 @@ export const ordersSlice = createAppSlice({
         fulfilled: (
           state: OrdersState,
           { payload }: PayloadAction<FetchGetOrderByIdResult>
+        ) => {
+          state.status = "success";
+          state.order = payload.order;
+          state.error = initialState.error;
+        },
+        rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchGetOrders
+     */
+    fetchGetOrders: create.asyncThunk<FetchGetOrdersResult>(
+      async (_, { rejectWithValue }) => {
+        try {
+          return await fetchGetOrders();
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: OrdersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: OrdersState,
+          { payload }: PayloadAction<FetchGetOrdersResult>
+        ) => {
+          state.status = "success";
+          state.orders = payload.orders ?? [];
+          state.totalOrders = payload.totalOrders;
+          state.error = initialState.error;
+        },
+        rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateOrderDelivery
+     */
+    fetchUpdateOrderDelivery: create.asyncThunk<
+      FetchUpdateOrderDeliveryResult,
+      FetchUpdateOrderDeliveryPayload
+    >(
+      async (payload: FetchUpdateOrderDeliveryPayload, { rejectWithValue }) => {
+        try {
+          return await fetchUpdateOrderDelivery(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: OrdersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: OrdersState,
+          { payload }: PayloadAction<FetchUpdateOrderDeliveryResult>
+        ) => {
+          state.status = "success";
+          state.order = payload.order;
+          state.error = initialState.error;
+        },
+        rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateOrderStatus
+     */
+    fetchUpdateOrderStatus: create.asyncThunk<
+      FetchUpdateOrderStatusResult,
+      FetchUpdateOrderStatusPayload
+    >(
+      async (payload: FetchUpdateOrderStatusPayload, { rejectWithValue }) => {
+        try {
+          return await fetchUpdateOrderStatus(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: OrdersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: OrdersState,
+          { payload }: PayloadAction<FetchUpdateOrderStatusResult>
         ) => {
           state.status = "success";
           state.order = payload.order;
