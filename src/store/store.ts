@@ -8,6 +8,7 @@ import { categorySlice } from "./redux/categories/slice/categorySlice";
 import { ordersSlice } from "./redux/orders/slice/ordersSlice";
 import { productsSlice } from "./redux/products/slice/productsSlice";
 import { reviewsSlice } from "./redux/reviews/slice/reviewsSlice";
+import { sellersSlice } from "./redux/sellers/slice/sellersSlice";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -18,7 +19,8 @@ const rootReducer = combineSlices(
   categorySlice,
   ordersSlice,
   productsSlice,
-  reviewsSlice
+  reviewsSlice,
+  sellersSlice
 );
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;
