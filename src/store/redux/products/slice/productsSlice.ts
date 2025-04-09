@@ -1,5 +1,10 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
+  fetchCreateProduct,
+  Payload as FetchCreateProductPayload,
+  Result as FetchCreateProductResult
+} from "shared/api/products/fetchCreateProduct";
+import {
   fetchGetProductById,
   Params as FetchGetProductParams
 } from "shared/api/products/fetchGetProductById";
@@ -24,6 +29,40 @@ export const productsSlice = createAppSlice({
   name: "PRODUCTS",
   initialState,
   reducers: create => ({
+    /**
+     * fetchCreateProduct
+     */
+    fetchCreateProduct: create.asyncThunk<
+      FetchCreateProductResult,
+      FetchCreateProductPayload
+    >(
+      async (payload: FetchCreateProductPayload, { rejectWithValue }) => {
+        try {
+          return await fetchCreateProduct(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: ProductsState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: ProductsState,
+          { payload }: PayloadAction<FetchCreateProductResult>
+        ) => {
+          state.status = "success";
+          state.product = payload?.product;
+          state.error = initialState.error;
+        },
+        rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
     /**
      * fetchGetProducts
      */
