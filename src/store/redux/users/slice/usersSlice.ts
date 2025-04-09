@@ -29,6 +29,11 @@ import {
   Payload as FetchUpdateUserPayload,
   Result as FetchUpdateUserResult
 } from "shared/api/users/fetchUpdateUser";
+import {
+  fetchUpdateUserAvatar,
+  Payload as FetchUpdateUserAvatarPayload,
+  Result as FetchUpdateUserAvatarResult
+} from "shared/api/users/fetchUpdateUserAvatar";
 import { createAppSlice } from "store/createAppSlice";
 import { UsersState } from "../types/UsersState";
 
@@ -36,6 +41,7 @@ const initialState: UsersState = {
   status: "default",
   users: [],
   user: undefined,
+	avatarUrl: undefined,
   error: undefined
 };
 
@@ -241,6 +247,40 @@ export const usersSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.user = payload.user;
+          state.error = initialState.error;
+        },
+        rejected: (state: UsersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateUserAvatar
+     */
+    fetchUpdateUserAvatar: create.asyncThunk<
+      FetchUpdateUserAvatarResult,
+      FetchUpdateUserAvatarPayload
+    >(
+      async (payload: FetchUpdateUserAvatarPayload, { rejectWithValue }) => {
+        try {
+          return await fetchUpdateUserAvatar(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: UsersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: UsersState,
+          { payload }: PayloadAction<FetchUpdateUserAvatarResult>
+        ) => {
+          state.status = "success";
+          state.avatarUrl = payload.avatarUrl;
           state.error = initialState.error;
         },
         rejected: (state: UsersState, { payload }: PayloadAction<any>) => {

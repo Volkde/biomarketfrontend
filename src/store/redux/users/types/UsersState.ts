@@ -5,5 +5,6 @@ export interface UsersState {
   status: ReduxStateStatus;
   users: User[];
   user?: User;
+  avatarUrl?: string;
   error?: string;
 }
