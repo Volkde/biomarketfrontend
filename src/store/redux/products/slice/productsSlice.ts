@@ -29,6 +29,11 @@ import {
   Payload as FetchUpdateProductPayload,
   Result as FetchUpdateProductResult
 } from "shared/api/products/fetchUpdateProduct";
+import {
+  fetchUpdateProductImage,
+  Payload as FetchUpdateProductImagePayload,
+  Result as FetchUpdateProductImageResult
+} from "shared/api/products/fetchUpdateProductImage";
 import { createAppSlice } from "store/createAppSlice";
 import { ProductsState } from "../types/ProductsState";
 
@@ -37,6 +42,7 @@ const initialState: ProductsState = {
   products: [],
   product: undefined,
   review: undefined,
+  imageUrl: undefined,
   totalPages: 1,
   page: 1,
   error: undefined
@@ -218,7 +224,7 @@ export const productsSlice = createAppSlice({
         }
       }
     ),
-		
+
     /**
      * fetchUpdateProduct
      */
@@ -244,6 +250,40 @@ export const productsSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.product = payload?.product;
+          state.error = initialState.error;
+        },
+        rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateProductImage
+     */
+    fetchUpdateProductImage: create.asyncThunk<
+      FetchUpdateProductImageResult,
+      FetchUpdateProductImagePayload
+    >(
+      async (payload: FetchUpdateProductImagePayload, { rejectWithValue }) => {
+        try {
+          return await fetchUpdateProductImage(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: ProductsState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: ProductsState,
+          { payload }: PayloadAction<FetchUpdateProductImageResult>
+        ) => {
+          state.status = "success";
+          state.imageUrl = payload?.imageUrl;
           state.error = initialState.error;
         },
         rejected: (state: ProductsState, { payload }: PayloadAction<any>) => {

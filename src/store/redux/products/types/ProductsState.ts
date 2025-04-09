@@ -7,6 +7,7 @@ export interface ProductsState {
   products?: Product[];
   product?: Product;
   review?: Review;
+  imageUrl?: string;
   totalPages?: number;
   page?: number;
   error?: string;
