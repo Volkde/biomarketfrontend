@@ -3,16 +3,16 @@ import { convertToSearchParams } from "shared/utils/convertToSearchParams";
 import { Category } from "types/Category";
 
 export interface Params {
-  categoryId: string | number;
+  categoryId: number;
 }
 
-export interface Response {
+export interface Result {
   category: Category;
 }
 
-export async function fetchGetCategoryById(params: Params): Promise<Response> {
-  const response = await axiosInstance.get<Response>(
-    `/api/categories/${params.categoryId}`,
+export async function fetchGetCategoryById(params: Params): Promise<Result> {
+  const response = await axiosInstance.get<Result>(
+    `/categories/${params.categoryId}`,
     {
       params: convertToSearchParams(params)
     }

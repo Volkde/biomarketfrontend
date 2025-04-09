@@ -3,17 +3,16 @@ import { convertToSearchParams } from "shared/utils/convertToSearchParams";
 import { Order } from "types/Order";
 
 export interface Params {
-  orderId: string | number;
+  orderId: number;
 }
 
-export interface Response {
+export interface Result {
   order: Order;
-  message?: string;
 }
 
-export async function fetchGetOrderById(params: Params): Promise<Response> {
-  const response = await axiosInstance.get<Response>(
-    `/api/orders/${params.orderId}`,
+export async function fetchGetOrderById(params: Params): Promise<Result> {
+  const response = await axiosInstance.get<Result>(
+    `/orders/${params.orderId}`,
     {
       params: convertToSearchParams(params)
     }

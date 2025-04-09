@@ -1,14 +1,17 @@
-import { Box, Button } from "@mui/material";
+import { Box, Breadcrumbs, Button, Container, Typography } from "@mui/material";
 import { useNavigate, useRouteError } from "react-router-dom";
 
 function ErrorPage() {
-  const error = useRouteError();
   const navigate = useNavigate();
+  const error = useRouteError();
   console.error(error);
 
   return (
-    <div>
-      <h1>Упс! Что-то пошло не так.</h1>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      <Typography variant="h4" component="h1" gutterBottom>
+        Упс! Что-то пошло не так.
+      </Typography>
       <p>Мы уже работаем над этим.</p>
       <p>
         <i>{(error as Error)?.message || "Неизвестная ошибка"}</i>
@@ -17,7 +20,7 @@ function ErrorPage() {
         <Button onClick={() => navigate("/")}>На главную</Button>
         <Button onClick={() => navigate(0)}>Обновить страницу</Button>
       </Box>
-    </div>
+    </Container>
   );
 }
 

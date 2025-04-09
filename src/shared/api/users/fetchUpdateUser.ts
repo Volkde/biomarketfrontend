@@ -1,16 +1,15 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { User } from "types/User";
 
-export interface Payload extends User {}
+export type Payload = User;
 
-export interface Response {
+export interface Result {
   user: User;
-  message?: string;
 }
 
-export async function fetchGetUserById(payload: Payload): Promise<Response> {
-  const response = await axiosInstance.put<Response>(
-    `/api/users/${payload.id}`,
+export async function fetchGetUserById(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
+    `/users/${payload.id}`,
     payload
   );
 

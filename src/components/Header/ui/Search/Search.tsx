@@ -5,7 +5,7 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -15,7 +15,7 @@ import {
   SearchHistoryContainer,
   StyledAlert,
   StyledInputBase,
-  StyledSnackbar,
+  StyledSnackbar
 } from "./styles";
 import { SearchProps } from "./types";
 
@@ -47,7 +47,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
         setShowHistory(false);
       }
     }, 500),
-    [apiUrl, onSearchResults],
+    [apiUrl, onSearchResults]
   );
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
   };
 
   return (
-    <Box position="relative" width="100%">
+    <Box position="relative">
       <SearchContainer>
         <StyledInputBase
           placeholder="Поиск..."

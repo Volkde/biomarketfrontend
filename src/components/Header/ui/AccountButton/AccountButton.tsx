@@ -8,7 +8,7 @@ function AccountButton({
   login,
   userFullName,
   userAvatarUrl,
-  onClick,
+  onClick
 }: AccountButtonProps) {
   return (
     <Tooltip title="Open settings">

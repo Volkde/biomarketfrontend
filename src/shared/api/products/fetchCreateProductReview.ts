@@ -2,19 +2,18 @@ import { axiosInstance } from "shared/api/axiosInstance";
 import { Product } from "types/Product";
 import { Review } from "types/Review";
 
-export interface Payload extends Review {}
+export type Payload = Review;
 
-export interface Response {
+export interface Result {
   product: Product;
   review: Review;
-  message?: string;
 }
 
 export async function fetchCreateProductReview(
   payload: Payload
-): Promise<Response> {
-  const response = await axiosInstance.post<Response>(
-    `/api/products/${payload.id}/reviews`,
+): Promise<Result> {
+  const response = await axiosInstance.post<Result>(
+    `/products/${payload.id}/reviews`,
     payload
   );
 

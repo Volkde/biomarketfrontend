@@ -1,15 +1,15 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Seller } from "types/Seller";
 
-export interface Payload extends Seller {}
+export type Payload = Seller;
 
-export interface Response {
+export interface Result {
   seller: Seller;
 }
 
-export async function fetchUpdateSeller(payload: Payload): Promise<Response> {
-  const response = await axiosInstance.put<Response>(
-    `/api/sellers/${payload.id}`,
+export async function fetchUpdateSeller(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
+    `/sellers/${payload.id}`,
     payload
   );
 

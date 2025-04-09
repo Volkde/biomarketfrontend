@@ -1,15 +1,15 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Category } from "types/Category";
 
-export interface Payload extends Category {}
+export type Payload = Category;
 
-export interface Response {
+export interface Result {
   category: Category;
 }
 
-export async function fetchUpdateCategory(payload: Payload): Promise<Response> {
-  const response = await axiosInstance.put<Response>(
-    `/api/categories/${payload.id}`,
+export async function fetchUpdateCategory(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
+    `/categories/${payload.id}`,
     payload
   );
 

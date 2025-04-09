@@ -1,24 +1,23 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 
 export interface Payload {
-  userId: string | number;
+  userId: string;
   avatar: File;
 }
 
-export interface Response {
+export interface Result {
   avatarUrl: string;
-  message?: string;
 }
 
 export async function fetchUpdateUserAvatar({
   userId,
   avatar
-}: Payload): Promise<Response> {
+}: Payload): Promise<Result> {
   const formData = new FormData();
   formData.append("avatar", avatar);
 
-  const response = await axiosInstance.put<Response>(
-    `/api/users/${userId}/avatar`,
+  const response = await axiosInstance.put<Result>(
+    `/users/${userId}/avatar`,
     formData
   );
 

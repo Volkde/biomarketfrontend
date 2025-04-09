@@ -3,21 +3,17 @@ import { convertToSearchParams } from "shared/utils/convertToSearchParams";
 import { User } from "types/User";
 
 export interface Params {
-  userId: string | number;
+  userId: number;
 }
 
-export interface Response {
+export interface Result {
   user: User;
-  message?: string;
 }
 
-export async function fetchGetUserById(params: Params): Promise<Response> {
-  const response = await axiosInstance.get<Response>(
-    `/api/users/${params.userId}`,
-    {
-      params: convertToSearchParams(params)
-    }
-  );
+export async function fetchGetUserById(params: Params): Promise<Result> {
+  const response = await axiosInstance.get<Result>(`/users/${params.userId}`, {
+    params: convertToSearchParams(params)
+  });
 
   return response.data;
 }

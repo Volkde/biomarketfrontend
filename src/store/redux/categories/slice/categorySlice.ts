@@ -1,7 +1,12 @@
-import { fetchGetCategories } from "shared/api/categories/fetchGetCategories";
+import { PayloadAction } from "@reduxjs/toolkit";
+import {
+  fetchGetCategories,
+  Result as FetchGetCategoriesResult
+} from "shared/api/categories/fetchGetCategories";
 import {
   fetchGetCategoryById,
-  Params as FetchGetCategoryParams
+  Params as FetchGetCategoryParams,
+  Result as FetchGetCategoryResult
 } from "shared/api/categories/fetchGetCategoryById";
 import { createAppSlice } from "store/createAppSlice";
 import { CategoryState } from "../types/CategoryState";
@@ -20,7 +25,7 @@ export const categorySlice = createAppSlice({
     /**
      * getCategories
      */
-    getCategories: create.asyncThunk(
+    getCategories: create.asyncThunk<FetchGetCategoriesResult>(
       async (_, { rejectWithValue }) => {
         try {
           return await fetchGetCategories();
@@ -29,27 +34,32 @@ export const categorySlice = createAppSlice({
         }
       },
       {
-        pending: (state: CategoryState) =>
-          Object.assign(state, initialState, {
-            status: "loading"
-          }),
-        fulfilled: (state: CategoryState, { payload }: any) =>
-          Object.assign(state, initialState, {
-            status: "success",
-            categories: payload?.categories
-          }),
-        rejected: (state: CategoryState, { payload }: any) =>
-          Object.assign(state, initialState, {
-            status: "error",
-            error: payload?.message
-          })
+        pending: (state: CategoryState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: CategoryState,
+          { payload }: PayloadAction<FetchGetCategoriesResult>
+        ) => {
+          state.status = "success";
+          state.categories = payload?.categories;
+          state.error = initialState.error;
+        },
+        rejected: (state: CategoryState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
       }
     ),
 
     /**
      * getCategoryById
      */
-    getCategoryById: create.asyncThunk(
+    getCategoryById: create.asyncThunk<
+      FetchGetCategoryResult,
+      FetchGetCategoryParams
+    >(
       async (params: FetchGetCategoryParams, { rejectWithValue }) => {
         try {
           return await fetchGetCategoryById(params);
@@ -58,27 +68,29 @@ export const categorySlice = createAppSlice({
         }
       },
       {
-        pending: (state: CategoryState) =>
-          Object.assign(state, initialState, {
-            status: "loading"
-          }),
-        fulfilled: (state: CategoryState, { payload }: any) =>
-          Object.assign(state, initialState, {
-            status: "success",
-            category: payload?.category
-          }),
-        rejected: (state: CategoryState, { payload }: any) =>
-          Object.assign(state, initialState, {
-            status: "error",
-            error: payload?.message
-          })
+        pending: (state: CategoryState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: CategoryState,
+          { payload }: PayloadAction<FetchGetCategoryResult>
+        ) => {
+          state.status = "success";
+          state.category = payload?.category;
+          state.error = initialState.error;
+        },
+        rejected: (state: CategoryState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
       }
     ),
 
     /**
-     * resetCategory
+     * resetCategorySlice
      */
-    resetCategory: create.reducer(() => initialState)
+    resetCategorySlice: create.reducer(() => initialState)
   })
 });
 

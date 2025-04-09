@@ -57,7 +57,7 @@ const SignupForm = () => {
       try {
         await dispatch(
           authActions.register({
-            userName: values.userName,
+            username: values.userName,
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,

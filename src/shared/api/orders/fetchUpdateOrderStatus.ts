@@ -2,20 +2,19 @@ import { axiosInstance } from "shared/api/axiosInstance";
 import { Order } from "types/Order";
 
 export interface Payload {
-  orderId: string | number;
+  orderId: number;
   status: string;
 }
 
-export interface Response {
+export interface Result {
   order: Order;
-  message?: string;
 }
 
 export async function fetchUpdateOrderStatus(
   payload: Payload
-): Promise<Response> {
-  const response = await axiosInstance.put<Response>(
-    `/api/orders/${payload.orderId}/status`,
+): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
+    `/orders/${payload.orderId}/status`,
     payload
   );
 

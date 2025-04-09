@@ -2,10 +2,12 @@ import {
   Login as LoginIcon,
   Logout as LogoutIcon,
   PersonAdd as PersonAddIcon,
-  Settings as SettingsIcon,
+  Settings as SettingsIcon
 } from "@mui/icons-material";
 import { Avatar, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "store/hooks";
+import { authActions } from "store/redux/auth/slice/authSlice";
 import { AccountMenuProps } from "./types";
 
 function AccountMenu({
@@ -13,9 +15,10 @@ function AccountMenu({
   anchorEl,
   open,
   login,
-  handleClose,
+  handleClose
 }: AccountMenuProps) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
     <Menu
@@ -36,7 +39,7 @@ function AccountMenu({
               width: 32,
               height: 32,
               ml: -0.5,
-              mr: 1,
+              mr: 1
             },
             "&::before": {
               content: '""',
@@ -48,10 +51,10 @@ function AccountMenu({
               height: 10,
               bgcolor: "background.paper",
               transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        },
+              zIndex: 0
+            }
+          }
+        }
       }}
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
@@ -76,7 +79,17 @@ function AccountMenu({
             </ListItemIcon>
             Settings
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem
+            onClick={async () => {
+              try {
+                await dispatch(authActions.logout());
+
+                navigate("/");
+              } catch (error) {
+                console.error("logout:", error);
+              }
+            }}
+          >
             <ListItemIcon>
               <LogoutIcon fontSize="small" />
             </ListItemIcon>

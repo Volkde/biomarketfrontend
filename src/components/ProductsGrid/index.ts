@@ -1,6 +1,3 @@
-import { ProductsGridRoot } from './ui/Root';
-export * from './ui/Root';
-export * from './types';
+import { ProductsGrid } from "./ui/Root";
 
-// Экспортируем компонент с именем ProductsGrid для обратной совместимости
-export const ProductsGrid = ProductsGridRoot;
+export { ProductsGrid };

@@ -1,29 +1,40 @@
-import { useState, useMemo, useEffect } from 'react';
-import { TextField, CircularProgress, InputAdornment } from '@mui/material';
-import axios from 'axios';
-import useSWR from 'swr';
-import debounce from 'lodash.debounce';
-import SearchIcon from '@mui/icons-material/Search';
-import MicIcon from '@mui/icons-material/Mic';
+import MicIcon from "@mui/icons-material/Mic";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Breadcrumbs,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+  Typography
+} from "@mui/material";
+import axios from "axios";
+import debounce from "lodash.debounce";
+import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 import {
   Container,
-  StyledAutocomplete,
-  OptionContainer,
-  OptionImage,
-  OptionDetails,
-  OptionName,
   OptionCategory,
-  VoiceButton,
-} from './styles';
-import { Product, SearchProps, GetOptionLabel, SpeechRecognitionEvent } from './types';
+  OptionContainer,
+  OptionDetails,
+  OptionImage,
+  OptionName,
+  StyledAutocomplete,
+  VoiceButton
+} from "./styles";
+import {
+  GetOptionLabel,
+  Product,
+  SearchProps,
+  SpeechRecognitionEvent
+} from "./types";
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 export const Search = ({
-  placeholder = 'Produkte suchen…',
-  language = 'de-DE',
+  placeholder = "Produkte suchen…",
+  language = "de-DE"
 }: SearchProps) => {
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string>("");
   const [listening, setListening] = useState<boolean>(false);
 
   const debouncedSetInput = useMemo(
@@ -37,8 +48,8 @@ export const Search = ({
   );
 
   // Определяем функцию getOptionLabel с типом GetOptionLabel
-  const getOptionLabel: GetOptionLabel = (option) => {
-    if (typeof option === 'string') return option;
+  const getOptionLabel: GetOptionLabel = option => {
+    if (typeof option === "string") return option;
     return option.name;
   };
 
@@ -47,9 +58,10 @@ export const Search = ({
 
   const startListening = () => {
     const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert('Your browser does not support Speech Recognition.');
+      alert("Your browser does not support Speech Recognition.");
       return;
     }
     const recognition = new SpeechRecognition();
@@ -65,7 +77,7 @@ export const Search = ({
     };
 
     recognition.onerror = (event: Event) => {
-      console.error('Speech recognition error:', event);
+      console.error("Speech recognition error:", event);
       setListening(false);
     };
 
@@ -81,7 +93,11 @@ export const Search = ({
   }, [debouncedSetInput]);
 
   return (
-    <Container>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      <Typography variant="h4" component="h1" gutterBottom>
+        Search
+      </Typography>
       <StyledAutocomplete
         freeSolo
         disableClearable
@@ -89,7 +105,7 @@ export const Search = ({
         getOptionLabel={handleGetOptionLabel}
         loading={isValidating}
         onInputChange={(_, value) => debouncedSetInput(value)}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             placeholder={placeholder}
@@ -97,23 +113,27 @@ export const Search = ({
               ...params.InputProps,
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon style={{ color: '#558B2F' }} />
+                  <SearchIcon style={{ color: "#558B2F" }} />
                 </InputAdornment>
               ),
               endAdornment: (
                 <>
-                  {isValidating ? <CircularProgress color="success" size={20} /> : null}
+                  {isValidating ? (
+                    <CircularProgress color="success" size={20} />
+                  ) : null}
                   <VoiceButton onClick={startListening}>
-                    <MicIcon style={{ color: listening ? '#FF5722' : '#558B2F' }} />
+                    <MicIcon
+                      style={{ color: listening ? "#FF5722" : "#558B2F" }}
+                    />
                   </VoiceButton>
                   {params.InputProps.endAdornment}
                 </>
-              ),
+              )
             }}
           />
         )}
         renderOption={(props, option) => {
-          if (typeof option === 'string') return <li {...props}>{option}</li>;
+          if (typeof option === "string") return <li {...props}>{option}</li>;
           const product = option as Product;
           return (
             <OptionContainer {...props}>

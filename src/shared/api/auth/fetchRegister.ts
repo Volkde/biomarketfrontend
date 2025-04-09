@@ -8,10 +8,7 @@ export interface Result {
 }
 
 export async function fetchRegister(payload: Payload): Promise<Result> {
-  const response = await axiosInstance.post<Result>(
-    "/api/auth/register",
-    payload
-  );
+  const response = await axiosInstance.post<Result>("/auth/register", payload);
 
   return response.data;
 }

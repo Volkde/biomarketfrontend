@@ -17,14 +17,15 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
       "assets/*": ["./src/assets/*"],
+      "app/*": ["./src/app/*"],
       "components/*": ["./src/components/*"],
       "pages/*": ["./src/pages/*"],
       "store/*": ["./src/store/*"],
       "styles/*": ["./src/styles/*"],
       "theme/*": ["./src/theme/*"],
-      "shared/*": ["./src/shared/*"]
+      "shared/*": ["./src/shared/*"],
+      "types/*": ["./src/types/*"]
     }
   },
   "include": ["src"],

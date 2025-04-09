@@ -5,26 +5,26 @@ import { Product } from "types/Product";
 export interface Params {
   searchTerm?: string;
   categoryId?: number;
-  priceMin?: number;
-  priceMax?: number;
+  minPrice?: number;
+  maxPrice?: number;
   sellerId?: number;
   ratingMin?: number;
   inStock?: boolean;
   discount?: boolean;
-  sortBy?: "price" | "rating" | "popularity" | "new";
+  sortBy?: "price" | "title";
   sortOrder?: "asc" | "desc";
   limit?: number;
   page?: number;
 }
 
-export interface Response {
+export interface Result {
   products: Product[];
   page?: number;
   totalPages?: number;
 }
 
-export async function fetchGetProducts(params: Params): Promise<Response> {
-  const response = await axiosInstance.get<Response>("/api/products", {
+export async function fetchGetProducts(params: Params): Promise<Result> {
+  const response = await axiosInstance.get<Result>("/products", {
     params: convertToSearchParams(params)
   });
 

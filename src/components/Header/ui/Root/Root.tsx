@@ -1,7 +1,10 @@
-import { AppBar, Box, Toolbar } from "@mui/material";
-import { MouseEvent, useState } from "react";
+import { AppBar, Box, Toolbar, useTheme } from "@mui/material";
+import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import HeaderContext from "../../context/HeaderContext";
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
+import { authActions } from "store/redux/auth/slice/authSlice";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
@@ -14,15 +17,22 @@ import { Space } from "../Space";
 import { WishlistButton } from "../WishlistButton";
 
 function Root() {
+  const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(authActions.refresh());
+  }, []);
+
+  const { isLogin } = useAppSelector(selectAuthState);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
   const [elMoreMenuAnchor, setElMoreMenuAnchor] = useState<null | HTMLElement>(
-    null,
+    null
   );
 
-  const isLogin = true; // Временно установим true для отображения иконок
   const cartItemsCount = 5; // TODO cartItemsCount
   const wishlistItemsCount = 3; // TODO wishlistItemsCount
   const isNavSidebarOpen = false;
@@ -34,19 +44,19 @@ function Root() {
     // TODO: handleNavSidebarOpen()
   };
 
-  const handleNavSidebarClose = () => {
-    // TODO: handleNavSidebarClose()
-  };
+  // const handleNavSidebarClose = () => {
+  //   // TODO: handleNavSidebarClose()
+  // };
 
   const handleCartSidebarOpen = () => {
     // Диспатчим действие для открытия корзины
-    document.dispatchEvent(new CustomEvent('openCartSidebar'));
+    document.dispatchEvent(new CustomEvent("openCartSidebar"));
   };
 
-  const handleCartSidebarClose = () => {
-    // Диспатчим действие для закрытия корзины
-    document.dispatchEvent(new CustomEvent('closeCartSidebar'));
-  };
+  // const handleCartSidebarClose = () => {
+  //   // Диспатчим действие для закрытия корзины
+  //   document.dispatchEvent(new CustomEvent("closeCartSidebar"));
+  // };
 
   const handleAccountMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setElAccountMenuAnchor(event.currentTarget);
@@ -70,37 +80,35 @@ function Root() {
   const moreMenuId = "primary-account-menu-mobile";
 
   return (
-    <HeaderContext.Provider value={{ sidebarIsOpen: false }}>
+    <>
       <AppBar
         position="fixed"
         color="inherit"
         sx={{
           boxShadow: "none",
-          borderBottom: "1px solid #ebebeb",
+          borderBottom: `0 solid ${theme.palette.divider}`
         }}
       >
         <Toolbar>
-          <SidebarButton onClick={handleNavSidebarOpen} />
-          <LogoButton alt="BioMarketplace" url="/logo.jpg" />
+          <LogoButton alt="FramVibe" url="/logo.png" />
           <Space />
-          <Search apiUrl={""} />
-          <Space />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {/* Убираем проверку isLogin, чтобы кнопки всегда отображались */}
-            <>
-              <CartButton
-                id={cartId}
-                cartItemsCount={cartItemsCount}
-                onClick={handleCartSidebarOpen}
-              />
-              <WishlistButton
-                id="wishlist"
-                wishlistItemsCount={wishlistItemsCount}
-                onClick={() => {
-                  navigate("/wishlist");
-                }}
-              />
-            </>
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+            {isLogin && (
+              <>
+                <CartButton
+                  id={cartId}
+                  cartItemsCount={cartItemsCount}
+                  onClick={handleCartSidebarOpen}
+                />
+                <WishlistButton
+                  id="wishlist"
+                  wishlistItemsCount={wishlistItemsCount}
+                  onClick={() => {
+                    navigate("/wishlist");
+                  }}
+                />
+              </>
+            )}
             <AccountButton
               id={accountMenuId}
               open={isAccountMenuOpen}
@@ -110,13 +118,30 @@ function Root() {
               onClick={handleAccountMenuOpen}
             />
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", sm: "none" } }}>
             <MoreButton
               id={moreMenuId}
               open={isMoreMenuOpen}
               onClick={handleMoreMenuOpen}
             />
           </Box>
+        </Toolbar>
+        <Toolbar
+          sx={{
+            backgroundColor: theme.palette.primary.main
+          }}
+        >
+          <Box sx={{ display: { xs: "flex", sm: "none" } }}>
+            <SidebarButton onClick={handleNavSidebarOpen} />
+          </Box>
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+            <Link to="/">Home</Link>
+            <Link to="/shop">Shop</Link>
+            <Link to="/blog">Blog</Link>
+            <Link to="/about">Contact Us</Link>
+          </Box>
+          <Space />
+          <Search apiUrl={""} />
         </Toolbar>
       </AppBar>
       <MoreMenu
@@ -136,7 +161,7 @@ function Root() {
         login={isLogin}
         handleClose={handleMenuClose}
       />
-    </HeaderContext.Provider>
+    </>
   );
 }
 

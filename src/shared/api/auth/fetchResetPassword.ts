@@ -4,9 +4,11 @@ export interface Payload {
   email: string;
 }
 
-export async function fetchResetPassword(payload: Payload): Promise<void> {
-  const response = await axiosInstance.put<void>(
-    "/api/auth/reset-password",
+export type Result = void;
+
+export async function fetchResetPassword(payload: Payload): Promise<Result> {
+  const response = await axiosInstance.put<Result>(
+    "/auth/reset-password",
     payload
   );
 

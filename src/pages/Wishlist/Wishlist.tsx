@@ -1,12 +1,13 @@
-import { Typography } from "@mui/material";
+import { Breadcrumbs, Container, Typography } from "@mui/material";
 
 function Wishlist() {
   return (
-    <>
-      <Typography variant="h1" component="h1">
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      <Typography variant="h4" component="h1" gutterBottom>
         Wishlist
       </Typography>
-    </>
+    </Container>
   );
 }
 

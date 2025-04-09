@@ -1,11 +1,7 @@
-export interface CartProduct {
+export interface SidebarProps {}
+
+export interface Product {
   id: number;
   title: string;
   price: number;
-  quantity: number;
-}
-
-export interface CartSidebarProps {
-  isOpen?: boolean;
-  onClose?: () => void;
 }

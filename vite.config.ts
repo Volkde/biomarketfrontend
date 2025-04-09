@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       assets: path.resolve(__dirname, "src/assets"),
-      app: path.resolve(__dirname, "src/assets"),
+      app: path.resolve(__dirname, "src/app"),
       components: path.resolve(__dirname, "src/components"),
       pages: path.resolve(__dirname, "src/pages"),
       store: path.resolve(__dirname, "src/store"),
@@ -23,10 +23,10 @@ export default defineConfig({
     port: 5174,
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: "https://farmvibe-app-2u9sj.ondigitalocean.app",
+        // target: "http://localhost:8080",
         changeOrigin: true,
         secure: false
-        // Убираем rewrite, чтобы сохранить префикс /api в запросах
       }
     }
   },

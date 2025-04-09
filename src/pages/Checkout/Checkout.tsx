@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Assuming axios is installed and used for API calls
 import {
-  Typography, // Still needed for basic text not specifically styled
-  TextField,
-  Button, // Keep base Button for simplicity if SubmitButton isn't customized
-  RadioGroup,
+  Breadcrumbs,
+  Button,
+  Container,
   FormControlLabel,
-  Radio,
-  Step,
-  StepLabel,
   Grid,
   Link,
-} from '@mui/material';
+  Radio,
+  RadioGroup,
+  Step,
+  StepLabel, // Still needed for basic text not specifically styled
+  TextField,
+  Typography // Still needed for basic text not specifically styled
+} from "@mui/material";
+import axios from "axios"; // Assuming axios is installed and used for API calls
+import React, { useState } from "react";
 
 // Import the styled components
-import * as S from './styles'; // Using namespace import for clarity
+import * as S from "./styles"; // Using namespace import for clarity
 
 // Define the steps
-const steps = ['Shipping Address', 'Payment Method', 'Order Summary'];
+const steps = ["Shipping Address", "Payment Method", "Order Summary"];
 
 // --- Define Props Interface (even if empty for now) ---
 interface Props {}
@@ -26,17 +28,26 @@ interface Props {}
 // (Keep these helper functions or move them to separate files if they grow)
 
 interface ShippingAddressFormProps {
-  address: { street: string; city: string; postalCode: string; country: string };
+  address: {
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({ address, onChange }) => {
+const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({
+  address,
+  onChange
+}) => {
   return (
-    <>
-      <S.SectionTitle variant="h6">
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      <Typography variant="h4" component="h1" gutterBottom>
         Shipping Address
-      </S.SectionTitle>
-      {/* Using MUI Grid directly for layout */}
+      </Typography>
+
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -91,7 +102,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({ address, onCh
           />
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 };
 
@@ -100,12 +111,13 @@ interface PaymentMethodFormProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ paymentMethod, onChange }) => {
+const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({
+  paymentMethod,
+  onChange
+}) => {
   return (
     <>
-      <S.SectionTitle variant="h6">
-        Payment Method
-      </S.SectionTitle>
+      <S.SectionTitle variant="h6">Payment Method</S.SectionTitle>
       <S.PaymentFormControl component="fieldset" required>
         <RadioGroup
           aria-label="payment-method"
@@ -113,9 +125,17 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ paymentMethod, on
           value={paymentMethod}
           onChange={onChange}
         >
-          <FormControlLabel value="CreditCard" control={<Radio />} label="Credit Card" />
+          <FormControlLabel
+            value="CreditCard"
+            control={<Radio />}
+            label="Credit Card"
+          />
           <FormControlLabel value="PayPal" control={<Radio />} label="PayPal" />
-          <FormControlLabel value="CashOnDelivery" control={<Radio />} label="Cash on Delivery" />
+          <FormControlLabel
+            value="CashOnDelivery"
+            control={<Radio />}
+            label="Cash on Delivery"
+          />
         </RadioGroup>
       </S.PaymentFormControl>
     </>
@@ -123,57 +143,57 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ paymentMethod, on
 };
 
 interface OrderSummaryProps {
-  address: { street: string; city: string; postalCode: string; country: string };
+  address: {
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
   paymentMethod: string;
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ address, paymentMethod }) => {
-  const formattedAddress = `${address.street || 'N/A'}, ${address.city || 'N/A'}, ${address.postalCode || 'N/A'}, ${address.country || 'N/A'}`;
+const OrderSummary: React.FC<OrderSummaryProps> = ({
+  address,
+  paymentMethod
+}) => {
+  const formattedAddress = `${address.street || "N/A"}, ${address.city || "N/A"}, ${address.postalCode || "N/A"}, ${address.country || "N/A"}`;
 
   return (
     <>
-      <S.SectionTitle variant="h6">
-        Order Summary
-      </S.SectionTitle>
-      <S.SummaryLabel variant="subtitle1">
-        Shipping Address:
-      </S.SummaryLabel>
+      <S.SectionTitle variant="h6">Order Summary</S.SectionTitle>
+      <S.SummaryLabel variant="subtitle1">Shipping Address:</S.SummaryLabel>
       <S.SummaryValue>{formattedAddress}</S.SummaryValue>
 
-      <S.SummaryLabel variant="subtitle1">
-        Payment Method:
-      </S.SummaryLabel>
-      <S.SummaryValue>{paymentMethod || 'Not Selected'}</S.SummaryValue>
+      <S.SummaryLabel variant="subtitle1">Payment Method:</S.SummaryLabel>
+      <S.SummaryValue>{paymentMethod || "Not Selected"}</S.SummaryValue>
       {/* Add order items details here if available */}
-       <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
-         Please review your order details before placing the order.
-       </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
+        Please review your order details before placing the order.
+      </Typography>
     </>
   );
 };
-
 
 // --- Main Checkout Component ---
 const Checkout: React.FC<Props> = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [shippingAddress, setShippingAddress] = useState({
-    street: '',
-    city: '',
-    postalCode: '',
-    country: '',
+    street: "",
+    city: "",
+    postalCode: "",
+    country: ""
   });
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
 
-
   // --- Handlers ---
   const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setShippingAddress((prevAddress) => ({
+    setShippingAddress(prevAddress => ({
       ...prevAddress,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -182,71 +202,96 @@ const Checkout: React.FC<Props> = () => {
   };
 
   const handlePlaceOrder = async () => {
-      setIsPlacingOrder(true);
-      setOrderError(null);
-      console.log("Attempting to place order with:", { shippingAddress, paymentMethod });
+    setIsPlacingOrder(true);
+    setOrderError(null);
+    console.log("Attempting to place order with:", {
+      shippingAddress,
+      paymentMethod
+    });
 
-      try {
-          // --- Axios Example Placeholder ---
-          // Replace with your actual API endpoint and data structure
-          const response = await axios.post('/api/orders', {
-              shippingAddress,
-              paymentMethod,
-              // include items from cart, user ID, etc.
-          });
+    try {
+      // --- Axios Example Placeholder ---
+      // Replace with your actual API endpoint and data structure
+      const response = await axios.post("/api/orders", {
+        shippingAddress,
+        paymentMethod
+        // include items from cart, user ID, etc.
+      });
 
-          console.log("Order placed successfully:", response.data);
-          setOrderId(response.data.orderId || `ORD-${Date.now()}`); // Use actual ID from response
-          setActiveStep((prevActiveStep) => prevActiveStep + 1); // Move to confirmation
-
-      } catch (error) {
-          console.error("Error placing order:", error);
-          setOrderError(error instanceof Error ? error.message : 'An unknown error occurred while placing the order.');
-          // Optionally, stay on the summary step to show the error
-          // setActiveStep(steps.length - 1);
-      } finally {
-          setIsPlacingOrder(false);
-      }
+      console.log("Order placed successfully:", response.data);
+      setOrderId(response.data.orderId || `ORD-${Date.now()}`); // Use actual ID from response
+      setActiveStep(prevActiveStep => prevActiveStep + 1); // Move to confirmation
+    } catch (error) {
+      console.error("Error placing order:", error);
+      setOrderError(
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred while placing the order."
+      );
+      // Optionally, stay on the summary step to show the error
+      // setActiveStep(steps.length - 1);
+    } finally {
+      setIsPlacingOrder(false);
+    }
   };
-
 
   const handleNext = () => {
     // Basic Validation
     if (activeStep === 0) {
-      if (!shippingAddress.street || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
-        alert('Please fill in all required address fields.');
+      if (
+        !shippingAddress.street ||
+        !shippingAddress.city ||
+        !shippingAddress.postalCode ||
+        !shippingAddress.country
+      ) {
+        alert("Please fill in all required address fields.");
         return;
       }
     } else if (activeStep === 1) {
       if (!paymentMethod) {
-        alert('Please select a payment method.');
+        alert("Please select a payment method.");
         return;
       }
     }
 
     // If it's the final step (trigger Place Order)
     if (activeStep === steps.length - 1) {
-        handlePlaceOrder(); // Call the async function
+      handlePlaceOrder(); // Call the async function
     } else {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   // --- Get Content for Current Step ---
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <ShippingAddressForm address={shippingAddress} onChange={handleAddressChange} />;
+        return (
+          <ShippingAddressForm
+            address={shippingAddress}
+            onChange={handleAddressChange}
+          />
+        );
       case 1:
-        return <PaymentMethodForm paymentMethod={paymentMethod} onChange={handlePaymentChange} />;
+        return (
+          <PaymentMethodForm
+            paymentMethod={paymentMethod}
+            onChange={handlePaymentChange}
+          />
+        );
       case 2:
-        return <OrderSummary address={shippingAddress} paymentMethod={paymentMethod} />;
+        return (
+          <OrderSummary
+            address={shippingAddress}
+            paymentMethod={paymentMethod}
+          />
+        );
       default:
-        throw new Error('Unknown step');
+        throw new Error("Unknown step");
     }
   }
 
@@ -258,7 +303,7 @@ const Checkout: React.FC<Props> = () => {
           Checkout
         </S.PageTitle>
         <S.StyledStepper activeStep={activeStep}>
-          {steps.map((label) => (
+          {steps.map(label => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
             </Step>
@@ -274,26 +319,28 @@ const Checkout: React.FC<Props> = () => {
             <S.ConfirmationSubtitle variant="subtitle1">
               {orderId
                 ? `Your order number is ${orderId}. We have emailed your order confirmation, and will send you an update when your order has shipped.`
-                : 'Your order is being processed.'}
+                : "Your order is being processed."}
             </S.ConfirmationSubtitle>
-             {/* Example usage of MUI Link */}
-             <Link href="/" underline="hover" sx={{ display: 'inline-block', mt: 3 }}>
-                Continue Shopping
-             </Link>
+            {/* Example usage of MUI Link */}
+            <Link
+              href="/"
+              underline="hover"
+              sx={{ display: "inline-block", mt: 3 }}
+            >
+              Continue Shopping
+            </Link>
           </React.Fragment>
         ) : (
           // --- Form Content for Current Step ---
           <React.Fragment>
-             <S.FormContainer>
-                {getStepContent(activeStep)}
-             </S.FormContainer>
+            <S.FormContainer>{getStepContent(activeStep)}</S.FormContainer>
 
-             {/* Display error message on the summary step if order placement fails */}
-             {activeStep === steps.length - 1 && orderError && (
-                <Typography color="error" sx={{ mt: 2 }}>
-                    Error: {orderError}
-                </Typography>
-             )}
+            {/* Display error message on the summary step if order placement fails */}
+            {activeStep === steps.length - 1 && orderError && (
+              <Typography color="error" sx={{ mt: 2 }}>
+                Error: {orderError}
+              </Typography>
+            )}
 
             {/* --- Navigation Buttons --- */}
             <S.ButtonContainer>
@@ -308,7 +355,11 @@ const Checkout: React.FC<Props> = () => {
                 onClick={handleNext}
                 disabled={isPlacingOrder}
               >
-                {isPlacingOrder ? 'Placing Order...' : (activeStep === steps.length - 1 ? 'Place Order' : 'Next')}
+                {isPlacingOrder
+                  ? "Placing Order..."
+                  : activeStep === steps.length - 1
+                    ? "Place Order"
+                    : "Next"}
               </Button>
             </S.ButtonContainer>
           </React.Fragment>
