@@ -18,6 +18,11 @@ import {
   fetchGetOrders,
   Result as FetchGetOrdersResult
 } from "shared/api/orders/fetchGetOrders";
+import {
+  fetchUpdateOrderDelivery,
+  Payload as FetchUpdateOrderDeliveryPayload,
+  Result as FetchUpdateOrderDeliveryResult
+} from "shared/api/orders/fetchUpdateOrderDelivery";
 import { createAppSlice } from "store/createAppSlice";
 import { OrdersState } from "../types/OrdersState";
 
@@ -154,6 +159,40 @@ export const ordersSlice = createAppSlice({
           state.status = "success";
           state.orders = payload.orders ?? [];
           state.totalOrders = payload.totalOrders;
+          state.error = initialState.error;
+        },
+        rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateOrderDelivery
+     */
+    fetchUpdateOrderDelivery: create.asyncThunk<
+      FetchUpdateOrderDeliveryResult,
+      FetchUpdateOrderDeliveryPayload
+    >(
+      async (payload: FetchUpdateOrderDeliveryPayload, { rejectWithValue }) => {
+        try {
+          return await fetchUpdateOrderDelivery(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: OrdersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: OrdersState,
+          { payload }: PayloadAction<FetchUpdateOrderDeliveryResult>
+        ) => {
+          state.status = "success";
+          state.order = payload.order;
           state.error = initialState.error;
         },
         rejected: (state: OrdersState, { payload }: PayloadAction<any>) => {
