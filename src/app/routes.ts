@@ -42,7 +42,7 @@ export const routes: RouteObject[] = [
         Component: AboutPage
       },
       {
-        path: "products",
+        path: "shop",
         Component: ProductsPage
       },
       {

@@ -1,3 +1,4 @@
+import { Breadcrumbs, Container } from "@mui/material";
 import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
 import { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -35,7 +36,12 @@ function ProductPage() {
     return null;
   }, [status, product]);
 
-  return elProduct;
+  return (
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      {elProduct}
+    </Container>
+  );
 }
 
 export default ProductPage;

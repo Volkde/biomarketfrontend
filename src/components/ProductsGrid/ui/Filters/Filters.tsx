@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 
 // TODO: component/Filters изменить вид
 
 function Filters() {
   return (
-    <Box>
+    <Toolbar>
       <Box>
         <label>Category</label>
         <select>
@@ -43,7 +43,7 @@ function Filters() {
         <button>Apply</button>
         <button>Reset</button>
       </Box>
-    </Box>
+    </Toolbar>
   );
 }
 

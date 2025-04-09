@@ -1,13 +1,12 @@
 import { Box, Link as MuiLink, Stack, styled, Typography } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 
-export const StyledFooter = styled(Box)`
-  background: linear-gradient(135deg, #4b8a08 0%, #6ab04c 100%);
-  color: white;
-  padding: 60px 0 30px;
-  width: 100%;
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-`;
+export const StyledFooter = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: "white",
+  padding: "60px 0 30px",
+  width: "100%"
+}));
 
 export const FooterContainer = styled(Box)`
   display: flex;

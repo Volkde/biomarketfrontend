@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 
-export const StyledFavoriteButton = styled("button")<{
+export const StyledButton = styled("button")<{
   isFavorite: boolean;
   size: string;
 }>(({ theme, isFavorite, size }) => ({

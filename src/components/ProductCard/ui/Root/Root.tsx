@@ -1,52 +1,70 @@
-import { Box, Link as MuiLink } from "@mui/material";
+import { Box, Link, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { AddToCartButton } from "../AddToCartButton";
-import { Description } from "../Description";
-import { DiscountBadge } from "../DiscountBadge";
 import { FavoriteButton } from "../FavoriteButton";
 import { Images } from "../Images";
 import { Price } from "../Price";
 import { Rating } from "../Rating";
 import { StockStatus } from "../StockStatus";
+import { StyledButtons, StyledProductCard, StyledProductTitle } from "./styles";
 import { ProductCardProps } from "./types";
 
-// TODO: Изменить карточку товара чтобы она была разной для сетки товаров и для отдельной страницы
+function Root({ product }: ProductCardProps) {
+  const theme = useTheme();
 
-const Root = ({ product }: ProductCardProps) => {
-  // TODO
+  // TODO: isAddingToCart
+  const isAddingToCart = false;
+
+  // TODO: isFavorite
+  const isFavorite = false;
+
+  // TODO: handleAddToCart
   const handleAddToCart = async () => {};
 
-  // TODO
+  // TODO: handleAddToFavorite
   const handleAddToFavorite = async () => {};
 
   return (
-    <Box>
-      <Images
-        images={[
-          {
-            id: 0,
-            url: product.image
-          }
-        ]}
-      />
-      {product.discounted && <DiscountBadge discount={product.discounted} />}
-      <Box>
-        <Box>
-          <MuiLink component={RouterLink} to={`/products/${product.id}`}>
+    <StyledProductCard>
+      <Link component={RouterLink} to={`/products/${product.id}`}>
+        <Images
+          images={[
+            {
+              id: 0,
+              url: product.image
+            }
+          ]}
+        />
+      </Link>
+      {product.inStock && <StockStatus status="in_stock" />}
+      <Box className="product-content">
+        <StyledButtons className="product-cart-buttons">
+          <AddToCartButton
+            isAddingToCart={isAddingToCart}
+            onClick={handleAddToCart}
+          />
+          <FavoriteButton
+            isFavorite={isFavorite}
+            onToggle={handleAddToFavorite}
+          />
+        </StyledButtons>
+        <StyledProductTitle
+          variant="h4"
+          sx={{
+            color: theme.palette.primary.main
+          }}
+        >
+          <Link component={RouterLink} to={`/products/${product.id}`}>
             {product.title}
-          </MuiLink>
-        </Box>
-        <Description description={product.description} />
-        <Rating value={product.rating} />
-        <Price price={product.price} />
-        {product.inStock && <StockStatus status="in_stock" />}
+          </Link>
+        </StyledProductTitle>
         <Box>
-          <FavoriteButton isFavorite={false} onToggle={handleAddToFavorite} />
-          <AddToCartButton isAddingToCart={false} onClick={handleAddToCart} />
+          <Price price={product.price} oldPrice={product.oldPrice} />
         </Box>
+        <Rating value={product.rating} />
       </Box>
-    </Box>
+    </StyledProductCard>
   );
-};
+}
 
 export default Root;

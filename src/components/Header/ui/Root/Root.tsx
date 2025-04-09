@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar } from "@mui/material";
+import { AppBar, Box, Toolbar, useTheme } from "@mui/material";
 import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -17,14 +17,15 @@ import { Space } from "../Space";
 import { WishlistButton } from "../WishlistButton";
 
 function Root() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(authActions.profile());
+    dispatch(authActions.refresh());
   }, []);
 
-  const { isAuthenticated } = useAppSelector(selectAuthState);
+  const { isLogin } = useAppSelector(selectAuthState);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
@@ -85,32 +86,14 @@ function Root() {
         color="inherit"
         sx={{
           boxShadow: "none",
-          borderBottom: "1px solid #ebebeb"
+          borderBottom: `0 solid ${theme.palette.divider}`
         }}
       >
-        <Toolbar
-          sx={{
-            backgroundColor: "#000"
-          }}
-        >
-          <Box>
-            <Link to="/">Language</Link>
-            <Link to="/">Currency</Link>
-          </Box>
-          <Space />
-          <Box>
-            <Link to="/">Track Your Order</Link>
-            <Link to="/">Newsletter</Link>
-            <Link to="/">Contact Us</Link>
-            <Link to="/">Faq's</Link>
-          </Box>
-          <Space />
-        </Toolbar>
         <Toolbar>
           <LogoButton alt="FramVibe" url="/logo.png" />
           <Space />
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
-            {isAuthenticated && (
+            {isLogin && (
               <>
                 <CartButton
                   id={cartId}
@@ -129,7 +112,7 @@ function Root() {
             <AccountButton
               id={accountMenuId}
               open={isAccountMenuOpen}
-              login={isAuthenticated}
+              login={isLogin}
               userFullName="Maksym Stoianov"
               userAvatarUrl="/avatar.png"
               onClick={handleAccountMenuOpen}
@@ -145,7 +128,7 @@ function Root() {
         </Toolbar>
         <Toolbar
           sx={{
-            backgroundColor: "#6ab04c"
+            backgroundColor: theme.palette.primary.main
           }}
         >
           <Box sx={{ display: { xs: "flex", sm: "none" } }}>
@@ -153,7 +136,7 @@ function Root() {
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <Link to="/">Home</Link>
-            <Link to="/products">Shop</Link>
+            <Link to="/shop">Shop</Link>
             <Link to="/blog">Blog</Link>
             <Link to="/about">Contact Us</Link>
           </Box>
@@ -165,7 +148,7 @@ function Root() {
         id={moreMenuId}
         anchorEl={elMoreMenuAnchor}
         open={isMoreMenuOpen}
-        login={isAuthenticated}
+        login={isLogin}
         cartItemsCount={cartItemsCount}
         wishlistItemsCount={wishlistItemsCount}
         handleClose={handleMoreMenuClose}
@@ -175,7 +158,7 @@ function Root() {
         id={accountMenuId}
         anchorEl={elAccountMenuAnchor}
         open={isAccountMenuOpen}
-        login={isAuthenticated}
+        login={isLogin}
         handleClose={handleMenuClose}
       />
     </>

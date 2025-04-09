@@ -1,5 +1,7 @@
 import {
+  Breadcrumbs,
   Button,
+  Container,
   FormControlLabel,
   Grid,
   Link,
@@ -40,9 +42,12 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({
   onChange
 }) => {
   return (
-    <>
-      <S.SectionTitle variant="h6">Shipping Address</S.SectionTitle>
-      {/* Using MUI Grid directly for layout */}
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      <Typography variant="h4" component="h1" gutterBottom>
+        Shipping Address
+      </Typography>
+
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -97,7 +102,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({
           />
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 };
 

@@ -1,4 +1,5 @@
 import { Image } from "../Image";
+import { StyledImages } from "./styles";
 import { ImagesProps } from "./types";
 
 function Images({ images = [] }: ImagesProps) {
@@ -10,7 +11,11 @@ function Images({ images = [] }: ImagesProps) {
     <Image key={id} url={url} alt={alt} />
   ));
 
-  return <div>{images?.length > 1 && <div>{elImages}</div>}</div>;
+  return (
+    <StyledImages className="product-images">
+      {images.length > 0 && elImages}
+    </StyledImages>
+  );
 }
 
 export default Images;

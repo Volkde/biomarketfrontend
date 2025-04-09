@@ -2,24 +2,20 @@ import {
   FavoriteBorder as FavoriteBorderIcon,
   Favorite as FavoriteIcon
 } from "@mui/icons-material";
-import { StyledFavoriteButton } from "./styles";
+import { StyledButton } from "./styles";
 import { FavoriteButtonProps } from "./types";
 
 const FavoriteButton = ({
   isFavorite,
   onToggle,
-  size = "medium"
+  size = "small"
 }: FavoriteButtonProps) => {
   const Icon = isFavorite ? FavoriteIcon : FavoriteBorderIcon;
 
   return (
-    <StyledFavoriteButton
-      isFavorite={isFavorite}
-      size={size}
-      onClick={onToggle}
-    >
+    <StyledButton isFavorite={isFavorite} size={size} onClick={onToggle}>
       <Icon />
-    </StyledFavoriteButton>
+    </StyledButton>
   );
 };
 

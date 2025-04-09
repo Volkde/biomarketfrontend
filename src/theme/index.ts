@@ -11,7 +11,7 @@ const theme = createTheme({
   components,
   palette,
   shape: {
-    borderRadius: 4
+    borderRadius: 0
   },
   unstable_sxConfig: {},
   mixins: {},

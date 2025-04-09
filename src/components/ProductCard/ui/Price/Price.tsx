@@ -1,17 +1,25 @@
 import { Typography } from "@mui/material";
-import { StyledPrice } from "./styles";
+import { StyledOldPrice, StyledPrice, StyledPriceWrapper } from "./styles";
 import { PriceProps } from "./types";
 
-const Price = ({ price, currency = "$" }: PriceProps) => {
+const Price = ({ price, oldPrice, currency = "$" }: PriceProps) => {
   return (
-    <StyledPrice>
-      <Typography variant="h6" component="span">
-        {currency}
-      </Typography>
-      <Typography variant="h6" component="span">
-        {price}
-      </Typography>
-    </StyledPrice>
+    <StyledPriceWrapper>
+      <ins>
+        <StyledPrice>
+          <Typography component="span">{currency}</Typography>
+          <Typography component="span">{price}</Typography>
+        </StyledPrice>
+      </ins>
+      {oldPrice && (
+        <del>
+          <StyledOldPrice>
+            <Typography component="span">{currency}</Typography>
+            <Typography component="span">{oldPrice}</Typography>
+          </StyledOldPrice>
+        </del>
+      )}
+    </StyledPriceWrapper>
   );
 };
 

@@ -1,24 +1,30 @@
-import { useState, useMemo, useEffect } from "react";
-import { TextField, CircularProgress, InputAdornment } from "@mui/material";
-import axios from "axios";
-import useSWR from "swr";
-import debounce from "lodash.debounce";
-import SearchIcon from "@mui/icons-material/Search";
 import MicIcon from "@mui/icons-material/Mic";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Breadcrumbs,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+  Typography
+} from "@mui/material";
+import axios from "axios";
+import debounce from "lodash.debounce";
+import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 import {
   Container,
-  StyledAutocomplete,
-  OptionContainer,
-  OptionImage,
-  OptionDetails,
-  OptionName,
   OptionCategory,
+  OptionContainer,
+  OptionDetails,
+  OptionImage,
+  OptionName,
+  StyledAutocomplete,
   VoiceButton
 } from "./styles";
 import {
+  GetOptionLabel,
   Product,
   SearchProps,
-  GetOptionLabel,
   SpeechRecognitionEvent
 } from "./types";
 
@@ -87,7 +93,11 @@ export const Search = ({
   }, [debouncedSetInput]);
 
   return (
-    <Container>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
+      <Typography variant="h4" component="h1" gutterBottom>
+        Search
+      </Typography>
       <StyledAutocomplete
         freeSolo
         disableClearable

@@ -1,32 +1,21 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Breadcrumbs, Container, Typography } from "@mui/material";
 import { ProductsGrid } from "components/ProductsGrid";
-import { useLocation } from "react-router-dom";
 
 function Products() {
-  const location = useLocation();
   const currentPage = 1;
-  const searchQuery = new URLSearchParams(location.search).get("search") || "";
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Breadcrumbs />
       <Typography variant="h4" component="h1" gutterBottom>
         Shop
       </Typography>
-
-      {searchQuery && (
-        <Typography variant="body1" sx={{ mb: 3 }}>
-          Search results for: "{searchQuery}"
-        </Typography>
-      )}
-
-      <Box sx={{ width: "100%" }}>
-        <ProductsGrid
-          filters={true}
-          pagination={true}
-          page={currentPage}
-          limit={12}
-        />
-      </Box>
+      <ProductsGrid
+        filters={true}
+        pagination={true}
+        page={currentPage}
+        limit={12}
+      />
     </Container>
   );
 }

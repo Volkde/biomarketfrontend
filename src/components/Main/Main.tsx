@@ -1,5 +1,4 @@
 import { Box, Toolbar } from "@mui/material";
-import { Breadcrumbs } from "components/Breadcrumbs";
 import type { MainProps } from "./types.ts";
 
 function Main({ children }: MainProps) {
@@ -7,7 +6,6 @@ function Main({ children }: MainProps) {
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Toolbar />
       <Toolbar />
-      <Breadcrumbs />
       {children}
     </Box>
   );

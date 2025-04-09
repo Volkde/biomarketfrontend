@@ -1,10 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./app/App";
+import "./i18n/config";
 
 const container = document.getElementById("root");
-
-// TODO: Что принято выносить в main.tsx а что в App.tsx
 
 if (container) {
   const root = createRoot(container);

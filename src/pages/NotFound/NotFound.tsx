@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { useNavigate } from "react-router-dom";
 
@@ -6,15 +6,15 @@ function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Breadcrumbs />
-      <Typography variant="h1" component="h1">
-        404. Not Found
+      <Typography variant="h4" component="h1" gutterBottom>
+        Login 404. Not Found
       </Typography>
       <p>
-        <button onClick={() => navigate("/")}>На главную</button>
+        <Button onClick={() => navigate("/")}>На главную</Button>
       </p>
-    </>
+    </Container>
   );
 }
 

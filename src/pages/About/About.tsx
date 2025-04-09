@@ -1,11 +1,11 @@
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 
 function About() {
   return (
-    <>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Breadcrumbs />
-      <Typography variant="h1" component="h1">
+      <Typography variant="h4" component="h1" gutterBottom>
         About
       </Typography>
       <Typography variant="h2" component="h2">
@@ -35,7 +35,7 @@ function About() {
         <li>Darievych Maryna</li>
         <li>Kharina Olga</li>
       </ul>
-    </>
+    </Container>
   );
 }
 
