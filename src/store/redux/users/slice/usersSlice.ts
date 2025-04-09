@@ -16,6 +16,11 @@ import {
 } from "shared/api/users/fetchDeactivateUserById";
 import { createAppSlice } from "store/createAppSlice";
 import { UsersState } from "../types/UsersState";
+import {
+  fetchDeleteUser,
+  Result as FetchDeleteUserResult,
+  Payload as FetchDeleteUserPayload
+} from "shared/api/users/fetchDeleteUser";
 
 const initialState: UsersState = {
   status: "default",
@@ -118,6 +123,40 @@ export const usersSlice = createAppSlice({
         fulfilled: (
           state: UsersState,
           { payload }: PayloadAction<FetchDeactivateUserByIdResult>
+        ) => {
+          state.status = "success";
+          state.user = payload.user;
+          state.error = initialState.error;
+        },
+        rejected: (state: UsersState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchDeleteUser
+     */
+    fetchDeleteUser: create.asyncThunk<
+      FetchDeleteUserResult,
+      FetchDeleteUserPayload
+    >(
+      async (payload: FetchDeleteUserPayload, { rejectWithValue }) => {
+        try {
+          return await fetchDeleteUser(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: UsersState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: UsersState,
+          { payload }: PayloadAction<FetchDeleteUserResult>
         ) => {
           state.status = "success";
           state.user = payload.user;
