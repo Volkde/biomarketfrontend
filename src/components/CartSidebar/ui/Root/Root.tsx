@@ -1,40 +1,41 @@
 import { Box, Button, Drawer, Grid, Toolbar, Typography } from "@mui/material";
 import { useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
+import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectUiState } from "store/redux/ui/selectors/selectUiState";
 import { uiActions } from "store/redux/ui/slice/uiSlice";
+import { selectUsersState } from "store/redux/users/selectors/selectUsersState";
 import { CartItem } from "../CartItem";
 import { CartItemSkeleton } from "../CartItemSkeleton";
 import { CloseButton } from "../CloseButton";
 
 function CartSidebar() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isCartPanelOpen } = useAppSelector(selectUiState);
 
   const handleDrawerClose = () => {
     dispatch(uiActions.closeCartPanel());
   };
 
-  const userId = 0;
+  const { user } = useAppSelector(selectUsersState);
+  const userId = user?.id ?? -1;
 
   useEffect(() => {
-    // TODO: Получить продукты в корзине из сервера
-    // dispatch(
-    //   cartActions.fetchGetCartProducts({
-    //     userId
-    //   })
-    // );
-  }, [dispatch]);
+    if (userId < 0) return;
+
+    dispatch(cartActions.fetchGetCartProducts({ userId }));
+  }, [dispatch, userId]);
 
   const { status, products = [], error } = useAppSelector(selectCartState);
 
   const elCartItems = useMemo(() => {
     if (status === "success" && products.length > 0) {
-      return products.map((item, i) => <CartItem key={i} title={item.title} />);
+      return products.map((item, i) => (
+        <CartItem key={item?.id ?? i} title={item.title} />
+      ));
     } else if (status !== "error") {
       return Array.from({ length: 3 }).map((_, index) => (
         <CartItemSkeleton key={index} />

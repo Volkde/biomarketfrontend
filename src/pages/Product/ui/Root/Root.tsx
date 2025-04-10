@@ -2,51 +2,70 @@ import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCartSkeleton } from "components/ProductCard";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
+import { selectUsersState } from "store/redux/users/selectors/selectUsersState";
 
 function Root() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
-  // TODO: productId
-  const productId = 1;
+  const productId = useMemo(() => {
+    const parts = location.pathname.split("/").filter(Boolean);
+    const last = parts[parts.length - 1];
+    const id = Number(last);
+    return Number.isNaN(id) ? -1 : id;
+  }, [location.pathname]);
+
+  const { user } = useAppSelector(selectUsersState);
+  const userId = user?.id ?? -1;
 
   useEffect(() => {
+    if (productId > 0) {
+      dispatch(productsActions.fetchGetProductById({ productId }));
+    }
+  }, [dispatch, productId]);
+
+  const {
+    status: productsStatus,
+    product,
+    error: productsError
+  } = useAppSelector(selectProductsState);
+
+  const pathname = product?.title ? `/shop/${product.title}` : "/shop";
+
+  const handleAddToCart = useCallback(() => {
+    if (userId < 0 || productId < 0) return;
+
     dispatch(
-      productsActions.fetchGetProductById({
+      cartActions.fetchAddProductToCart({
+        userId,
         productId
       })
     );
-  }, [dispatch, productId]);
+  }, [dispatch, userId, productId]);
 
-  const { status, product, error } = useAppSelector(selectProductsState);
-
-  const pathname = `/shop/${product?.title}`;
-
-  const handleAddToCart = async () => {
-    // TODO: Используй redux
-  };
-
-  const handleFavoriteToggle = async () => {
-    // TODO: Используй redux
-  };
+  const handleFavoriteToggle = useCallback(() => {
+    // TODO: Добавь функциональность позже
+  }, []);
 
   const elProduct = useMemo(() => {
-    if (status === "success" && product) {
+    if (productsStatus === "success" && product) {
       return (
         <Grid container direction="row" gap={5}>
-          <Box
-            sx={{
-              width: "45%"
-            }}
-          >
+          <Box sx={{ width: "45%" }}>
             <img
               src={product.image}
-              style={{
-                width: "100%"
+              alt={product.title}
+              onError={e => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/fallback.jpg";
               }}
+              style={{ width: "100%" }}
             />
           </Box>
           <Box>
@@ -81,17 +100,25 @@ function Root() {
           </Box>
         </Grid>
       );
-    } else if (status !== "error") {
+    }
+
+    if (productsStatus !== "error") {
       return <ProductCartSkeleton />;
     }
 
     return null;
-  }, [status, product]);
+  }, [productsStatus, product, handleAddToCart, handleFavoriteToggle]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Breadcrumbs pathname={pathname} />
-      {elProduct}
+      {productsStatus !== "error" ? (
+        elProduct
+      ) : (
+        <Typography color="error">
+          Error: {productsError || "Something went wrong"}
+        </Typography>
+      )}
     </Container>
   );
 }
