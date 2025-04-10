@@ -1,13 +1,13 @@
 import { ThemeProvider } from "@mui/material";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createHashRouter, RouterProvider } from "react-router";
 import { routes } from "./app/routes.ts";
 import { store } from "./store/store";
 import GlobalStyles from "./styles/GlobalStyles";
 import theme from "./theme";
 
 function App() {
-  const router = createBrowserRouter(routes);
+  const router = createHashRouter(routes);
 
   return (
     <Provider store={store}>
