@@ -105,6 +105,8 @@ export const authSlice = createAppSlice({
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
           state.error = payload?.message ?? "Unknown error";
+
+          localStorage.setItem(keyIsLogin, "false");
         }
       }
     ),
