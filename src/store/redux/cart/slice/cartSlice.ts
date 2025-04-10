@@ -163,7 +163,7 @@ export const cartSlice = createAppSlice({
           { payload }: PayloadAction<FetchGetCartProductsResult>
         ) => {
           state.status = "success";
-          state.products = payload;
+          state.products = payload ?? [];
           state.error = initialState.error;
         },
         rejected: (state: CartState, { payload }: PayloadAction<any>) => {

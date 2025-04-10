@@ -30,7 +30,7 @@ import { createAppSlice } from "store/createAppSlice";
 import { LoginState } from "../types/LoginState";
 
 const keyIsLogin = "is_login";
-const isLogin = false; // localStorage.getItem(keyIsLogin) == "false";
+const isLogin = localStorage.getItem(keyIsLogin) == "false";
 const initialState: LoginState = {
   status: "default",
   error: undefined,

@@ -1,5 +1,9 @@
 import { Box, Link, useTheme } from "@mui/material";
+import { useCallback } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { cartActions } from "store/redux/cart/slice/cartSlice";
+import { selectUsersState } from "store/redux/users/selectors/selectUsersState";
 import { AddToCartButton } from "../AddToCartButton";
 import { FavoriteButton } from "../FavoriteButton";
 import { Images } from "../Images";
@@ -10,7 +14,13 @@ import { StyledButtons, StyledProductCard, StyledProductTitle } from "./styles";
 import { ProductCardProps } from "./types";
 
 function Root({ product }: ProductCardProps) {
+  const dispatch = useAppDispatch();
   const theme = useTheme();
+
+  const { user } = useAppSelector(selectUsersState);
+  const userId = user?.id ?? -1;
+
+  const productId = product?.id ?? -1;
 
   // TODO: isAddingToCart
   const isAddingToCart = false;
@@ -18,11 +28,20 @@ function Root({ product }: ProductCardProps) {
   // TODO: isFavorite
   const isFavorite = false;
 
-  // TODO: handleAddToCart
-  const handleAddToCart = async () => {};
- 
-  // TODO: handleAddToFavorite
-  const handleAddToFavorite = async () => {};
+  const handleAddToCart = useCallback(() => {
+    if (userId < 0 || productId < 0) return;
+
+    dispatch(
+      cartActions.fetchAddProductToCart({
+        userId,
+        productId
+      })
+    );
+  }, [dispatch, userId, productId]);
+
+  const handleFavoriteToggle = useCallback(() => {
+    // TODO: Добавь функциональность позже
+  }, []);
 
   return (
     <StyledProductCard>
@@ -45,7 +64,7 @@ function Root({ product }: ProductCardProps) {
           />
           <FavoriteButton
             isFavorite={isFavorite}
-            onToggle={handleAddToFavorite}
+            onToggle={handleFavoriteToggle}
           />
         </StyledButtons>
         <StyledProductTitle
