@@ -1,9 +1,9 @@
 import { CartItemProps } from "./types";
 
-function CartItem({ title }: CartItemProps) {
+function CartItem({ value }: CartItemProps) {
   return (
     <div>
-      <li>Title: {title}</li>
+      <li>Title: {value.title}</li>
     </div>
   );
 }

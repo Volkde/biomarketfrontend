@@ -1,10 +1,8 @@
-import { Product } from "types/Product";
+import { Cart } from "types/Cart";
 import { ReduxStateStatus } from "types/ReduxStateStatus";
 
 export interface CartState {
   status: ReduxStateStatus;
-  products: Product[];
-  averagePrice?: number;
-  totalCost?: number;
+  cart?: Cart;
   error?: string;
 }

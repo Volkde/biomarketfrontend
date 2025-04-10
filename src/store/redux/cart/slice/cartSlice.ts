@@ -6,37 +6,28 @@ import {
 } from "shared/api/cart/fetchAddProductToCart";
 import {
   fetchClearCart,
-  Payload as FetchClearCartPayload,
   Result as FetchClearCartResult
 } from "shared/api/cart/fetchClearCart";
 import {
-  fetchGetCartAveragePrice,
-  Params as FetchGetCartAveragePriceParams,
-  Result as FetchGetCartAveragePriceResult
-} from "shared/api/cart/fetchGetCartAveragePrice";
-import {
-  fetchGetCartProducts,
-  Params as FetchGetCartProductsParams,
+  fetchGetCart,
   Result as FetchGetCartProductsResult
-} from "shared/api/cart/fetchGetCartProducts";
-import {
-  fetchGetCartTotalCost,
-  Params as FetchGetCartTotalCostParams,
-  Result as FetchGetCartTotalCostResult
-} from "shared/api/cart/fetchGetCartTotalCost";
+} from "shared/api/cart/fetchGetCart";
 import {
   fetchRemoveProductFromCart,
   Payload as FetchRemoveProductFromCartPayload,
   Result as FetchRemoveProductFromCartResult
 } from "shared/api/cart/fetchRemoveProductFromCart";
+import {
+  fetchUpdateProductQuantity,
+  Payload as FetchUpdateProductQuantityPayload,
+  Result as FetchUpdateProductQuantityResult
+} from "shared/api/cart/fetchUpdateProductQuantity";
 import { createAppSlice } from "store/createAppSlice";
 import { CartState } from "../types/CartState";
 
 const initialState: CartState = {
   status: "default",
-  products: [],
-  averagePrice: undefined,
-  totalCost: undefined,
+  cart: undefined,
   error: undefined
 };
 
@@ -77,44 +68,10 @@ export const cartSlice = createAppSlice({
     /**
      * fetchClearCart
      */
-    fetchClearCart: create.asyncThunk<
-      FetchClearCartResult,
-      FetchClearCartPayload
-    >(
-      async (payload: FetchClearCartPayload, { rejectWithValue }) => {
+    fetchClearCart: create.asyncThunk<FetchClearCartResult>(
+      async (_, { rejectWithValue }) => {
         try {
-          return await fetchClearCart(payload);
-        } catch (error) {
-          return rejectWithValue(error);
-        }
-      },
-      {
-        pending: (state: CartState) => {
-          state.status = "loading";
-          state.error = initialState.error;
-        },
-        fulfilled: (state: CartState) => {
-          state.status = "success";
-          state.products = initialState.products;
-          state.error = initialState.error;
-        },
-        rejected: (state: CartState, { payload }: PayloadAction<any>) => {
-          state.status = "error";
-          state.error = payload?.message ?? "Unknown error";
-        }
-      }
-    ),
-
-    /**
-     * fetchGetCartAveragePrice
-     */
-    fetchGetCartAveragePrice: create.asyncThunk<
-      FetchGetCartAveragePriceResult,
-      FetchGetCartAveragePriceParams
-    >(
-      async (params: FetchGetCartAveragePriceParams, { rejectWithValue }) => {
-        try {
-          return await fetchGetCartAveragePrice(params);
+          return await fetchClearCart();
         } catch (error) {
           return rejectWithValue(error);
         }
@@ -126,10 +83,10 @@ export const cartSlice = createAppSlice({
         },
         fulfilled: (
           state: CartState,
-          { payload }: PayloadAction<FetchGetCartAveragePriceResult>
+          { payload }: PayloadAction<FetchClearCartResult>
         ) => {
           state.status = "success";
-          state.averagePrice = payload;
+          state.cart = payload.cart;
           state.error = initialState.error;
         },
         rejected: (state: CartState, { payload }: PayloadAction<any>) => {
@@ -140,15 +97,12 @@ export const cartSlice = createAppSlice({
     ),
 
     /**
-     * fetchGetCartProducts
+     * fetchGetCart
      */
-    fetchGetCartProducts: create.asyncThunk<
-      FetchGetCartProductsResult,
-      FetchGetCartProductsParams
-    >(
-      async (params: FetchGetCartProductsParams, { rejectWithValue }) => {
+    fetchGetCart: create.asyncThunk<FetchGetCartProductsResult>(
+      async (_, { rejectWithValue }) => {
         try {
-          return await fetchGetCartProducts(params);
+          return await fetchGetCart();
         } catch (error) {
           return rejectWithValue(error);
         }
@@ -163,41 +117,7 @@ export const cartSlice = createAppSlice({
           { payload }: PayloadAction<FetchGetCartProductsResult>
         ) => {
           state.status = "success";
-          state.products = payload ?? [];
-          state.error = initialState.error;
-        },
-        rejected: (state: CartState, { payload }: PayloadAction<any>) => {
-          state.status = "error";
-          state.error = payload?.message ?? "Unknown error";
-        }
-      }
-    ),
-
-    /**
-     * fetchGetCartProducts
-     */
-    fetchGetCartTotalCost: create.asyncThunk<
-      FetchGetCartTotalCostResult,
-      FetchGetCartTotalCostParams
-    >(
-      async (params: FetchGetCartTotalCostParams, { rejectWithValue }) => {
-        try {
-          return await fetchGetCartTotalCost(params);
-        } catch (error) {
-          return rejectWithValue(error);
-        }
-      },
-      {
-        pending: (state: CartState) => {
-          state.status = "loading";
-          state.error = initialState.error;
-        },
-        fulfilled: (
-          state: CartState,
-          { payload }: PayloadAction<FetchGetCartTotalCostResult>
-        ) => {
-          state.status = "success";
-          state.totalCost = payload;
+          state.cart = payload.cart;
           state.error = initialState.error;
         },
         rejected: (state: CartState, { payload }: PayloadAction<any>) => {
@@ -229,8 +149,49 @@ export const cartSlice = createAppSlice({
           state.status = "loading";
           state.error = initialState.error;
         },
-        fulfilled: (state: CartState) => {
+        fulfilled: (
+          state: CartState,
+          { payload }: PayloadAction<FetchRemoveProductFromCartResult>
+        ) => {
           state.status = "success";
+          state.cart = payload.cart;
+          state.error = initialState.error;
+        },
+        rejected: (state: CartState, { payload }: PayloadAction<any>) => {
+          state.status = "error";
+          state.error = payload?.message ?? "Unknown error";
+        }
+      }
+    ),
+
+    /**
+     * fetchUpdateProductQuantity
+     */
+    fetchUpdateProductQuantity: create.asyncThunk<
+      FetchUpdateProductQuantityResult,
+      FetchUpdateProductQuantityPayload
+    >(
+      async (
+        payload: FetchUpdateProductQuantityPayload,
+        { rejectWithValue }
+      ) => {
+        try {
+          return await fetchUpdateProductQuantity(payload);
+        } catch (error) {
+          return rejectWithValue(error);
+        }
+      },
+      {
+        pending: (state: CartState) => {
+          state.status = "loading";
+          state.error = initialState.error;
+        },
+        fulfilled: (
+          state: CartState,
+          { payload }: PayloadAction<FetchUpdateProductQuantityResult>
+        ) => {
+          state.status = "success";
+          state.cart = payload.cart;
           state.error = initialState.error;
         },
         rejected: (state: CartState, { payload }: PayloadAction<any>) => {

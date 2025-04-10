@@ -1,3 +1,5 @@
+import { CartItem } from "types/CartItem";
+
 export interface CartItemProps {
-  title: string;
+  value: CartItem;
 }

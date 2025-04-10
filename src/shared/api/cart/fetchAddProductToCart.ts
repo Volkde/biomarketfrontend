@@ -1,17 +1,17 @@
 import { axiosInstance } from "shared/api/axiosInstance";
+import { Cart } from "types/Cart";
 
 export interface Payload {
-  userId: number;
   productId: number;
+  quantity: number;
 }
 
-export type Result = void;
+export interface Result {
+  cart: Cart;
+}
 
 export async function fetchAddProductToCart(payload: Payload): Promise<Result> {
-  const response = await axiosInstance.put<Result>(
-    `/users/${payload.userId}/product/${payload.productId}`,
-    payload
-  );
+  const response = await axiosInstance.post<Result>(`/cart/add`, payload);
 
   return response.data;
 }
