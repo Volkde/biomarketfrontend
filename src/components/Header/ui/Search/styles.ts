@@ -15,13 +15,13 @@ export const StyledInputBase = styled(InputBase)({
 });
 
 export const SearchHistoryContainer = styled("div")`
-  position: "absolute",
-  top: "100%",
-  left: 0,
-  right: 0,
-  backgroundColor: "background.paper",
-  boxShadow: 3,
-  zIndex: 1
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: background.paper;
+  box-shadow: 3;
+  z-index: 1;
 `;
 
 export const StyledSnackbar = styled(Snackbar)({

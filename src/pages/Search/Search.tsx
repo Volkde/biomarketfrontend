@@ -1,153 +1,94 @@
-import MicIcon from "@mui/icons-material/Mic";
-import SearchIcon from "@mui/icons-material/Search";
+import { Breadcrumbs, Typography } from "@mui/material";
+import { ProductsGrid } from "components/ProductsGrid";
 import {
-  Breadcrumbs,
-  CircularProgress,
-  InputAdornment,
-  TextField,
-  Typography
-} from "@mui/material";
-import axios from "axios";
-import debounce from "lodash.debounce";
-import { useEffect, useMemo, useState } from "react";
-import useSWR from "swr";
-import {
-  Container,
-  OptionCategory,
-  OptionContainer,
-  OptionDetails,
-  OptionImage,
-  OptionName,
-  StyledAutocomplete,
-  VoiceButton
-} from "./styles";
-import {
-  GetOptionLabel,
-  Product,
-  SearchProps,
-  SpeechRecognitionEvent
-} from "./types";
+  ProductsFilters,
+  ProductsFilterSortBy,
+  ProductsFilterSortOrder
+} from "components/ProductsGrid/ui/Root/types";
+import { useSearchParams } from "react-router-dom";
+import { Container } from "./styles";
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
+const getQueryParamAsNumber = (
+  param: string | null,
+  defaultValue: number | undefined
+) => (param ? Number(param) : defaultValue);
 
-export const Search = ({
-  placeholder = "Produkte suchen…",
-  language = "de-DE"
-}: SearchProps) => {
-  const [input, setInput] = useState<string>("");
-  const [listening, setListening] = useState<boolean>(false);
+const getQueryParamAsBoolean = (
+  param: string | null,
+  defaultValue: boolean | undefined
+) => (param === "true" ? true : defaultValue);
 
-  const debouncedSetInput = useMemo(
-    () => debounce((value: string) => setInput(value), 350),
-    []
-  );
+export const Search = () => {
+  const [searchParams] = useSearchParams();
 
-  const { data, isValidating } = useSWR<{ products: Product[] }>(
-    input ? `/api/search?query=${encodeURIComponent(input)}` : null,
-    fetcher
-  );
+  const page = getQueryParamAsNumber(searchParams.get("page"), 1);
+  const limit = getQueryParamAsNumber(searchParams.get("limit"), 12);
 
-  // Определяем функцию getOptionLabel с типом GetOptionLabel
-  const getOptionLabel: GetOptionLabel = option => {
-    if (typeof option === "string") return option;
-    return option.name;
-  };
+  const filters: ProductsFilters = {};
 
-  // Приводим getOptionLabel к типу (option: unknown) => string, как требуется Autocomplete
-  const handleGetOptionLabel = getOptionLabel as (option: unknown) => string;
+  if (searchParams.get("search_term")) {
+    filters.search_term = searchParams.get("search_term")!;
+  }
+  const pageTitle = filters.search_term
+    ? `Search result: ${filters.search_term}`
+    : "Search";
 
-  const startListening = () => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Your browser does not support Speech Recognition.");
-      return;
-    }
-    const recognition = new SpeechRecognition();
-    recognition.lang = language;
-    recognition.start();
-    setListening(true);
+  if (searchParams.get("price_min")) {
+    filters.price_min = getQueryParamAsNumber(
+      searchParams.get("price_min"),
+      undefined
+    );
+  }
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const lastResult = event.results.item(event.resultIndex);
-      const transcript = lastResult.transcript;
-      setInput(transcript);
-      setListening(false);
-    };
+  if (searchParams.get("price_max")) {
+    filters.price_max = getQueryParamAsNumber(
+      searchParams.get("price_max"),
+      undefined
+    );
+  }
+  if (searchParams.get("seller_id")) {
+    filters.seller_id = getQueryParamAsNumber(
+      searchParams.get("seller_id"),
+      undefined
+    );
+  }
+  if (searchParams.get("rating_min")) {
+    filters.rating_min = getQueryParamAsNumber(
+      searchParams.get("rating_min"),
+      undefined
+    );
+  }
+  if (getQueryParamAsBoolean(searchParams.get("in_stock"), false)) {
+    filters.in_stock = true;
+  }
+  if (getQueryParamAsBoolean(searchParams.get("discounted"), false)) {
+    filters.discounted = true;
+  }
 
-    recognition.onerror = (event: Event) => {
-      console.error("Speech recognition error:", event);
-      setListening(false);
-    };
+  const sort_by = searchParams.get("sort_by");
+  if (sort_by && ["title", "price", "rating"].includes(sort_by)) {
+    filters.sort_by = sort_by as ProductsFilterSortBy;
+  }
 
-    recognition.onend = () => {
-      setListening(false);
-    };
-  };
-
-  useEffect(() => {
-    return () => {
-      debouncedSetInput.cancel();
-    };
-  }, [debouncedSetInput]);
+  const sort_order = searchParams.get("sort_order");
+  if (sort_order && ["asc", "desc"].includes(sort_order)) {
+    filters.sort_order = sort_order as ProductsFilterSortOrder;
+  }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Breadcrumbs />
-      <Typography variant="h4" component="h1" gutterBottom>
-        Search
+      <Typography variant="h4" component="h2" gutterBottom>
+        {pageTitle}
       </Typography>
-      <StyledAutocomplete
-        freeSolo
-        disableClearable
-        options={data?.products || []}
-        getOptionLabel={handleGetOptionLabel}
-        loading={isValidating}
-        onInputChange={(_, value) => debouncedSetInput(value)}
-        renderInput={params => (
-          <TextField
-            {...params}
-            placeholder={placeholder}
-            InputProps={{
-              ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon style={{ color: "#558B2F" }} />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <>
-                  {isValidating ? (
-                    <CircularProgress color="success" size={20} />
-                  ) : null}
-                  <VoiceButton onClick={startListening}>
-                    <MicIcon
-                      style={{ color: listening ? "#FF5722" : "#558B2F" }}
-                    />
-                  </VoiceButton>
-                  {params.InputProps.endAdornment}
-                </>
-              )
-            }}
-          />
-        )}
-        renderOption={(props, option) => {
-          if (typeof option === "string") return <li {...props}>{option}</li>;
-          const product = option as Product;
-          return (
-            <OptionContainer {...props}>
-              <OptionImage src={product.image} alt={product.name} />
-              <OptionDetails>
-                <OptionName>{product.name}</OptionName>
-                <OptionCategory>
-                  {product.category} · {product.price}€
-                </OptionCategory>
-              </OptionDetails>
-            </OptionContainer>
-          );
-        }}
-      />
+      {filters.search_term && (
+        <ProductsGrid
+          filters={filters}
+          pagination={true}
+          page={page}
+          limit={limit}
+        />
+      )}
     </Container>
   );
 };

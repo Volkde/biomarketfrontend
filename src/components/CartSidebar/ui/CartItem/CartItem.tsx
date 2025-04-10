@@ -1,7 +1,11 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { CartItemProps } from "./types";
 
 function CartItem({ value }: CartItemProps) {
+  const handleRemove = () => {
+    // TODO: handleRemove
+  };
+
   return (
     <Grid container direction="row" spacing={2}>
       <img width={50} height={50} src={value.image} />
@@ -11,6 +15,7 @@ function CartItem({ value }: CartItemProps) {
         <Typography>
           {value.totalItemPrice} {value.unitOfMeasure}
         </Typography>
+        <Button onClick={handleRemove}>Remove</Button>
       </Box>
     </Grid>
   );

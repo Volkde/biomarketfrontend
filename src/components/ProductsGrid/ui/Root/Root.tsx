@@ -8,22 +8,18 @@ import { Filters } from "../Filters";
 import { Pagination } from "../Pagination";
 import { RootProps } from "./types";
 
-function Root({
-  filters = false,
-  limit = 8,
-  page = 1,
-  pagination = false
-}: RootProps) {
+function Root({ filters, limit = 8, page = 1, pagination = false }: RootProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(
       productsActions.fetchGetProducts({
+        ...filters,
         limit,
         page
       })
     );
-  }, [dispatch, limit, page]);
+  }, [dispatch, filters, limit, page]);
 
   const {
     status,
