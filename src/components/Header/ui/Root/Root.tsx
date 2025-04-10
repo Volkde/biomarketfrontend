@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useAppDispatch } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
@@ -29,9 +30,9 @@ function Root() {
 
   useEffect(() => {
     dispatch(authActions.refresh());
-  }, []);
+  }, [dispatch]);
 
-  const { isLogin } = { isLogin: true }; // useAppSelector(selectAuthState);
+  const { user, isLogin } = useAppSelector(selectAuthState);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
@@ -115,8 +116,10 @@ function Root() {
               id={accountMenuId}
               open={isAccountMenuOpen}
               login={isLogin}
-              userFullName="Maksym Stoianov"
-              userAvatarUrl="/avatar.png"
+              userFullName={
+                user?.firstName ? user?.firstName + " " + user?.lastName : ""
+              }
+              userAvatarUrl={user?.avatar || "/avatar.png"}
               onClick={handleAccountMenuOpen}
             />
           </Box>
