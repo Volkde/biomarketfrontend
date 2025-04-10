@@ -20,7 +20,7 @@ function Root({ product }: ProductCardProps) {
 
   // TODO: handleAddToCart
   const handleAddToCart = async () => {};
-
+ 
   // TODO: handleAddToFavorite
   const handleAddToFavorite = async () => {};
 

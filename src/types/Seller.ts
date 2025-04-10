@@ -1,5 +1,5 @@
 export interface Seller {
-  id: number;
+  id?: number;
   storeName: string;
   storeDescription: string;
   storeLogo: string;
