@@ -4,7 +4,7 @@ import { ImagesProps } from "./types";
 
 function Images({ images = [] }: ImagesProps) {
   if (!images.length) {
-    images.push({ id: 0, url: "https://via.placeholder.com/400" });
+    images.push({ id: 0, url: "./no-image.jpg" });
   }
 
   const elImages = images.map(({ id, url, alt }) => (
