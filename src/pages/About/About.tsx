@@ -1,25 +1,38 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Link, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 
 function About() {
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="sm" sx={{ py: 4 }}>
       <Breadcrumbs />
       <Typography variant="h4" component="h1" gutterBottom>
-        About
+        About Us
       </Typography>
-      <Typography variant="h2" component="h2">
-        Разработчики
+      <Typography
+        variant="body1"
+        component="p"
+        gutterBottom
+        sx={{
+          marginBottom: "25px"
+        }}
+      >
+        The project was implemented thanks to the coordinated work of a team
+        that included frontend and backend developers, as well as UX/UI
+        specialists.
       </Typography>
-      <Typography variant="h3" component="h3">
+      <Typography variant="h6" component="h6" gutterBottom>
         Backend
       </Typography>
       <ul>
-        <li>Nesterov Ilya</li>
+        <li>
+          <Link href="https://github.com/Volkde" color="inherit">
+            Nesterov Ilya
+          </Link>
+        </li>
         <li>Saratov Sergej</li>
         <li>Tereshchenko Kristina</li>
       </ul>
-      <Typography variant="h3" component="h3">
+      <Typography variant="h6" component="h6" gutterBottom>
         Frontend
       </Typography>
       <ul>
@@ -28,7 +41,7 @@ function About() {
         <li>Fesenko Bogdan</li>
         <li>Rotärmel Eugen</li>
       </ul>
-      <Typography variant="h3" component="h3">
+      <Typography variant="h6" component="h6" gutterBottom>
         QA
       </Typography>
       <ul>
