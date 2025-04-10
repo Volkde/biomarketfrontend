@@ -92,7 +92,8 @@ function CartSidebar() {
         }}
       >
         <Typography>
-          <strong>Subtotal:</strong> $0.00
+          <strong>Subtotal:</strong> {cart?.totalCartPrice}{" "}
+          {(cart?.items ?? [])[0]?.unitOfMeasure ?? ""}
         </Typography>
         <Grid
           container
