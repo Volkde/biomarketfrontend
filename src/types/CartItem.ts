@@ -2,7 +2,7 @@ export interface CartItem {
   productId: number;
   title: string;
   image: string;
-  quantity: string;
+  quantity: number;
   unitOfMeasure: string;
   totalItemPrice: number;
 }

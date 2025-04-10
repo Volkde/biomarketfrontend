@@ -5,8 +5,8 @@ export interface Result {
   cart: Cart;
 }
 
-export async function fetchClearCart(): Promise<Result> {
-  const response = await axiosInstance.delete<Result>(`/cart/clear`);
+export async function fetchGetCart(): Promise<Result> {
+  const response = await axiosInstance.get<Result>(`/cart`);
 
   return response.data;
 }

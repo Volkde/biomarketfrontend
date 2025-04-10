@@ -26,15 +26,17 @@ function CartSidebar() {
   useEffect(() => {
     if (userId < 0) return;
 
-    dispatch(cartActions.fetchGetCartProducts({ userId }));
+    dispatch(cartActions.fetchGetCart());
   }, [dispatch, userId]);
 
-  const { status, products = [], error } = useAppSelector(selectCartState);
+  const { status, cart, error } = useAppSelector(selectCartState);
 
   const elCartItems = useMemo(() => {
-    if (status === "success" && products.length > 0) {
-      return products.map((item, i) => (
-        <CartItem key={item?.id ?? i} title={item.title} />
+    const cartItems = cart?.items ?? [];
+
+    if (status === "success" && cartItems.length > 0) {
+      return cartItems.map((item, i) => (
+        <CartItem key={item?.productId ?? i} value={item} />
       ));
     } else if (status !== "error") {
       return Array.from({ length: 3 }).map((_, index) => (
@@ -43,7 +45,7 @@ function CartSidebar() {
     }
 
     return null;
-  }, [status, products]);
+  }, [status, cart]);
 
   return (
     <Drawer
@@ -90,7 +92,8 @@ function CartSidebar() {
         }}
       >
         <Typography>
-          <strong>Subtotal:</strong> $0.00
+          <strong>Subtotal:</strong> {cart?.totalCartPrice}{" "}
+          {(cart?.items ?? [])[0]?.unitOfMeasure ?? ""}
         </Typography>
         <Grid
           container

@@ -1,15 +1,7 @@
 import { Mic as MicIcon, Search as SearchIcon } from "@mui/icons-material";
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText
-} from "@mui/material";
-import axios from "axios";
-import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { Box, IconButton, List, ListItem, ListItemText } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   SearchContainer,
   SearchHistoryContainer,
@@ -17,57 +9,33 @@ import {
   StyledInputBase,
   StyledSnackbar
 } from "./styles";
-import { SearchProps } from "./types";
 
-const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
+const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const handleSearch = useCallback(
-    debounce(async (term: string) => {
-      if (!term) return;
+  const handleSearch = (term: string) => {
+    if (!term.trim()) return;
 
-      try {
-        setLoading(true);
-        const response = await axios.get(`${apiUrl}?q=${term}`);
-        console.log("Search results:", response.data);
-        if (onSearchResults) {
-          onSearchResults(response.data);
-        }
-        setSearchHistory(prev => [term, ...prev.slice(0, 4)]);
-      } catch (err) {
-        setError("Ошибка при выполнении поиска");
-        console.error("Search error:", err);
-      } finally {
-        setLoading(false);
-        setShowHistory(false);
-      }
-    }, 500),
-    [apiUrl, onSearchResults]
-  );
-
-  useEffect(() => {
-    if (searchTerm) {
-      handleSearch(searchTerm);
-    }
-  }, [searchTerm, handleSearch]);
-
-  const handleCloseError = () => {
-    setError(null);
-  };
-
-  const handleFocus = () => {
-    setShowHistory(true);
+    navigate(`/search?search_term=${encodeURIComponent(term)}`);
+    setSearchHistory(prev =>
+      [term, ...prev.filter(t => t !== term)].slice(0, 5)
+    );
+    setShowHistory(false);
   };
 
   const handleHistoryClick = (term: string) => {
     setSearchTerm(term);
     handleSearch(term);
   };
+
+  const handleCloseError = () => setError(null);
+
+  const handleFocus = () => setShowHistory(true);
 
   const startVoiceInput = () => {
     const recognition = new (window as any).webkitSpeechRecognition();
@@ -81,10 +49,11 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setSearchTerm(transcript);
+      handleSearch(transcript);
       setIsListening(false);
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = () => {
       setError("Ошибка при распознавании голоса");
       setIsListening(false);
     };
@@ -98,9 +67,14 @@ const Search = ({ apiUrl, onSearchResults }: SearchProps) => {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
+          onKeyDown={e => {
+            if (e.key === "Enter") {
+              handleSearch(searchTerm);
+            }
+          }}
         />
-        <IconButton onClick={() => handleSearch(searchTerm)} disabled={loading}>
-          {loading ? <CircularProgress size={24} /> : <SearchIcon />}
+        <IconButton onClick={() => handleSearch(searchTerm)}>
+          <SearchIcon />
         </IconButton>
         <IconButton onClick={startVoiceInput} disabled={isListening}>
           <MicIcon />
