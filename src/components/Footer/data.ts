@@ -1,6 +1,10 @@
 export const links = [
   {
-    text: "Created in 2025",
+    text: "Shop",
+    path: "/shop"
+  },
+  {
+    text: "About Us",
     path: "/about"
   }
 ];

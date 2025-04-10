@@ -1,4 +1,5 @@
-import { Breadcrumbs, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
+import { Breadcrumbs } from "components/Breadcrumbs";
 
 function Wishlist() {
   return (

@@ -1,7 +1,7 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { Seller } from "types/Seller";
 
-export interface Params {
+export interface Payload {
   storeName: string;
 }
 
@@ -11,7 +11,7 @@ export interface Result {
 
 export async function fetchDeleteSellerByStoreName({
   storeName
-}: Params): Promise<Result> {
+}: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
     `/sellers/by-storeName/${storeName}`
   );

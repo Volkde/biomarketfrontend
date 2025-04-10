@@ -2,14 +2,34 @@ import { createAppSlice } from "store/createAppSlice";
 import { UiState } from "../types/UiState";
 
 const initialState: UiState = {
-  status: "default",
-  error: undefined
+  isCartPanelOpen: false
 };
 
 export const uiSlice = createAppSlice({
   name: "UI",
   initialState,
   reducers: create => ({
+    /**
+     * openCartPanel
+     */
+    openCartPanel: state => {
+      state.isCartPanelOpen = true;
+    },
+
+    /**
+     * closeCartPanel
+     */
+    closeCartPanel: state => {
+      state.isCartPanelOpen = false;
+    },
+
+    /**
+     * toggleCartPanel
+     */
+    toggleCartPanel: state => {
+      state.isCartPanelOpen = !state.isCartPanelOpen;
+    },
+
     /**
      * resetUiState
      */

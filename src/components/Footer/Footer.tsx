@@ -38,16 +38,6 @@ const Footer = () => {
         </FooterSection>
 
         <FooterSection>
-          <FooterTitle>Categories</FooterTitle>
-          <FooterLink to="/products?category=fruits">
-            Fruits & Vegetables
-          </FooterLink>
-          <FooterLink to="/products?category=dairy">Dairy & Eggs</FooterLink>
-          <FooterLink to="/products?category=bakery">Bakery</FooterLink>
-          <FooterLink to="/products?category=meat">Meat & Fish</FooterLink>
-        </FooterSection>
-
-        <FooterSection>
           <FooterTitle>Connect With Us</FooterTitle>
           <SocialContainer>
             <SocialLink

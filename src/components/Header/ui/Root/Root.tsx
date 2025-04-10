@@ -1,9 +1,14 @@
-import { AppBar, Box, Toolbar, useTheme } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Grid,
+  Toolbar,
+  Typography,
+  useTheme
+} from "@mui/material";
 import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "store/hooks";
-import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
+import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
@@ -15,6 +20,7 @@ import { Search } from "../Search";
 import { SidebarButton } from "../SidebarButton";
 import { Space } from "../Space";
 import { WishlistButton } from "../WishlistButton";
+import { HeaderLink } from "./styles";
 
 function Root() {
   const theme = useTheme();
@@ -25,7 +31,7 @@ function Root() {
     dispatch(authActions.refresh());
   }, []);
 
-  const { isLogin } = useAppSelector(selectAuthState);
+  const { isLogin } = { isLogin: true }; // useAppSelector(selectAuthState);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
@@ -36,7 +42,6 @@ function Root() {
   const cartItemsCount = 5; // TODO cartItemsCount
   const wishlistItemsCount = 3; // TODO wishlistItemsCount
   const isNavSidebarOpen = false;
-  const isCartSidebarOpen = false;
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
 
@@ -46,16 +51,6 @@ function Root() {
 
   // const handleNavSidebarClose = () => {
   //   // TODO: handleNavSidebarClose()
-  // };
-
-  const handleCartSidebarOpen = () => {
-    // Диспатчим действие для открытия корзины
-    document.dispatchEvent(new CustomEvent("openCartSidebar"));
-  };
-
-  // const handleCartSidebarClose = () => {
-  //   // Диспатчим действие для закрытия корзины
-  //   document.dispatchEvent(new CustomEvent("closeCartSidebar"));
   // };
 
   const handleAccountMenuOpen = (event: MouseEvent<HTMLElement>) => {
@@ -93,13 +88,20 @@ function Root() {
           <LogoButton alt="FramVibe" url="/logo.png" />
           <Space />
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+            <Grid>
+              <Typography sx={{ fontSize: "13px", color: "#777" }}>
+                Mon-Fri 8:00 AM - 20:00 PM Satutday Closed
+              </Typography>
+              <Typography sx={{ fontSize: "13px", color: "#777" }}>
+                (+800) 111 2020, (+700) 333 44 555
+              </Typography>
+            </Grid>
+          </Box>
+          <Space />
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             {isLogin && (
               <>
-                <CartButton
-                  id={cartId}
-                  cartItemsCount={cartItemsCount}
-                  onClick={handleCartSidebarOpen}
-                />
+                <CartButton id={cartId} />
                 <WishlistButton
                   id="wishlist"
                   wishlistItemsCount={wishlistItemsCount}
@@ -135,10 +137,12 @@ function Root() {
             <SidebarButton onClick={handleNavSidebarOpen} />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
-            <Link to="/">Home</Link>
-            <Link to="/shop">Shop</Link>
-            <Link to="/blog">Blog</Link>
-            <Link to="/about">Contact Us</Link>
+            <HeaderLink to="/shop?category=fruits">
+              Fruits & Vegetables
+            </HeaderLink>
+            <HeaderLink to="/shop?category=dairy">Dairy & Eggs</HeaderLink>
+            <HeaderLink to="/shop?category=bakery">Bakery</HeaderLink>
+            <HeaderLink to="/shop?category=meat">Meat & Fish</HeaderLink>
           </Box>
           <Space />
           <Search apiUrl={""} />

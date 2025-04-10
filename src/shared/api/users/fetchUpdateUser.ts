@@ -7,7 +7,7 @@ export interface Result {
   user: User;
 }
 
-export async function fetchGetUserById(payload: Payload): Promise<Result> {
+export async function fetchUpdateUser(payload: Payload): Promise<Result> {
   const response = await axiosInstance.put<Result>(
     `/users/${payload.id}`,
     payload

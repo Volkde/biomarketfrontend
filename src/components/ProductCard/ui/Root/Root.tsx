@@ -26,7 +26,7 @@ function Root({ product }: ProductCardProps) {
 
   return (
     <StyledProductCard>
-      <Link component={RouterLink} to={`/products/${product.id}`}>
+      <Link component={RouterLink} to={`/product/${product.id}`}>
         <Images
           images={[
             {
@@ -54,7 +54,7 @@ function Root({ product }: ProductCardProps) {
             color: theme.palette.primary.main
           }}
         >
-          <Link component={RouterLink} to={`/products/${product.id}`}>
+          <Link component={RouterLink} to={`/product/${product.id}`}>
             {product.title}
           </Link>
         </StyledProductTitle>

@@ -26,6 +26,7 @@ export const FooterSection = styled(Box)`
   display: flex;
   flex-direction: column;
   min-width: 200px;
+  align-items: center;
   flex: 1;
 `;
 
@@ -106,6 +107,7 @@ export const FooterLink = styled(NavLink)`
 
 export const SocialContainer = styled(Stack)`
   display: flex;
+  flex-direction: row;
   gap: 15px;
   margin-top: 5px;
 `;

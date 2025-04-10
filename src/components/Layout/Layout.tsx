@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { CartSidebar } from "components/CartSidebar";
+import { CartSidebar } from "components/CartSidebar/ui/Root";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { Main } from "components/Main";

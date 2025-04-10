@@ -1,7 +1,7 @@
 import { axiosInstance } from "shared/api/axiosInstance";
 import { User } from "types/User";
 
-export interface Params {
+export interface Payload {
   username: string;
 }
 
@@ -11,7 +11,7 @@ export interface Result {
 
 export async function fetchDeleteUserByUsername({
   username
-}: Params): Promise<Result> {
+}: Payload): Promise<Result> {
   const response = await axiosInstance.delete<Result>(
     `/users/by-username/${username}`
   );

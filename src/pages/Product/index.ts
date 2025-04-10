@@ -1,3 +1,3 @@
-import Product from "./Product";
+import { Product } from "./ui/Root";
 
 export { Product as ProductPage };

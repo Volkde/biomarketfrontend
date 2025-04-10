@@ -51,7 +51,13 @@ function Breadcrumbs({ pathname }: BreadcrumbsProps) {
 
   return (
     breadcrumbs.length > 0 && (
-      <BasicBreadcrumbs maxItems={3} aria-label="breadcrumb">
+      <BasicBreadcrumbs
+        maxItems={3}
+        aria-label="breadcrumb"
+        sx={{
+          marginBottom: "35px"
+        }}
+      >
         {elBreadcrumbs}
       </BasicBreadcrumbs>
     )
