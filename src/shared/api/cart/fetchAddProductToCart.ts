@@ -3,7 +3,7 @@ import { Cart } from "types/Cart";
 
 export interface Payload {
   productId: number;
-  quantity: number;
+  quantity?: number;
 }
 
 export interface Result {

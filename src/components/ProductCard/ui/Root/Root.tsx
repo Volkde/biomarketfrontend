@@ -1,9 +1,10 @@
 import { Box, Link, useTheme } from "@mui/material";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
-import { selectUsersState } from "store/redux/users/selectors/selectUsersState";
+import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 import { AddToCartButton } from "../AddToCartButton";
 import { FavoriteButton } from "../FavoriteButton";
 import { Images } from "../Images";
@@ -17,31 +18,60 @@ function Root({ product }: ProductCardProps) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
 
-  const { user } = useAppSelector(selectUsersState);
-  const userId = user?.id ?? -1;
-
   const productId = product?.id ?? -1;
-
-  // TODO: isAddingToCart
-  const isAddingToCart = false;
 
   // TODO: isFavorite
   const isFavorite = false;
 
-  const handleAddToCart = useCallback(() => {
-    if (userId < 0 || productId < 0) return;
+  const handleAddToCart = useCallback(async () => {
+    try {
+      if (productId < 0) {
+        throw new Error("Не удалось получить id товара");
+      }
 
-    dispatch(
-      cartActions.fetchAddProductToCart({
-        userId,
-        productId
-      })
-    );
-  }, [dispatch, userId, productId]);
+      await dispatch(cartActions.fetchAddProductToCart({ productId })).unwrap();
+      await dispatch(cartActions.fetchGetCart());
+      dispatch(
+        snackbarActions.enqueueSnackbar({
+          message: "Товар добавлен в корзину",
+          severity: "success"
+        })
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении в корзину:", error);
+    }
+  }, [dispatch, productId]);
 
-  const handleFavoriteToggle = useCallback(() => {
-    // TODO: Добавь функциональность позже
-  }, []);
+  const { status, cart } = useAppSelector(selectCartState);
+
+  const isAddingToCart = useMemo(() => {
+    const cartItems = cart?.items ?? [];
+
+    if (status === "success" && cartItems.length > 0) {
+      return cartItems.findIndex(item => item.productId === productId) > 0;
+    }
+
+    return false;
+  }, [status, cart, productId]);
+
+  const handleFavoriteToggle = useCallback(async () => {
+    try {
+      if (productId < 0) {
+        throw new Error("Не удалось получить id товара");
+      }
+
+      // TODO: Добавь функциональность позже
+
+      dispatch(
+        snackbarActions.enqueueSnackbar({
+          message: "Товар добавлен избранные",
+          severity: "success"
+        })
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении в избранные:", error);
+    }
+  }, [dispatch, productId]);
 
   return (
     <StyledProductCard>

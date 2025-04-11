@@ -3,14 +3,16 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCartSkeleton } from "components/ProductCard";
 import { useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
-import { selectUsersState } from "store/redux/users/selectors/selectUsersState";
+import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 
 function Root() {
+  const { t } = useTranslation("page-product");
   const dispatch = useAppDispatch();
   const location = useLocation();
 
@@ -20,9 +22,6 @@ function Root() {
     const id = Number(last);
     return Number.isNaN(id) ? -1 : id;
   }, [location.pathname]);
-
-  const { user } = useAppSelector(selectUsersState);
-  const userId = user?.id ?? -1;
 
   useEffect(() => {
     if (productId > 0) {
@@ -38,20 +37,43 @@ function Root() {
 
   const pathname = product?.title ? `/shop/${product.title}` : "/shop";
 
-  const handleAddToCart = useCallback(() => {
-    if (userId < 0 || productId < 0) return;
+  const handleAddToCart = useCallback(async () => {
+    try {
+      if (productId < 0) {
+        throw new Error("Не удалось получить id товара");
+      }
 
-    dispatch(
-      cartActions.fetchAddProductToCart({
-        userId,
-        productId
-      })
-    );
-  }, [dispatch, userId, productId]);
+      await dispatch(cartActions.fetchAddProductToCart({ productId })).unwrap();
+      await dispatch(cartActions.fetchGetCart());
+      dispatch(
+        snackbarActions.enqueueSnackbar({
+          message: "Товар добавлен в корзину",
+          severity: "success"
+        })
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении в корзину:", error);
+    }
+  }, [dispatch, productId]);
 
-  const handleFavoriteToggle = useCallback(() => {
-    // TODO: Добавь функциональность позже
-  }, []);
+  const handleFavoriteToggle = useCallback(async () => {
+    try {
+      if (productId < 0) {
+        throw new Error("Не удалось получить id товара");
+      }
+
+      // TODO: Добавь функциональность позже
+
+      dispatch(
+        snackbarActions.enqueueSnackbar({
+          message: "Товар добавлен избранные",
+          severity: "success"
+        })
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении в избранные:", error);
+    }
+  }, [dispatch, productId]);
 
   const elProduct = useMemo(() => {
     if (productsStatus === "success" && product) {

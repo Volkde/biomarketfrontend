@@ -1,5 +1,4 @@
-import { Box, styled, Typography } from "@mui/material";
-
+import { Box, styled } from "@mui/material";
 
 export const CardContainer = styled(Box)(({ theme }) => ({
   position: "relative",

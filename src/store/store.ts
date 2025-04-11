@@ -12,11 +12,13 @@ import { reviewsSlice } from "./redux/reviews/slice/reviewsSlice";
 import { sellersSlice } from "./redux/sellers/slice/sellersSlice";
 import { uiSlice } from "./redux/ui/slice/uiSlice";
 import { usersSlice } from "./redux/users/slice/usersSlice";
+import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineSlices(
   uiSlice,
+  snackbarSlice,
   authSlice,
   addressSlice,
   cartSlice,

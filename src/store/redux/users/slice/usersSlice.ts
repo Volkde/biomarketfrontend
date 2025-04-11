@@ -53,7 +53,7 @@ import { UsersState } from "../types/UsersState";
 const initialState: UsersState = {
   status: "default",
   users: [],
-	usersQuantity: undefined,
+  usersQuantity: undefined,
   user: undefined,
   avatarUrl: undefined,
   error: undefined

@@ -1,23 +1,16 @@
 import { Container, Divider, List, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
+import { useTranslation } from "react-i18next";
 import { UserCard } from "../UserCard";
 
 function Root() {
+  const { t } = useTranslation("page-about");
+
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
       <Breadcrumbs />
-      <Typography
-        variant="body1"
-        component="p"
-        gutterBottom
-        sx={{
-          marginBottom: "25px"
-        }}
-      >
-        <b>FramVibe</b> is a web application for selling eco-friendly products.
-      </Typography>
       <Typography variant="h4" component="h2" gutterBottom>
-        About Us
+        {t("title")}
       </Typography>
       <Typography
         variant="body1"
@@ -27,9 +20,17 @@ function Root() {
           marginBottom: "25px"
         }}
       >
-        The project was implemented thanks to the coordinated work of a team
-        that included frontend and backend developers, as well as UX/UI
-        specialists.
+        {t("description", { appName: "FramVibe" })}
+      </Typography>
+      <Typography
+        variant="body1"
+        component="p"
+        gutterBottom
+        sx={{
+          marginBottom: "25px"
+        }}
+      >
+        {t("description-2")}
       </Typography>
       <Typography variant="h6" component="h6" gutterBottom>
         Backend

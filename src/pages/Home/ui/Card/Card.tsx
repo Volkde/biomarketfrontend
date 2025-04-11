@@ -1,8 +1,24 @@
 import React from "react";
 import { CardProps } from "./types";
-import { CardContainer, ImageWrapper, Image, ContentWrapper, Title, Subtitle, Description, Footer } from "./styles";
+import {
+  CardContainer,
+  ImageWrapper,
+  Image,
+  ContentWrapper,
+  Title,
+  Subtitle,
+  Description,
+  Footer
+} from "./styles";
 
-export default function Card({ imageUrl, title, subtitle, description, children, footer }: CardProps) {
+export default function Card({
+  imageUrl,
+  title,
+  subtitle,
+  description,
+  children,
+  footer
+}: CardProps) {
   return (
     <CardContainer>
       {imageUrl && (

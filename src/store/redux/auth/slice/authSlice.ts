@@ -132,7 +132,7 @@ export const authSlice = createAppSlice({
           { payload }: PayloadAction<FetchProfileResult>
         ) => {
           state.status = "success";
-          state.user = payload.user;
+          state.user = payload;
           state.error = initialState.error;
 
           localStorage.setItem(keyIsLogin, "true");

@@ -40,7 +40,7 @@ const initialState: SellersState = {
   status: "default",
   sellers: [],
   seller: undefined,
-	logoUrl: undefined,
+  logoUrl: undefined,
   error: undefined
 };
 
