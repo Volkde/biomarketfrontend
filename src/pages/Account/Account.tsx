@@ -7,8 +7,8 @@ import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
 
 function Account() {
+  const { t } = useTranslation("page-account");
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(authActions.profile());
@@ -20,7 +20,7 @@ function Account() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Breadcrumbs />
       <Typography variant="h4" component="h1" gutterBottom>
-        Account
+        {t("title")}
       </Typography>
       {status === "success" ? (
         <>

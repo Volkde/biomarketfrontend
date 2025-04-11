@@ -1,13 +1,12 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { Box, Container, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
+import { ProductCard } from "components/ProductCard/ui/Root";
+import { useTranslation } from "react-i18next";
 import { Banner } from "../Banner";
 import { Card } from "../Card";
-import { Product, ProductCard } from "components/ProductCard/ui/Root";
-import { object } from "yup";
 
 function Root() {
-  const { t } = useTranslation();
+  const { t } = useTranslation("page-home");
 
   return (
     <Box sx={{ bgcolor: "#f8f8f8", minHeight: "100vh", py: 4 }}>

@@ -3,6 +3,7 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCartSkeleton } from "components/ProductCard";
 import { useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
@@ -11,6 +12,7 @@ import { productsActions } from "store/redux/products/slice/productsSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 
 function Root() {
+  const { t } = useTranslation("page-product");
   const dispatch = useAppDispatch();
   const location = useLocation();
 

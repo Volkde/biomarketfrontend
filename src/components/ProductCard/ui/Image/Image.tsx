@@ -5,11 +5,11 @@ function Image({ id, url, alt }: ImageProps) {
   return (
     <StyledImage
       key={id}
-      src={url ?? "./no-image.jpg"}
+      src={url ?? "/images/no-image.jpg"}
       alt={alt || "Thumbnail"}
       onError={e => {
         e.currentTarget.onerror = null;
-        e.currentTarget.src = "./no-image.jpg";
+        e.currentTarget.src = "/images/no-image.jpg";
       }}
     />
   );

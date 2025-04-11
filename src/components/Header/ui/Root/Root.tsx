@@ -91,7 +91,7 @@ function Root() {
         }}
       >
         <Toolbar>
-          <LogoButton alt="FramVibe" url="/logo.svg" />
+          <LogoButton alt="FramVibe" url="/images/logo.svg" />
           <Space />
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <Grid>

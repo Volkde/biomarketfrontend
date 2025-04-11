@@ -5,6 +5,7 @@ import {
   ProductsFilterSortBy,
   ProductsFilterSortOrder
 } from "components/ProductsGrid/ui/Root/types";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { Container } from "./styles";
 
@@ -18,7 +19,8 @@ const getQueryParamAsBoolean = (
   defaultValue: boolean | undefined
 ) => (param === "true" ? true : defaultValue);
 
-export const Search = () => {
+function Search() {
+  const { t } = useTranslation("page-search");
   const [searchParams] = useSearchParams();
 
   const page = getQueryParamAsNumber(searchParams.get("page"), 1);
@@ -30,8 +32,8 @@ export const Search = () => {
     filters.search_term = searchParams.get("search_term")!;
   }
   const pageTitle = filters.search_term
-    ? `Search result: ${filters.search_term}`
-    : "Search";
+    ? t("title", { search_term: filters.search_term })
+    : t("title");
 
   if (searchParams.get("price_min")) {
     filters.price_min = getQueryParamAsNumber(
@@ -91,4 +93,6 @@ export const Search = () => {
       )}
     </Container>
   );
-};
+}
+
+export default Search;
