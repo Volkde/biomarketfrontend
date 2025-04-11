@@ -16,6 +16,7 @@ import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
+import { LanguageSwitcherButton } from "../LanguageSwitcherButton";
 import { LogoButton } from "../LogoButton";
 import { MoreButton } from "../MoreButton";
 import { MoreMenu } from "../MoreMenu";
@@ -103,6 +104,7 @@ function Root() {
             </Grid>
           </Box>
           <Space />
+          <LanguageSwitcherButton />
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             {isLogin && (
               <>
