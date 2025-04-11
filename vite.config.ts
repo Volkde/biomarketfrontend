@@ -23,10 +23,10 @@ export default defineConfig({
     port: 5174,
     proxy: {
       "/api": {
-        target: "https://farmvibe-app-2u9sj.ondigitalocean.app",
-        // target: "http://localhost:8080",
-        changeOrigin: true,
-        secure: false
+        // target: "https://farmvibe-app-2u9sj.ondigitalocean.app",
+        target: "http://localhost:8080"
+        // changeOrigin: true,
+        // secure: false
       }
     }
   },

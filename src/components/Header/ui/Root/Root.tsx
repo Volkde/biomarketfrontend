@@ -11,6 +11,8 @@ import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
+import { selectCartState } from "store/redux/cart/selectors/selectCartState";
+import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
@@ -30,9 +32,11 @@ function Root() {
 
   useEffect(() => {
     dispatch(authActions.refresh());
+    dispatch(cartActions.fetchGetCart());
   }, [dispatch]);
 
   const { user, isLogin } = useAppSelector(selectAuthState);
+  const { cart } = useAppSelector(selectCartState);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
@@ -40,9 +44,9 @@ function Root() {
     null
   );
 
-  const cartItemsCount = 5; // TODO cartItemsCount
+  const cartItemsCount = (cart?.items ?? []).length;
   const wishlistItemsCount = 3; // TODO wishlistItemsCount
-  const isNavSidebarOpen = false;
+  const isNavSidebarOpen = false; // TODO isNavSidebarOpen
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
 
@@ -86,7 +90,7 @@ function Root() {
         }}
       >
         <Toolbar>
-          <LogoButton alt="FramVibe" url="/logo.png" />
+          <LogoButton alt="FramVibe" url="/logo.svg" />
           <Space />
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <Grid>
@@ -102,7 +106,7 @@ function Root() {
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             {isLogin && (
               <>
-                <CartButton id={cartId} />
+                <CartButton id={cartId} cartItemsCount={cartItemsCount} />
                 <WishlistButton
                   id="wishlist"
                   wishlistItemsCount={wishlistItemsCount}
@@ -148,7 +152,7 @@ function Root() {
             <HeaderLink to="/shop?category=meat">Meat & Fish</HeaderLink>
           </Box>
           <Space />
-          <Search apiUrl={""} />
+          <Search />
         </Toolbar>
       </AppBar>
       <MoreMenu

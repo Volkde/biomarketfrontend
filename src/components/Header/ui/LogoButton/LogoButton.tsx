@@ -6,13 +6,21 @@ function LogoButton({ url, alt }: LogoButtonProps) {
   const navigate = useNavigate();
 
   return (
-    <Button variant="text" onClick={() => navigate("/")}>
+    <Button
+      variant="text"
+      onClick={() => navigate("/")}
+      sx={{
+        padding: "0",
+        margin: "0",
+        minWidth: "0"
+      }}
+    >
       {url ? (
         <img
           alt={alt}
           src={url}
           style={{
-            maxHeight: "40px"
+            maxHeight: "60px"
           }}
         />
       ) : (

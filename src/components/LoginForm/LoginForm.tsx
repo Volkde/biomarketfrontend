@@ -14,13 +14,13 @@ const LoginForm = () => {
     email: Yup.string()
       .required("Field email is required")
       .email("Field has type email")
-      .max(20, "Max 20 symbols")
-      .min(10, "Min 10 symbols")
+      .max(35, "Max 35 symbols")
+      .min(5, "Min 5 symbols")
       .typeError("Email must be string"),
     password: Yup.string()
       .required("Field password is required")
-      .min(6, "Min 6 symbols")
-      .max(20, "Max 20 symbols")
+      .min(3, "Min 3 symbols")
+      .max(30, "Max 30 symbols")
       .typeError("Password must be string")
   });
 

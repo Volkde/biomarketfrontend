@@ -40,8 +40,8 @@ function Root() {
             }}
           >
             {[1, 2, 3, 4].map(i => (
-  <Card key={i} title={`${t("category")} ${i}`} />
-))}
+              <Card key={i} title={`${t("category")} ${i}`} />
+            ))}
           </Box>
         </Box>
 

@@ -6,7 +6,6 @@ import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectUiState } from "store/redux/ui/selectors/selectUiState";
 import { uiActions } from "store/redux/ui/slice/uiSlice";
-import { selectUsersState } from "store/redux/users/selectors/selectUsersState";
 import { CartItem } from "../CartItem";
 import { CartItemSkeleton } from "../CartItemSkeleton";
 import { CloseButton } from "../CloseButton";
@@ -20,14 +19,9 @@ function CartSidebar() {
     dispatch(uiActions.closeCartPanel());
   };
 
-  const { user } = useAppSelector(selectUsersState);
-  const userId = user?.id ?? -1;
-
   useEffect(() => {
-    if (userId < 0) return;
-
     dispatch(cartActions.fetchGetCart());
-  }, [dispatch, userId]);
+  }, [dispatch]);
 
   const { status, cart, error } = useAppSelector(selectCartState);
 
