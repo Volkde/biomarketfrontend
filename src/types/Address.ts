@@ -1,7 +1,11 @@
 export interface Address {
   id?: number;
+  firstName: string;
+  lastName: string;
   country: string;
   city: string;
   street: string;
-  zipCode: string;
+  postalCode: string;
+  email: string;
+  phone: string;
 }

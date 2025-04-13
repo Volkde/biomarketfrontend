@@ -2,7 +2,7 @@ import { Layout } from "components/Layout";
 import { AboutPage } from "pages/About";
 import { AccountPage } from "pages/Account";
 import { CartPage } from "pages/Cart";
-import { CheckoutPage } from "pages/Checkout";
+import { Checkout } from "pages/Checkout";
 import { ErrorPage } from "pages/ErrorPage";
 import { HomePage } from "pages/Home";
 import { LoginPage } from "pages/Login";
@@ -38,8 +38,8 @@ export const routes: RouteObject[] = [
         Component: CartPage
       },
       {
-        path: "Checkout",
-        Component: CheckoutPage
+        path: "checkout",
+        Component: Checkout
       },
       {
         path: "login",

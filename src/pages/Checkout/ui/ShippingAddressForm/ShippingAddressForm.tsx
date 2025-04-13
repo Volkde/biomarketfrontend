@@ -17,6 +17,22 @@ const ShippingAddressForm = ({ initialValues, onSubmit, isLoading }: ShippingAdd
 
             <Field
               as={S.FormField}
+              name="firstName"
+              label="First Name"
+              error={touched.firstName && Boolean(errors.firstName)}
+              helperText={touched.firstName && errors.firstName}
+              required
+            />
+            <Field
+              as={S.FormField}
+              name="lastName"
+              label="Last Name"
+              error={touched.lastName && Boolean(errors.lastName)}
+              helperText={touched.lastName && errors.lastName}
+              required
+            />
+            <Field
+              as={S.FormField}
               name="country"
               label="Country"
               error={touched.country && Boolean(errors.country)}
@@ -41,10 +57,26 @@ const ShippingAddressForm = ({ initialValues, onSubmit, isLoading }: ShippingAdd
             />
             <Field
               as={S.FormField}
-              name="zipCode"
-              label="ZIP Code"
-              error={touched.zipCode && Boolean(errors.zipCode)}
-              helperText={touched.zipCode && errors.zipCode}
+              name="postalCode"
+              label="Postal Code"
+              error={touched.postalCode && Boolean(errors.postalCode)}
+              helperText={touched.postalCode && errors.postalCode}
+              required
+            />
+            <Field
+              as={S.FormField}
+              name="email"
+              label="Email"
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+              required
+            />
+            <Field
+              as={S.FormField}
+              name="phone"
+              label="Phone"
+              error={touched.phone && Boolean(errors.phone)}
+              helperText={touched.phone && errors.phone}
               required
             />
 

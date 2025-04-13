@@ -3,19 +3,24 @@ import { Stepper, Step, StepLabel, Button, Box } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { checkoutActions, checkoutSelectors } from 'store/redux/checkout'
 import { usePlaceOrder } from 'shared/api/orders/usePlaceOrder'
-
 import { ShippingAddressForm } from '../ShippingAddressForm'
 import { PaymentMethodForm } from '../PaymentMethodForm'
 import { OrderSummary } from '../OrderSummary'
 import { Address } from 'types/Address'
-import { PaymentMethod } from 'types/Checkout'
+import { CartItem } from 'types/CartItem'
 
 const steps = ['Адрес доставки', 'Способ оплаты', 'Подтверждение заказа']
 
+interface PaymentMethod {
+  type: 'creditCard' | 'paypal' | 'bankTransfer'
+  cardNumber?: string
+  expirationDate?: string
+  cvv?: string
+}
+
 const Checkout = () => {
   const dispatch = useAppDispatch()
-  // Используем селекторы для получения данных из Redux
-  const cartItems = useAppSelector(checkoutSelectors.selectCartItems)
+  const cartItems = useAppSelector((state) => checkoutSelectors.selectCartItems(state)) as CartItem[]
   const shippingAddress = useAppSelector(checkoutSelectors.selectShippingAddress)
   const paymentMethod = useAppSelector(checkoutSelectors.selectPaymentMethod)
   const [activeStep, setActiveStep] = useState(0)
@@ -26,17 +31,11 @@ const Checkout = () => {
   useEffect(() => {
     // Загрузка демо-данных для тестирования
     const demoCartItems = [
-      { productId: 1, name: 'Товар 1', quantity: 2, price: 1000, imageUrl: '/products/1.jpg' },
-      { productId: 2, name: 'Товар 2', quantity: 1, price: 1500, imageUrl: '/products/2.jpg' },
+      { productId: 1, name: 'Товар 1', quantity: 2, price: 1000, imageUrl: '/products/1.jpg', unitOfMeasure: 'шт', totalItemPrice: 2000 },
+      { productId: 2, name: 'Товар 2', quantity: 1, price: 1500, imageUrl: '/products/2.jpg', unitOfMeasure: 'шт', totalItemPrice: 1500 },
     ];
     
-		dispatch(cartActions.setCartItems(demoCartItems))
-    // Загрузка данных из localStorage или использование демо-данных
-    const savedCartItems = localStorage.getItem('cartItems') 
-      ? JSON.parse(localStorage.getItem('cartItems') || '[]') 
-      : demoCartItems;
-    
-    dispatch(checkoutActions.setCartItems(savedCartItems))
+    dispatch(checkoutActions.setCartItems(demoCartItems))
   }, [dispatch])
 
   const handleNext = () => setActiveStep(prev => Math.min(prev + 1, 2))
@@ -62,12 +61,9 @@ const Checkout = () => {
       
       placeOrder(orderData, {
         onSuccess: (data) => {
-          // Добавляем обработку успешного заказа
           console.log('Order placed successfully', data);
-          // Можно добавить редирект на страницу успеха
         }, 
         onError: (error) => {
-          // Обработка ошибки
           console.error('Order placement failed', error);
         }
       });
@@ -87,10 +83,14 @@ const Checkout = () => {
       {activeStep === 0 && (
         <ShippingAddressForm
           initialValues={shippingAddress || {
+            firstName: '',
+            lastName: '',
             country: '',
             city: '',
             street: '',
-            zipCode: ''
+            postalCode: '',
+            email: '',
+            phone: ''
           }}
           onSubmit={handleShippingSubmit}
           isLoading={isPending}
@@ -99,7 +99,7 @@ const Checkout = () => {
 
       {activeStep === 1 && (
         <PaymentMethodForm
-          initialValue={paymentMethod || 'credit-card'}
+          initialValue={paymentMethod?.type || 'credit-card'}
           onSubmit={handlePaymentSubmit}
           isLoading={isPending}
         />
@@ -111,7 +111,7 @@ const Checkout = () => {
             shippingAddress={shippingAddress!}
             paymentMethod={paymentMethod!}
             items={cartItems.map(item => ({
-              id: String(item.productId), // Конвертируем в string как ожидается в OrderSummary
+              id: String(item.productId),
               name: item.name,
               quantity: item.quantity,
               price: item.price

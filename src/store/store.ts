@@ -13,6 +13,7 @@ import { sellersSlice } from "./redux/sellers/slice/sellersSlice";
 import { uiSlice } from "./redux/ui/slice/uiSlice";
 import { usersSlice } from "./redux/users/slice/usersSlice";
 import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
+import { checkoutSlice } from "./redux/checkout/slice/checkoutSlice";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -28,7 +29,8 @@ const rootReducer = combineSlices(
   productsSlice,
   reviewsSlice,
   sellersSlice,
-  usersSlice
+  usersSlice,
+  checkoutSlice
 );
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;
