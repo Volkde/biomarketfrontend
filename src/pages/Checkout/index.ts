@@ -1,3 +1,2 @@
-import Checkout from "./Checkout";
-
-export { Checkout as CheckoutPage };
+// index.ts
+export { default as Checkout } from "./ui/Checkout/Checkout";
