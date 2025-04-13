@@ -1,8 +1,8 @@
 import { Layout } from "components/Layout";
 import { AboutPage } from "pages/About";
 import { AccountPage } from "pages/Account";
-import { CartPage } from "pages/Cart";
-import {Checkout} from "pages/Checkout/ui/Checkout";
+import Cart from "pages/Cart/Cart";
+import { Checkout } from "pages/Checkout/ui/Checkout";
 import { ErrorPage } from "pages/ErrorPage";
 import { HomePage } from "pages/Home";
 import { LoginPage } from "pages/Login";
@@ -35,7 +35,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: "cart",
-        Component: CartPage
+        Component: Cart
       },
       {
         path: "checkout",

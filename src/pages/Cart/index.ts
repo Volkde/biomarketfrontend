@@ -1,2 +1,2 @@
 import { Checkout } from '../Checkout/ui/Checkout/Checkout';
-export { default as CartPage } from './CartPage';
+export { default as CartPage } from './Cart';
