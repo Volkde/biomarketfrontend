@@ -8,8 +8,7 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
-  CircularProgress
+  ListItemText
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,8 @@ import {
   StyledInputBase,
   SearchHistoryContainer,
   StyledSnackbar,
-  StyledAlert
+  StyledAlert,
+  PulsingIconWrapper
 } from "./styles";
 
 const LOCAL_STORAGE_KEY = "search_history";
@@ -31,6 +31,7 @@ const Search = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  // Load history on mount
   useEffect(() => {
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (stored) {
@@ -112,7 +113,9 @@ const Search = () => {
           <SearchIcon />
         </IconButton>
         <IconButton onClick={startVoiceInput} disabled={isListening}>
-          {isListening ? <CircularProgress size={24} /> : <MicIcon />}
+          <PulsingIconWrapper active={isListening}>
+            <MicIcon color={isListening ? "primary" : "inherit"} />
+          </PulsingIconWrapper>
         </IconButton>
         {searchTerm && (
           <IconButton onClick={() => setSearchTerm("")}>
@@ -125,7 +128,11 @@ const Search = () => {
         <SearchHistoryContainer>
           <List>
             {searchHistory.map((term, index) => (
-              <ListItem component="button" key={index} onClick={() => handleHistoryClick(term)}>
+              <ListItem
+                component="button"
+                key={index}
+                onClick={() => handleHistoryClick(term)}
+              >
                 <ListItemText primary={term} />
               </ListItem>
             ))}
@@ -133,7 +140,11 @@ const Search = () => {
         </SearchHistoryContainer>
       )}
 
-      <StyledSnackbar open={!!error} autoHideDuration={6000} onClose={handleCloseError}>
+      <StyledSnackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+      >
         <StyledAlert severity="error" onClose={handleCloseError}>
           {error}
         </StyledAlert>

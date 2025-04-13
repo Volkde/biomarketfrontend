@@ -36,3 +36,30 @@ export const StyledSnackbar = styled(Snackbar)(() => ({
 export const StyledAlert = styled(Alert)(() => ({
   width: "100%"
 }));
+
+export const PulsingIconWrapper = styled("div")<{ active: boolean }>(({ active }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "50%",
+  width: 40,
+  height: 40,
+  ...(active && {
+    animation: "pulse 1.2s infinite ease-in-out",
+    boxShadow: "0 0 0 0 rgba(0, 150, 136, 0.7)"
+  }),
+  "@keyframes pulse": {
+    "0%": {
+      transform: "scale(1)",
+      boxShadow: "0 0 0 0 rgba(0, 150, 136, 0.7)"
+    },
+    "70%": {
+      transform: "scale(1.2)",
+      boxShadow: "0 0 0 10px rgba(0, 150, 136, 0)"
+    },
+    "100%": {
+      transform: "scale(1)",
+      boxShadow: "0 0 0 0 rgba(0, 150, 136, 0)"
+    }
+  }
+}));
