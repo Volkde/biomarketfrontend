@@ -20,25 +20,37 @@ interface PaymentMethod {
 
 const Checkout = () => {
   const dispatch = useAppDispatch()
-  const cartItems = useAppSelector((state) => checkoutSelectors.selectCartItems(state)) as CartItem[]
+  const cartItems = useAppSelector(checkoutSelectors.selectCartItems) as CartItem[]
   const shippingAddress = useAppSelector(checkoutSelectors.selectShippingAddress)
   const paymentMethod = useAppSelector(checkoutSelectors.selectPaymentMethod)
   const [activeStep, setActiveStep] = useState(0)
 
   const { mutate: placeOrder, isPending } = usePlaceOrder()
 
-  // Загрузка корзины при монтировании
   useEffect(() => {
-    // Загрузка демо-данных для тестирования
-    const demoCartItems = [
-      { productId: 1, name: 'Товар 1', quantity: 2, price: 1000, imageUrl: '/products/1.jpg', unitOfMeasure: 'шт', totalItemPrice: 2000 },
-      { productId: 2, name: 'Товар 2', quantity: 1, price: 1500, imageUrl: '/products/2.jpg', unitOfMeasure: 'шт', totalItemPrice: 1500 },
-    ];
-    
+    const demoCartItems: CartItem[] = [
+      {
+        productId: 1,
+        title: 'Quark Cheese',
+        image: '/products/1.jpg',
+        quantity: 2,
+        unitOfMeasure: 'шт',
+        totalItemPrice: 2000
+      },
+      {
+        productId: 2,
+        title: 'Black Forest Butter',
+        image: '/products/2.jpg',
+        quantity: 1,
+        unitOfMeasure: 'шт',
+        totalItemPrice: 1500
+      }
+    ]
+
     dispatch(checkoutActions.setCartItems(demoCartItems))
   }, [dispatch])
 
-  const handleNext = () => setActiveStep(prev => Math.min(prev + 1, 2))
+  const handleNext = () => setActiveStep(prev => Math.min(prev + 1, steps.length - 1))
   const handleBack = () => setActiveStep(prev => Math.max(prev - 1, 0))
 
   const handleShippingSubmit = (values: Address) => {
@@ -57,18 +69,20 @@ const Checkout = () => {
         orderItems: cartItems,
         shippingAddress,
         paymentMethod
-      };
-      
+      }
+
       placeOrder(orderData, {
         onSuccess: (data) => {
-          console.log('Order placed successfully', data);
-        }, 
+          console.log('Order placed successfully', data)
+        },
         onError: (error) => {
-          console.error('Order placement failed', error);
+          console.error('Order placement failed', error)
         }
-      });
+      })
     }
   }
+
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.totalItemPrice, 0)
 
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto' }}>
@@ -99,7 +113,7 @@ const Checkout = () => {
 
       {activeStep === 1 && (
         <PaymentMethodForm
-          initialValue={paymentMethod?.type || 'credit-card'}
+          initialValue={paymentMethod?.type || 'creditCard'}
           onSubmit={handlePaymentSubmit}
           isLoading={isPending}
         />
@@ -112,11 +126,11 @@ const Checkout = () => {
             paymentMethod={paymentMethod!}
             items={cartItems.map(item => ({
               id: String(item.productId),
-              name: item.name,
+              name: item.title,
               quantity: item.quantity,
-              price: item.price
+              price: item.totalItemPrice / item.quantity // для отображения цены за 1 шт
             }))}
-            totalPrice={cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
+            totalPrice={totalPrice}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
             <Button variant="outlined" onClick={handleBack}>

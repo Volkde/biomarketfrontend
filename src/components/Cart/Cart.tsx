@@ -16,18 +16,16 @@ import {
   Title,
   Total,
   Unit,
-  Vendor,
   Wrapper
 } from "./styles";
 
 interface CartItemType {
-  id: number;
-  name: string;
+  productId: number;
+  title: string;
   image: string;
-  vendor: string;
-  unit: string;
-  price: number;
   quantity: number;
+  unitOfMeasure: string;
+  totalItemPrice: number;
 }
 
 const Cart = () => {
@@ -38,31 +36,43 @@ const Cart = () => {
   useEffect(() => {
     axios
       .get("/api/cart")
-      .then(res => setCart(res.data))
+      .then(res => {
+        const items = res.data.cart?.items || [];
+        console.log("Loaded cart items:", items);
+        setCart(items);
+      })
       .catch(() => setError("Failed to load cart"))
       .finally(() => setLoading(false));
   }, []);
 
-  const updateQuantity = (id: number, delta: number) => {
-    const item = cart.find(i => i.id === id);
+  const updateQuantity = (productId: number, delta: number) => {
+    const item = cart.find(i => i.productId === productId);
     if (!item) return;
+
     const newQuantity = Math.max(1, item.quantity + delta);
-    axios.put(`/api/cart/${id}`, { quantity: newQuantity }).then(() => {
+
+    axios.put(`/api/cart/${productId}`, { quantity: newQuantity }).then(() => {
       setCart(prev =>
         prev.map(item =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
+          item.productId === productId
+            ? {
+                ...item,
+                quantity: newQuantity,
+                totalItemPrice: (item.totalItemPrice / item.quantity) * newQuantity
+              }
+            : item
         )
       );
     });
   };
 
-  const removeItem = (id: number) => {
-    axios.delete(`/api/cart/${id}`).then(() => {
-      setCart(prev => prev.filter(item => item.id !== id));
+  const removeItem = (productId: number) => {
+    axios.delete(`/api/cart/${productId}`).then(() => {
+      setCart(prev => prev.filter(item => item.productId !== productId));
     });
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + Number(item.totalItemPrice), 0);
 
   if (loading) return <Wrapper>Loading...</Wrapper>;
   if (error) return <Wrapper>{error}</Wrapper>;
@@ -72,30 +82,32 @@ const Cart = () => {
       <Title>Your Cart</Title>
       <List>
         {cart.map(item => (
-          <CartItem key={item.id}>
-            <ProductImage src={item.image} alt={item.name} />
+          <CartItem key={item.productId}>
+            <ProductImage src={item.image} alt={item.title} />
             <CardContent style={{ flex: 1 }}>
               <Info>
-                <Name>{item.name}</Name>
-                <Vendor>by {item.vendor}</Vendor>
-                <Unit>{item.unit}</Unit>
+                <Name>{item.title}</Name>
+                <Unit>{item.unitOfMeasure}</Unit>
               </Info>
               <Controls>
                 <Button
                   size="small"
-                  onClick={() => updateQuantity(item.id, -1)}
+                  onClick={() => updateQuantity(item.productId, -1)}
                 >
                   -
                 </Button>
                 <Quantity>{item.quantity}</Quantity>
-                <Button size="small" onClick={() => updateQuantity(item.id, 1)}>
+                <Button
+                  size="small"
+                  onClick={() => updateQuantity(item.productId, 1)}
+                >
                   +
                 </Button>
-                <Price>{(item.price * item.quantity).toFixed(2)} €</Price>
+                <Price>{item.totalItemPrice.toFixed(2)} €</Price>
                 <Button
                   size="small"
                   color="error"
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => removeItem(item.productId)}
                 >
                   Remove
                 </Button>
