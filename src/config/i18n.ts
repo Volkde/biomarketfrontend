@@ -8,7 +8,7 @@ i18n
   .init({
     lng: "en",
     fallbackLng: "en",
-    ns: ["common"],
+    ns: ["common", "page-cart"],
     defaultNS: "common",
     debug: true,
     backend: {

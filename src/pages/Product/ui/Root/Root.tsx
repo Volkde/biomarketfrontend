@@ -4,7 +4,7 @@ import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCartSkeleton } from "components/ProductCard";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";

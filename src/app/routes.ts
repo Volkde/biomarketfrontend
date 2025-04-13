@@ -2,7 +2,7 @@ import { Layout } from "components/Layout";
 import { AboutPage } from "pages/About";
 import { AccountPage } from "pages/Account";
 import { CartPage } from "pages/Cart";
-import { CheckoutPage } from "pages/Checkout";
+import {Checkout} from "pages/Checkout/ui/Checkout";
 import { ErrorPage } from "pages/ErrorPage";
 import { HomePage } from "pages/Home";
 import { LoginPage } from "pages/Login";
@@ -13,7 +13,7 @@ import { SearchPage } from "pages/Search";
 import { SettingsPage } from "pages/Settings";
 import { SignupPage } from "pages/Signup";
 import { WishlistPage } from "pages/Wishlist";
-import { RouteObject } from "react-router";
+import { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
   {
@@ -38,8 +38,8 @@ export const routes: RouteObject[] = [
         Component: CartPage
       },
       {
-        path: "Checkout",
-        Component: CheckoutPage
+        path: "checkout",
+        Component: Checkout
       },
       {
         path: "login",

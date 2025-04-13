@@ -2,7 +2,6 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig } from "vite";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -23,13 +22,14 @@ export default defineConfig({
     port: 5174,
     proxy: {
       "/api": {
-        // target: "https://farmvibe-app-2u9sj.ondigitalocean.app",
         target: "http://localhost:8080"
         // changeOrigin: true,
         // secure: false
       }
     }
   },
+  // Эта настройка поможет с SPA маршрутизацией
+  base: "/",
   build: {
     outDir: "dist",
     assetsDir: "assets",
