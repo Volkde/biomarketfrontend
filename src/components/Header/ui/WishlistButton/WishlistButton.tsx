@@ -1,6 +1,6 @@
 import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
 import { Badge, IconButton, Tooltip } from "@mui/material";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { WishlistButtonProps } from "./types";
 
 function WishlistButton({

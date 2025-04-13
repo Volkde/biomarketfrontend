@@ -132,14 +132,11 @@ export const cartSlice = createAppSlice({
      */
     fetchRemoveProductFromCart: create.asyncThunk<
       FetchRemoveProductFromCartResult,
-      FetchRemoveProductFromCartPayload
+      { productId: number }
     >(
-      async (
-        payload: FetchRemoveProductFromCartPayload,
-        { rejectWithValue }
-      ) => {
+      async ({ productId }: { productId: number }, { rejectWithValue }) => {
         try {
-          return await fetchRemoveProductFromCart(payload);
+          return await fetchRemoveProductFromCart({ productId });
         } catch (error) {
           return rejectWithValue(error);
         }
@@ -169,14 +166,11 @@ export const cartSlice = createAppSlice({
      */
     fetchUpdateProductQuantity: create.asyncThunk<
       FetchUpdateProductQuantityResult,
-      FetchUpdateProductQuantityPayload
+      { productId: number; quantity: number }
     >(
-      async (
-        payload: FetchUpdateProductQuantityPayload,
-        { rejectWithValue }
-      ) => {
+      async ({ productId, quantity }: { productId: number; quantity: number }, { rejectWithValue }) => {
         try {
-          return await fetchUpdateProductQuantity(payload);
+          return await fetchUpdateProductQuantity({ productId, quantity });
         } catch (error) {
           return rejectWithValue(error);
         }
