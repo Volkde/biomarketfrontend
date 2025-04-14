@@ -1,4 +1,5 @@
 {
 	"title": "Account",
+	"breadcrumbs": "Account",
 	"welcome": "Welcome {{name}}!"
 }

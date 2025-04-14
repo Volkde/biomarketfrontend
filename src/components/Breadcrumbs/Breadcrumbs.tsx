@@ -3,11 +3,12 @@ import {
   Link,
   Typography
 } from "@mui/material";
+import { useBreadcrumbs } from "hooks/useBreadcrumbs";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { pages } from "./data";
 import { BreadcrumbsProps } from "./types";
 
 function Breadcrumbs({ pathname }: BreadcrumbsProps) {
+  const pages = useBreadcrumbs();
   const location = useLocation();
 
   let currentPath = "";
