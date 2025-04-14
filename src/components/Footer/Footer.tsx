@@ -12,6 +12,9 @@ import {
   StyledFooter
 } from "./styles.ts";
 
+/**
+ * Footer component with navigation links and social media icons
+ */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 

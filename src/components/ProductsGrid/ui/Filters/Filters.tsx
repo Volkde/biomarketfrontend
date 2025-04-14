@@ -1,7 +1,8 @@
 import { Box, Toolbar } from "@mui/material";
 
-// TODO: component/Filters изменить вид
-
+/**
+ * Product filters component with categories, price range, rating, and sorting options
+ */
 function Filters() {
   return (
     <Toolbar>

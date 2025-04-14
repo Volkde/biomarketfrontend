@@ -7,6 +7,12 @@ import { Link as RouterLink, useLocation } from "react-router-dom";
 import { pages } from "./data";
 import { BreadcrumbsProps } from "./types";
 
+/**
+ * Breadcrumbs component for navigation
+ * 
+ * @param {BreadcrumbsProps} props - Component props
+ * @param {string} props.pathname - Current pathname
+ */
 function Breadcrumbs({ pathname }: BreadcrumbsProps) {
   const location = useLocation();
 

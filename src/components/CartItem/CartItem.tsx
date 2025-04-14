@@ -1,4 +1,3 @@
-// React импортируется автоматически при использовании JSX
 import type { CartItem as CartItemType } from "../../types/CartItem";
 import {
   CartItemContainer,
@@ -17,6 +16,7 @@ interface CartItemProps {
   onRemove: (productId: number) => void;
 }
 
+/** Cart item component with product details and quantity controls */
 export const CartItem = ({
   product,
   onQuantityChange,
