@@ -16,6 +16,10 @@ import { CartItem } from "../../components/CartItem";
 import { useTranslation } from "react-i18next";
 import { Breadcrumbs } from "components/Breadcrumbs";
 
+/**
+ * Cart page component with shopping cart items and actions
+ * @returns {JSX.Element} Cart page component
+ */
 const Cart = () => {
   const dispatch = useAppDispatch();
   const { cart, status, error } = useAppSelector((state) => state.CART);

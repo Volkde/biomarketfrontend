@@ -18,6 +18,10 @@ interface PaymentMethod {
   cvv?: string
 }
 
+/**
+ * Checkout page component with multi-step order form
+ * @returns {JSX.Element} Checkout page component
+ */
 const Checkout = () => {
   const dispatch = useAppDispatch()
   const cartItems = useAppSelector(checkoutSelectors.selectCartItems) as CartItem[]
