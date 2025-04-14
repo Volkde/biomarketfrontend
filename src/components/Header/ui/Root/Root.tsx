@@ -6,13 +6,14 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
+import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
@@ -20,6 +21,7 @@ import { LanguageSwitcherButton } from "../LanguageSwitcherButton";
 import { LogoButton } from "../LogoButton";
 import { MoreButton } from "../MoreButton";
 import { MoreMenu } from "../MoreMenu";
+import { MyShopButton } from "../MyShopButton";
 import { Search } from "../Search";
 import { SidebarButton } from "../SidebarButton";
 import { Space } from "../Space";
@@ -32,12 +34,17 @@ function Root() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(authActions.refresh());
-    dispatch(cartActions.fetchGetCart());
+    dispatch(authActions.profile());
   }, [dispatch]);
 
-  const { user, isLogin } = useAppSelector(selectAuthState);
-  const { cart } = useAppSelector(selectCartState);
+  const { status, user, isLogin, isAdmin, isSeller, error } =
+    useAppSelector(selectAuthState);
+
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(cartActions.fetchGetCart());
+    }
+  }, [dispatch, isLogin]);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
@@ -45,8 +52,30 @@ function Root() {
     null
   );
 
-  const cartItemsCount = (cart?.items ?? []).length;
-  const wishlistItemsCount = 3; // TODO wishlistItemsCount
+  const { status: cartStatus, cart } = useAppSelector(selectCartState);
+  const cartItemsCount = useMemo(() => {
+    const cartItems = cart?.items ?? [];
+
+    if (cartStatus === "success" && cartItems.length > 0) {
+      return cartItems.length;
+    }
+
+    return 0;
+  }, [cartStatus, cart]);
+
+  const { status: wishlistStatus, wishlist } =
+    useAppSelector(selectWishlistState);
+  const wishlistItemsCount = useMemo(() => {
+    const productIds = wishlist?.productIds ?? [];
+
+    if (wishlistStatus === "success" && productIds.length > 0) {
+      return productIds.length;
+    }
+
+    return 0;
+  }, [wishlistStatus, wishlist]);
+
+  const myShopItemsCount = 4123; // TODO wishlistItemsCount
   const isNavSidebarOpen = false; // TODO isNavSidebarOpen
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
@@ -116,6 +145,13 @@ function Root() {
                     navigate("/wishlist");
                   }}
                 />
+                <MyShopButton
+                  id="myShop"
+                  myShopItemsCount={myShopItemsCount}
+                  onClick={() => {
+                    navigate("/my-shop");
+                  }}
+                />
               </>
             )}
             <AccountButton
@@ -164,6 +200,7 @@ function Root() {
         login={isLogin}
         cartItemsCount={cartItemsCount}
         wishlistItemsCount={wishlistItemsCount}
+        myShopItemsCount={myShopItemsCount}
         handleClose={handleMoreMenuClose}
         handleAccountMenuOpen={handleAccountMenuOpen}
       />

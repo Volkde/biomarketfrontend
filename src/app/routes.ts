@@ -7,6 +7,7 @@ import { ConditionsPage } from "pages/Conditions";
 import { ErrorPage } from "pages/ErrorPage";
 import { HomePage } from "pages/Home";
 import { LoginPage } from "pages/Login";
+import { MyShopPage } from "pages/MyShop";
 import { NotFoundPage } from "pages/NotFound";
 import { ProductPage } from "pages/Product";
 import { ProductsPage } from "pages/Products";
@@ -50,6 +51,10 @@ export const routes: RouteObject[] = [
       {
         path: "login",
         Component: LoginPage
+      },
+      {
+        path: "my-shop",
+        Component: MyShopPage
       },
       {
         path: "product/:id",

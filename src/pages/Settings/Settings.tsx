@@ -29,7 +29,7 @@ function Settings() {
 
   useEffect(() => {
     i18n.changeLanguage(language);
-  }, [language]);
+  }, [i18n, language]);
 
   const formik = useFormik<SettingsFormValues>({
     initialValues: {

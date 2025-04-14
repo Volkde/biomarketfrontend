@@ -30,11 +30,12 @@ import { createAppSlice } from "store/createAppSlice";
 import { LoginState } from "../types/LoginState";
 
 const keyIsLogin = "is_login";
-const isLogin = localStorage.getItem(keyIsLogin) == "false";
 const initialState: LoginState = {
   status: "default",
   error: undefined,
-  isLogin,
+  isLogin: localStorage.getItem(keyIsLogin) == "false",
+  isAdmin: false,
+  isSeller: false,
   user: undefined
 };
 
@@ -65,6 +66,8 @@ export const authSlice = createAppSlice({
           state.status = "success";
           state.isLogin = true;
           state.user = payload?.user;
+          state.isAdmin = (payload?.user?.roles ?? []).includes("ROLE_ADMIN");
+          state.isSeller = (payload?.user?.roles ?? []).includes("ROLE_SELLER");
           state.error = initialState.error;
 
           localStorage.setItem(keyIsLogin, "true");
@@ -97,6 +100,8 @@ export const authSlice = createAppSlice({
         fulfilled: (state: LoginState) => {
           state.status = "success";
           state.isLogin = false;
+          state.isAdmin = initialState.isAdmin;
+          state.isSeller = initialState.isSeller;
           state.user = initialState.user;
           state.error = initialState.error;
 
@@ -133,6 +138,9 @@ export const authSlice = createAppSlice({
         ) => {
           state.status = "success";
           state.user = payload;
+          state.isLogin = true;
+          state.isAdmin = (payload?.roles ?? []).includes("ROLE_ADMIN");
+          state.isSeller = (payload?.roles ?? []).includes("ROLE_SELLER");
           state.error = initialState.error;
 
           localStorage.setItem(keyIsLogin, "true");
@@ -163,6 +171,8 @@ export const authSlice = createAppSlice({
         fulfilled: (state: LoginState) => {
           state.status = "success";
           state.isLogin = true;
+          state.isAdmin = initialState.isAdmin;
+          state.isSeller = initialState.isSeller;
           state.user = initialState.user;
           state.error = initialState.error;
 
@@ -199,11 +209,13 @@ export const authSlice = createAppSlice({
           { payload }: PayloadAction<FetchRegisterResult>
         ) => {
           state.status = "success";
-          state.isLogin = false;
+          state.isLogin = true;
           state.user = payload?.user;
+          state.isAdmin = (payload?.user?.roles ?? []).includes("ROLE_ADMIN");
+          state.isSeller = (payload?.user?.roles ?? []).includes("ROLE_SELLER");
           state.error = initialState.error;
 
-          localStorage.setItem(keyIsLogin, "false");
+          localStorage.setItem(keyIsLogin, "true");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";

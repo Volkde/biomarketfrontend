@@ -10,6 +10,7 @@ import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
+import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
 
 function Root() {
   const { t } = useTranslation("page-product");
@@ -37,6 +38,27 @@ function Root() {
 
   const pathname = product?.title ? `/shop/${product.title}` : "/shop";
 
+  const handleFavoriteToggle = useCallback(async () => {
+    try {
+      if (productId < 0) {
+        throw new Error("Не удалось получить id товара");
+      }
+
+      await dispatch(
+        wishlistActions.fetchToggleProductInWishlist({ productId })
+      ).unwrap();
+
+      dispatch(
+        snackbarActions.enqueueSnackbar({
+          message: "Товар добавлен избранные",
+          severity: "success"
+        })
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении в избранные:", error);
+    }
+  }, [dispatch, productId]);
+
   const handleAddToCart = useCallback(async () => {
     try {
       if (productId < 0) {
@@ -53,25 +75,6 @@ function Root() {
       );
     } catch (error) {
       console.error("Ошибка при добавлении в корзину:", error);
-    }
-  }, [dispatch, productId]);
-
-  const handleFavoriteToggle = useCallback(async () => {
-    try {
-      if (productId < 0) {
-        throw new Error("Не удалось получить id товара");
-      }
-
-      // TODO: Добавь функциональность позже
-
-      dispatch(
-        snackbarActions.enqueueSnackbar({
-          message: "Товар добавлен избранные",
-          severity: "success"
-        })
-      );
-    } catch (error) {
-      console.error("Ошибка при добавлении в избранные:", error);
     }
   }, [dispatch, productId]);
 

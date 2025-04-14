@@ -1,7 +1,8 @@
 import { ReduxStateStatus } from "types/ReduxStateStatus";
+import { Wishlist } from "types/Wishlist";
 
 export interface WishlistState {
   status: ReduxStateStatus;
-  items: [];
+  wishlist?: Wishlist;
   error?: string;
 }
