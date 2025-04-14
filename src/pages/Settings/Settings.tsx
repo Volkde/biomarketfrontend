@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 function Settings() {
   const { t } = useTranslation("page-settings");
-	
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Breadcrumbs />

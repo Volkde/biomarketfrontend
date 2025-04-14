@@ -1,5 +1,5 @@
 {
-	"title": "Аккаунт",
-	"breadcrumbs": "Аккаунт",
-	"welcome": "Привет {{name}}!"
+  "title": "Аккаунт",
+  "breadcrumbs": "Аккаунт",
+  "welcome": "Привет {{name}}!"
 }
