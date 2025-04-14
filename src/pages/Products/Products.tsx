@@ -11,16 +11,31 @@ import { replaceLastPathSegment } from "shared/utils/replaceLastPathSegment";
 import { categories } from "../../app/categories";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Converts query parameter to number with default value
+ * @param {string | null} param - Query parameter value
+ * @param {number | undefined} defaultValue - Default value if param is null
+ * @returns {number | undefined} Converted number or default value
+ */
 const getQueryParamAsNumber = (
   param: string | null,
   defaultValue: number | undefined
 ) => (param ? Number(param) : defaultValue);
 
+/**
+ * Converts query parameter to boolean with default value
+ * @param {string | null} param - Query parameter value
+ * @param {boolean | undefined} defaultValue - Default value if param is null
+ * @returns {boolean | undefined} Converted boolean or default value
+ */
 const getQueryParamAsBoolean = (
   param: string | null,
   defaultValue: boolean | undefined
 ) => (param === "true" ? true : defaultValue);
 
+/**
+ * Main products page component with filtering and pagination
+ */
 function Products() {
 	const { t } = useTranslation("page-products");
   const [searchParams] = useSearchParams();
