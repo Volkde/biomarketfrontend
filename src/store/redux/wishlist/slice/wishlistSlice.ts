@@ -1,3 +1,4 @@
+/** Wishlist state management slice */
 import { createSlice } from "@reduxjs/toolkit";
 import { WishlistState, Payload } from "@/store/redux/wishlist/types/wishlistTypes";
 
