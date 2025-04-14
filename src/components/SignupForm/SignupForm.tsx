@@ -29,7 +29,7 @@ const SignupForm = () => {
     email: Yup.string()
       .required("Field email is required")
       .email("Field has type email")
-      .max(20, "Max 20 symbols")
+      .max(50, "Max 50 symbols")
       .min(10, "Min 10 symbols")
       .typeError("Email must be string"),
     password: Yup.string()
@@ -66,7 +66,7 @@ const SignupForm = () => {
         ).unwrap();
 
         navigate("/");
-      } catch (error) {
+      } catch (error: any) {
         formik.setErrors({
           email: "Invalid email or password. Please try again.",
           password: "Invalid email or password. Please try again."
