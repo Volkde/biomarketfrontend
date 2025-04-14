@@ -8,6 +8,12 @@ import { FavoriteButtonProps } from "./types";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { wishlistActions } from "../../../../store/redux/wishlist/slice/wishlistSlice";
 
+/**
+ * Favorite button component for adding/removing items from wishlist
+ * @param {FavoriteButtonProps} props - Component props
+ * @param {number} props.productId - Product ID
+ * @param {"small" | "medium" | "large"} props.size - Button size
+ */
 const FavoriteButton = ({
   productId,
   size = "small"
