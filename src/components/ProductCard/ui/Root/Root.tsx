@@ -15,6 +15,11 @@ import { StockStatus } from "../StockStatus";
 import { StyledButtons, StyledProductCard, StyledProductTitle } from "./styles";
 import { ProductCardProps } from "./types";
 
+/**
+ * Product card component with product details and actions
+ * @param {ProductCardProps} props - Component props
+ * @param {Product} props.product - Product data
+ */
 function Root({ product }: ProductCardProps) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
