@@ -7,7 +7,7 @@ import { authActions } from "store/redux/auth/slice/authSlice";
 import * as Yup from "yup";
 import { LoginFormValues } from "./types";
 
-const LoginForm = () => {
+function LoginForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -108,6 +108,6 @@ const LoginForm = () => {
       </Paper>
     </Box>
   );
-};
+}
 
 export default LoginForm;
