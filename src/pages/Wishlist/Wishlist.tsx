@@ -41,14 +41,14 @@ function Wishlist() {
       return wishlistProducts.map(product => (
         <ProductCard key={product.id} product={product} />
       ));
-    } else if (wishlistStatus === "success" && wishlistProducts.length === 0) {
+    } else if (wishlistStatus === "success" && !wishlistProducts.length) {
       return (
         <Typography variant="body1" component="p" gutterBottom>
           {t("Your wishlist is empty.")}
         </Typography>
       );
     } else if (wishlistStatus !== "error") {
-      return Array.from({ length: 8 }).map((_, index) => (
+      return Array.from({ length: 3 }).map((_, index) => (
         <ProductCartSkeleton key={index} />
       ));
     }

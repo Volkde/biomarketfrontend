@@ -1,8 +1,7 @@
-import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCartSkeleton } from "components/ProductCard";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -10,7 +9,9 @@ import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
+import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
+import { FavoriteButton } from "../FavoriteButton";
 
 function Root() {
   const { t } = useTranslation("page-product");
@@ -37,6 +38,21 @@ function Root() {
   } = useAppSelector(selectProductsState);
 
   const pathname = product?.title ? `/shop/${product.title}` : "/shop";
+
+  const { status: wishlistStatus, wishlist } =
+    useAppSelector(selectWishlistState);
+
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const ids = wishlist?.productIds ?? [];
+
+    if (wishlistStatus === "success" && ids.length > 0) {
+      setIsFavorite(ids.includes(productId));
+    } else {
+      setIsFavorite(false);
+    }
+  }, [wishlistStatus, wishlist, productId]);
 
   const handleFavoriteToggle = useCallback(async () => {
     try {
@@ -119,9 +135,10 @@ function Root() {
             <Button variant="contained" onClick={handleAddToCart}>
               Add to cart
             </Button>
-            <Button onClick={handleFavoriteToggle}>
-              <FavoriteBorderIcon />
-            </Button>
+            <FavoriteButton
+              isFavorite={isFavorite}
+              onToggle={handleFavoriteToggle}
+            />
           </Box>
         </Grid>
       );

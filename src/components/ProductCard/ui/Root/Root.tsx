@@ -50,7 +50,7 @@ function Root({ product }: ProductCardProps) {
     const ids = wishlist?.productIds ?? [];
 
     if (wishlistStatus === "success" && ids.length > 0) {
-      return ids.findIndex(item => item === productId) > 0;
+      return ids.findIndex(item => item === productId) >= 0;
     }
 
     return false;
@@ -81,7 +81,7 @@ function Root({ product }: ProductCardProps) {
     const cartItems = cart?.items ?? [];
 
     if (status === "success" && cartItems.length > 0) {
-      return cartItems.findIndex(item => item.productId === productId) > 0;
+      return cartItems.findIndex(item => item.productId === productId) >= 0;
     }
 
     return false;

@@ -30,10 +30,11 @@ import { createAppSlice } from "store/createAppSlice";
 import { LoginState } from "../types/LoginState";
 
 const keyIsLogin = "is_login";
+const isLogin = localStorage.getItem(keyIsLogin) == "false";
 const initialState: LoginState = {
   status: "default",
   error: undefined,
-  isLogin: localStorage.getItem(keyIsLogin) == "false",
+  isLogin,
   isAdmin: false,
   isSeller: false,
   user: undefined
@@ -170,20 +171,11 @@ export const authSlice = createAppSlice({
         },
         fulfilled: (state: LoginState) => {
           state.status = "success";
-          state.isLogin = true;
-          state.isAdmin = initialState.isAdmin;
-          state.isSeller = initialState.isSeller;
-          state.user = initialState.user;
           state.error = initialState.error;
-
-          localStorage.setItem(keyIsLogin, "true");
         },
         rejected: (state: LoginState, { payload }: PayloadAction<any>) => {
           state.status = "error";
-          state.isLogin = false;
           state.error = payload?.message ?? "Unknown error";
-
-          localStorage.setItem(keyIsLogin, "false");
         }
       }
     ),
