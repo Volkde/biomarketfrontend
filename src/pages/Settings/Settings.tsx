@@ -31,7 +31,7 @@ function Settings() {
   });
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="sm" sx={{ py: 4 }}>
       <Breadcrumbs />
       <Typography variant="h4" component="h1" gutterBottom>
         {t("title")}
