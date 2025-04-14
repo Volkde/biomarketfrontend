@@ -9,6 +9,13 @@ const statusLabels: Record<string, string> = {
   pre_order: "Pre-Order"
 };
 
+/**
+ * Stock status indicator component
+ * @param {StockStatusProps} props - Component props
+ * @param {"in_stock" | "low_stock" | "out_of_stock" | "pre_order"} props.status - Stock status
+ * @param {boolean} props.showLabel - Whether to show status label
+ * @param {"small" | "medium" | "large"} props.size - Component size
+ */
 const StockStatus = ({
   status,
   showLabel = true,

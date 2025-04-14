@@ -1,3 +1,14 @@
 {
-	"title": "Wishlist"
+  "title": "Wishlist",
+  "empty": "Your wishlist is empty",
+  "emptyDescription": "Add items you like to your wishlist and they will appear here",
+  "emptyAction": "Go to shop",
+  "snackbar": {
+    "removed": "Removed from wishlist ",
+    "addedToCart": "Added to cart "
+  },
+  "tooltip": {
+    "addToCart": "Add to cart",
+    "removeFromWishlist": "Remove from wishlist"
+  }
 }

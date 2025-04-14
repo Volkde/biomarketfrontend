@@ -1,5 +1,12 @@
+/**
+ * Product card component styles
+ */
 import { Box, styled, Typography } from "@mui/material";
 
+/**
+ * Main product card container style
+ * @component
+ */
 export const StyledProductCard = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
@@ -45,6 +52,10 @@ export const StyledProductCard = styled(Box)(({ theme }) => ({
   }
 }));
 
+/**
+ * Product title style
+ * @component
+ */
 export const StyledProductTitle = styled(Typography)(({ theme }) => ({
   fontSize: "15px",
   fontWeight: "700",
@@ -64,6 +75,10 @@ export const StyledProductTitle = styled(Typography)(({ theme }) => ({
   }
 }));
 
+/**
+ * Cart buttons container style
+ * @component
+ */
 export const StyledButtons = styled(Box)({
   position: "absolute",
   display: "inline-block",

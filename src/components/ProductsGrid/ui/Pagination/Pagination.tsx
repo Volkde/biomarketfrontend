@@ -1,8 +1,9 @@
 import { Pagination as BasePagination } from "@mui/material";
 import { PaginationProps } from "./types";
 
-// TODO: Pagination При клике на страницу обновить компонент
-
+/**
+ * Pagination component for navigating between product pages
+ */
 function Pagination({ page, count }: PaginationProps) {
   return (
     count > 1 && (

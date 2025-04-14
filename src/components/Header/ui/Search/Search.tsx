@@ -1,15 +1,31 @@
-import { Mic as MicIcon, Search as SearchIcon } from "@mui/icons-material";
-import { Box, IconButton, List, ListItem, ListItemText } from "@mui/material";
-import { useState } from "react";
+import {
+  Mic as MicIcon,
+  Search as SearchIcon,
+  Close as CloseIcon
+} from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   SearchContainer,
-  SearchHistoryContainer,
-  StyledAlert,
   StyledInputBase,
-  StyledSnackbar
+  SearchHistoryContainer,
+  StyledSnackbar,
+  StyledAlert,
+  PulsingIconWrapper
 } from "./styles";
 
+const LOCAL_STORAGE_KEY = "search_history";
+
+/**
+ * Search component with voice input and history
+ */
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -18,13 +34,26 @@ const Search = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleSearch = (term: string) => {
-    if (!term.trim()) return;
+  // Load history on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (stored) {
+      setSearchHistory(JSON.parse(stored));
+    }
+  }, []);
 
-    navigate(`/search?search_term=${encodeURIComponent(term)}`);
-    setSearchHistory(prev =>
-      [term, ...prev.filter(t => t !== term)].slice(0, 5)
-    );
+  const saveHistory = (newHistory: string[]) => {
+    setSearchHistory(newHistory);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newHistory));
+  };
+
+  const handleSearch = (term: string) => {
+    const cleaned = term.trim();
+    if (!cleaned) return;
+
+    navigate(`/search?search_term=${encodeURIComponent(cleaned)}`);
+    const newHistory = [cleaned, ...searchHistory.filter(t => t !== cleaned)].slice(0, 5);
+    saveHistory(newHistory);
     setShowHistory(false);
   };
 
@@ -34,19 +63,26 @@ const Search = () => {
   };
 
   const handleCloseError = () => setError(null);
-
   const handleFocus = () => setShowHistory(true);
 
   const startVoiceInput = () => {
-    const recognition = new (window as any).webkitSpeechRecognition();
-    recognition.lang = "ru-RU";
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      setError("Your browser does not support voice input.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
     recognition.start();
     setIsListening(true);
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       setSearchTerm(transcript);
       handleSearch(transcript);
@@ -54,7 +90,11 @@ const Search = () => {
     };
 
     recognition.onerror = () => {
-      setError("Ошибка при распознавании голоса");
+      setError("Voice recognition error.");
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
       setIsListening(false);
     };
   };
@@ -63,22 +103,28 @@ const Search = () => {
     <Box position="relative">
       <SearchContainer>
         <StyledInputBase
-          placeholder="Поиск..."
+          placeholder="Search products..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={e => {
-            if (e.key === "Enter") {
-              handleSearch(searchTerm);
-            }
+            if (e.key === "Enter") handleSearch(searchTerm);
+            if (e.key === "Escape") setShowHistory(false);
           }}
         />
         <IconButton onClick={() => handleSearch(searchTerm)}>
           <SearchIcon />
         </IconButton>
         <IconButton onClick={startVoiceInput} disabled={isListening}>
-          <MicIcon />
+          <PulsingIconWrapper active={isListening}>
+            <MicIcon color={isListening ? "primary" : "inherit"} />
+          </PulsingIconWrapper>
         </IconButton>
+        {searchTerm && (
+          <IconButton onClick={() => setSearchTerm("")}>
+            <CloseIcon />
+          </IconButton>
+        )}
       </SearchContainer>
 
       {showHistory && searchHistory.length > 0 && (
@@ -102,7 +148,7 @@ const Search = () => {
         autoHideDuration={6000}
         onClose={handleCloseError}
       >
-        <StyledAlert onClose={handleCloseError} severity="error">
+        <StyledAlert severity="error" onClose={handleCloseError}>
           {error}
         </StyledAlert>
       </StyledSnackbar>

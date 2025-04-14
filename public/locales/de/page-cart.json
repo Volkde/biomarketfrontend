@@ -1,3 +1,9 @@
 {
-	"title": "Cart"
-}
+	"title": "Warenkorb",
+	"empty": "Ihr Warenkorb ist leer.",
+	"total": "Gesamt",
+	"itemsCount": "Anzahl der Artikel",
+	"sum": "Summe",
+	"checkout": "Zur Kasse",
+	"continueShopping": "Weiter einkaufen"
+  }  

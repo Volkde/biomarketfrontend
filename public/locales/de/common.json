@@ -1,3 +1,4 @@
 {
-	"title": "Hallo {{name}}!"
+	"title": "Hallo {{name}}!",
+	"Cart": "Warenkorb"
 }

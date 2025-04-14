@@ -13,6 +13,9 @@ import { useState } from "react";
 
 // TODO: Links
 
+/**
+ * Navigation sidebar component with menu items
+ */
 function NavSidebar() {
   const [open, setOpen] = useState(false);
 

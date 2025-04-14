@@ -10,7 +10,7 @@ export const pages: Record<string, { title: string }> = {
     title: "Profile"
   },
   cart: {
-    title: "Cart"
+    title: "t('Cart')"
   },
   checkout: {
     title: "Checkout"

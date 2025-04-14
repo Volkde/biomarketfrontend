@@ -1,3 +1,10 @@
 {
-	"title": "Cart"
+	"title": "Shopping Cart",
+	"empty": "Your cart is empty.",
+	"total": "Total",
+	"itemsCount": "Items count",
+	"sum": "Sum",
+	"checkout": "Proceed to Checkout",
+	"continueShopping": "Continue Shopping",
+	"remove": "Remove"
 }

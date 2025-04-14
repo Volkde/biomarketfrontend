@@ -8,6 +8,14 @@ import { Filters } from "../Filters";
 import { Pagination } from "../Pagination";
 import { RootProps } from "./types";
 
+/**
+ * Products grid root component with filtering and pagination
+ * @param {RootProps} props - Component props
+ * @param {ProductsFilters} props.filters - Products filters
+ * @param {number} props.limit - Number of products per page
+ * @param {number} props.page - Current page number
+ * @param {boolean} props.pagination - Whether to show pagination
+ */
 function Root({ filters, limit = 8, page = 1, pagination = false }: RootProps) {
   const dispatch = useAppDispatch();
 

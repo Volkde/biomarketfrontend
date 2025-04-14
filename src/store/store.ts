@@ -13,6 +13,28 @@ import { sellersSlice } from "./redux/sellers/slice/sellersSlice";
 import { uiSlice } from "./redux/ui/slice/uiSlice";
 import { usersSlice } from "./redux/users/slice/usersSlice";
 import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
+import { orderFormSlice } from "./redux/orderForm/slice/orderFormSlice";
+import { checkoutSlice } from "./redux/checkout/slice/checkoutSlice";
+import { wishlistSlice } from "./redux/wishlist/slice/wishlistSlice";
+
+// Define RootState type explicitly
+export interface RootState {
+  UI: ReturnType<typeof uiSlice.reducer>;
+  SNACKBAR: ReturnType<typeof snackbarSlice.reducer>;
+  AUTH: ReturnType<typeof authSlice.reducer>;
+  ADDRESS: ReturnType<typeof addressSlice.reducer>;
+  CART: ReturnType<typeof cartSlice.reducer>;
+  CATEGORY: ReturnType<typeof categorySlice.reducer>;
+  DELIVERY: ReturnType<typeof deliverySlice.reducer>;
+  ORDERS: ReturnType<typeof ordersSlice.reducer>;
+  PRODUCTS: ReturnType<typeof productsSlice.reducer>;
+  REVIEWS: ReturnType<typeof reviewsSlice.reducer>;
+  SELLERS: ReturnType<typeof sellersSlice.reducer>;
+  USERS: ReturnType<typeof usersSlice.reducer>;
+  ORDER_FORM: ReturnType<typeof orderFormSlice.reducer>;
+  CHECKOUT: ReturnType<typeof checkoutSlice.reducer>;
+  WISHLIST: ReturnType<typeof wishlistSlice.reducer>;
+}
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -28,10 +50,11 @@ const rootReducer = combineSlices(
   productsSlice,
   reviewsSlice,
   sellersSlice,
-  usersSlice
+  usersSlice,
+  orderFormSlice,
+  checkoutSlice,
+  wishlistSlice
 );
-// Infer the `RootState` type from the root reducer
-export type RootState = ReturnType<typeof rootReducer>;
 
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config

@@ -1,6 +1,6 @@
-// styles/GlobalStyles.tsx
 import { GlobalStyles as MuiGlobalStyles, useTheme } from "@mui/material";
 
+/** Global styles component with font imports and base styles */
 const GlobalStyles = () => {
   const theme = useTheme();
 

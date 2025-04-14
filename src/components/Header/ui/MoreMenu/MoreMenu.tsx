@@ -14,7 +14,7 @@ import {
   Menu,
   MenuItem
 } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { MoreMenuProps } from "./types";
