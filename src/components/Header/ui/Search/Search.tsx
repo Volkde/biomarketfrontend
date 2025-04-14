@@ -23,6 +23,9 @@ import {
 
 const LOCAL_STORAGE_KEY = "search_history";
 
+/**
+ * Search component with voice input and history
+ */
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);

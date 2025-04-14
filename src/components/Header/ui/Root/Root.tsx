@@ -27,6 +27,9 @@ import { Space } from "../Space";
 import { WishlistButton } from "../WishlistButton";
 import { HeaderLink } from "./styles";
 
+/**
+ * Main header component with navigation and user controls
+ */
 function Root() {
   const theme = useTheme();
   const navigate = useNavigate();
