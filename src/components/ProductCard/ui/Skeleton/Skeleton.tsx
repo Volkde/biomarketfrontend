@@ -1,5 +1,8 @@
 import { Box, Skeleton as RootSkeleton } from "@mui/material";
 
+/**
+ * Loading skeleton component for product card
+ */
 function Skeleton() {
   return (
     <Box sx={{ width: 210, marginRight: 0.5, my: 5 }}>

@@ -30,7 +30,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-/** Product page component with product details and actions */
+/**
+ * Product page component with product details and actions
+ * @returns {JSX.Element} Product page component
+ */
 function Root() {
   const { t } = useTranslation("page-product");
   const dispatch = useAppDispatch();
