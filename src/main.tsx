@@ -1,5 +1,7 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from "store/store";
 import App from "./app/App";
 import "./config/i18n";
 
@@ -10,7 +12,11 @@ if (container) {
 
   root.render(
     <StrictMode>
-      <App />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </Suspense>
     </StrictMode>
   );
 } else {

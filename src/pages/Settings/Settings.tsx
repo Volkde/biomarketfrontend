@@ -9,23 +9,38 @@ import {
 } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectLanguageState } from "store/redux/ui/selectors/selectLanguageState";
+import { selectThemeState } from "store/redux/ui/selectors/selectThemeState";
+import { languageActions } from "store/redux/ui/slice/languageSlice";
+import { themeActions } from "store/redux/ui/slice/themeSlice";
+import { Language } from "store/redux/ui/types/LanguageState";
+import { ThemeMode } from "store/redux/ui/types/ThemeState";
 import { settingsValidationSchema } from "./settingsValidationSchema";
 import { SettingsFormValues } from "./types";
 
 function Settings() {
   const { t, i18n } = useTranslation("page-settings");
+  const dispatch = useAppDispatch();
+  const { mode } = useAppSelector(selectThemeState);
+  const { language } = useAppSelector(selectLanguageState);
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
 
   const formik = useFormik<SettingsFormValues>({
     initialValues: {
-      language: i18n.language,
-      theme: "light",
-      notifications: true,
+      language: language || i18n.language,
+      theme: mode,
       hideProfile: false
     },
     validationSchema: settingsValidationSchema,
     onSubmit: async values => {
-      i18n.changeLanguage(values.language);
+      dispatch(languageActions.setLanguage(values.language as Language));
+      dispatch(themeActions.setTheme(values.theme as ThemeMode));
     }
   });
 
@@ -48,7 +63,7 @@ function Settings() {
               fullWidth
               select
               name="language"
-              label={t("language")}
+              label={t("Language")}
               value={formik.values.language}
               onChange={formik.handleChange}
               SelectProps={{ native: true }}
@@ -63,7 +78,7 @@ function Settings() {
               fullWidth
               select
               name="theme"
-              label={t("theme")}
+              label={t("Theme")}
               value={formik.values.theme}
               onChange={formik.handleChange}
               SelectProps={{ native: true }}

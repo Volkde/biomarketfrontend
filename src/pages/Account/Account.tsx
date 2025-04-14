@@ -48,6 +48,29 @@ function Account() {
     }
   });
 
+  useEffect(() => {
+    if (user) {
+      formik.setValues(prevValues => {
+        if (
+          prevValues.username !== user.username ||
+          prevValues.firstName !== user.firstName ||
+          prevValues.lastName !== user.lastName ||
+          prevValues.email !== user.email ||
+          prevValues.phoneNumber !== user.phoneNumber
+        ) {
+          return {
+            username: user.username || "",
+            firstName: user.firstName || "",
+            lastName: user.lastName || "",
+            email: user.email || "",
+            phoneNumber: user.phoneNumber || ""
+          };
+        }
+        return prevValues;
+      });
+    }
+  }, [user, formik.setValues]);
+
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
       <Breadcrumbs />

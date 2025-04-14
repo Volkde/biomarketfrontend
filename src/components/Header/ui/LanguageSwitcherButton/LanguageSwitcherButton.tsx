@@ -8,12 +8,22 @@ import {
   Tooltip
 } from "@mui/material";
 import { languages } from "app/languages";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectLanguageState } from "store/redux/ui/selectors/selectLanguageState";
+import { languageActions } from "store/redux/ui/slice/languageSlice";
+import { Language } from "store/redux/ui/types/LanguageState";
 
 function LanguageSwitcherButton() {
   const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { language } = useAppSelector(selectLanguageState);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [i18n, language]);
 
   const handleOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +35,7 @@ function LanguageSwitcherButton() {
 
   const handleChangeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    dispatch(languageActions.setLanguage(lng as Language));
     handleClose();
   };
 
@@ -51,7 +62,7 @@ function LanguageSwitcherButton() {
         {languages.map(lang => (
           <MenuItem
             key={lang.code}
-            selected={i18n.language === lang.code}
+            selected={language === lang.code}
             onClick={() => handleChangeLanguage(lang.code)}
           >
             <ListItemIcon>

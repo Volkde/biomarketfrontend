@@ -10,9 +10,11 @@ import { ordersSlice } from "./redux/orders/slice/ordersSlice";
 import { productsSlice } from "./redux/products/slice/productsSlice";
 import { reviewsSlice } from "./redux/reviews/slice/reviewsSlice";
 import { sellersSlice } from "./redux/sellers/slice/sellersSlice";
+import { languageSlice } from "./redux/ui/slice/languageSlice";
+import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
+import { themeSlice } from "./redux/ui/slice/themeSlice";
 import { uiSlice } from "./redux/ui/slice/uiSlice";
 import { usersSlice } from "./redux/users/slice/usersSlice";
-import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
 import { wishlistSlice } from "./redux/wishlist/slice/wishlistSlice";
 
 // `combineSlices` automatically combines the reducers using
@@ -20,6 +22,8 @@ import { wishlistSlice } from "./redux/wishlist/slice/wishlistSlice";
 const rootReducer = combineSlices(
   uiSlice,
   snackbarSlice,
+  themeSlice,
+  languageSlice,
   authSlice,
   addressSlice,
   cartSlice,
