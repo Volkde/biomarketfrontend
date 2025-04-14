@@ -1,4 +1,5 @@
 {
-	"title": "Search",
-	"title-2": "Search result: {{search_term}}"
+  "title": "Поиск",
+  "breadcrumbs": "Поиск",
+  "title-2": "Search result: {{search_term}}"
 }

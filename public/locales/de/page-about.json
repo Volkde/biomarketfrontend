@@ -1,5 +1,6 @@
 {
-	"title": "Über uns",
-	"description": "{{appName}} is a web application for selling eco-friendly products.",
-	"description-2": "The project was implemented thanks to the coordinated work of a team that included frontend and backend developers, as well as UX/UI specialists."
+  "title": "Über uns",
+  "breadcrumbs": "About Us",
+  "description": "{{appName}} is a web application for selling eco-friendly products.",
+  "description-2": "The project was implemented thanks to the coordinated work of a team that included frontend and backend developers, as well as UX/UI specialists."
 }

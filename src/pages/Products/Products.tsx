@@ -22,7 +22,7 @@ const getQueryParamAsBoolean = (
 ) => (param === "true" ? true : defaultValue);
 
 function Products() {
-	const { t } = useTranslation("page-products");
+  const { t } = useTranslation("page-products");
   const [searchParams] = useSearchParams();
 
   const page = getQueryParamAsNumber(searchParams.get("page"), 1);

@@ -20,6 +20,8 @@
       "assets/*": ["./src/assets/*"],
       "app/*": ["./src/app/*"],
       "components/*": ["./src/components/*"],
+      "config/*": ["./src/config/*"],
+      "hooks/*": ["./src/hooks/*"],
       "pages/*": ["./src/pages/*"],
       "store/*": ["./src/store/*"],
       "styles/*": ["./src/styles/*"],

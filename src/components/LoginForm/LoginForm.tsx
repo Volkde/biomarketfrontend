@@ -1,35 +1,23 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
-import * as Yup from "yup";
+import { LoginValidationSchema } from "./LoginValidationSchema";
 import { LoginFormValues } from "./types";
 
-const LoginForm = () => {
+function LoginForm() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const schema = Yup.object().shape({
-    email: Yup.string()
-      .required("Field email is required")
-      .email("Field has type email")
-      .max(35, "Max 35 symbols")
-      .min(5, "Min 5 symbols")
-      .typeError("Email must be string"),
-    password: Yup.string()
-      .required("Field password is required")
-      .min(3, "Min 3 symbols")
-      .max(30, "Max 30 symbols")
-      .typeError("Password must be string")
-  });
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: ""
     } as LoginFormValues,
-    validationSchema: schema,
+    validationSchema: LoginValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: LoginFormValues) => {
       try {
@@ -38,8 +26,8 @@ const LoginForm = () => {
         navigate("/");
       } catch (error: any) {
         formik.setErrors({
-          email: "Invalid email or password. Please try again.",
-          password: "Invalid email or password. Please try again."
+          email: t("Invalid email or password. Please try again."),
+          password: t("Invalid email or password. Please try again.")
         });
       }
     }
@@ -57,7 +45,7 @@ const LoginForm = () => {
         sx={{ p: 4, width: "100%", maxWidth: 400, bgcolor: "white" }}
       >
         <Typography variant="h5" mb={2}>
-          Вход в аккаунт
+          {t("Account Login")}
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
@@ -65,7 +53,7 @@ const LoginForm = () => {
             fullWidth
             margin="normal"
             name="email"
-            label="Email*"
+            label={t("email") + "*"}
             value={formik.values.email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -75,7 +63,7 @@ const LoginForm = () => {
             fullWidth
             margin="normal"
             name="password"
-            label="Password*"
+            label={t("password") + "*"}
             type="password"
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -92,7 +80,7 @@ const LoginForm = () => {
               "&:hover": { bgcolor: "#43a047" }
             }}
           >
-            Войти
+            {t("Login")}
           </Button>
 
           <Button
@@ -100,12 +88,12 @@ const LoginForm = () => {
             onClick={() => navigate("/signup")}
             sx={{ mt: 2, color: "#66bb6a" }}
           >
-            Нет аккаунта? Зарегистрируйтесь
+            {t("No account? Sign up")}
           </Button>
         </form>
       </Paper>
     </Box>
   );
-};
+}
 
 export default LoginForm;

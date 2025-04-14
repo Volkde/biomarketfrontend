@@ -1,3 +1,17 @@
 {
-	"title": "Hallo {{name}}!"
+	"Registration": "Registration",
+	"userName": "User name",
+	"username": "User name",
+	"phoneNumber": "Phone Number",
+	"firstName": "First name",
+	"lastName": "Last name",
+	"email": "Email",
+	"password": "Password",
+	"confirmPassword": "Confirm Password",
+	"Login": "Login",
+	"Sign up": "Sign up",
+	"Already have an account? Sign in": "Already have an account? Sign in",
+	"Account Login": "Account Login",
+	"No account? Sign up": "No account? Sign up",
+	"Invalid email or password. Please try again.": "Invalid email or password. Please try again."
 }
