@@ -1,6 +1,8 @@
 {
 	"Registration": "Registration",
 	"userName": "User name",
+	"username": "User name",
+	"phoneNumber": "Phone Number",
 	"firstName": "First name",
 	"lastName": "Last name",
 	"email": "Email",

@@ -4,45 +4,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
-import * as Yup from "yup";
+import { SignupValidationSchema } from "./SignupValidationSchema";
 import { SignupFormValues } from "./types";
 
 function SignupForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const schema = Yup.object().shape({
-    userName: Yup.string()
-      .required("Field is required")
-      .min(2, "Min 2 symbols")
-      .max(20, "Max 20 symbols")
-      .typeError("Field must be string"),
-    firstName: Yup.string()
-      .required("Field is required")
-      .min(2, "Min 2 symbols")
-      .max(20, "Max 20 symbols")
-      .typeError("Field must be string"),
-    lastName: Yup.string()
-      .required("Field is required")
-      .min(2, "Min 2 symbols")
-      .max(20, "Max 20 symbols")
-      .typeError("Field must be string"),
-    email: Yup.string()
-      .required("Field email is required")
-      .email("Field has type email")
-      .max(50, "Max 50 symbols")
-      .min(5, "Min 5 symbols")
-      .typeError("Email must be string"),
-    password: Yup.string()
-      .required("Field password is required")
-      .min(5, "Min 5 symbols")
-      .max(25, "Max 25 symbols")
-      .typeError("Password must be string"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), ""], "Passwords must match")
-      .required("Confirm password is required")
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -53,7 +21,7 @@ function SignupForm() {
       password: "",
       confirmPassword: ""
     } as SignupFormValues,
-    validationSchema: schema,
+    validationSchema: SignupValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: SignupFormValues) => {
       try {
@@ -89,7 +57,7 @@ function SignupForm() {
         sx={{ p: 4, width: "100%", maxWidth: 400, bgcolor: "white" }}
       >
         <Typography variant="h5" mb={2}>
-          {t("Регистрация")}
+          {t("Registration")}
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>

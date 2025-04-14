@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
-import * as Yup from "yup";
+import { LoginValidationSchema } from "./LoginValidationSchema";
 import { LoginFormValues } from "./types";
 
 function LoginForm() {
@@ -12,26 +12,12 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const schema = Yup.object().shape({
-    email: Yup.string()
-      .required("Field email is required")
-      .email("Field has type email")
-      .min(5, "Min 5 symbols")
-      .max(50, "Max 50 symbols")
-      .typeError("Email must be string"),
-    password: Yup.string()
-      .required("Field password is required")
-      .min(5, "Min 5 symbols")
-      .max(25, "Max 25 symbols")
-      .typeError("Password must be string")
-  });
-
   const formik = useFormik({
     initialValues: {
       email: "",
       password: ""
     } as LoginFormValues,
-    validationSchema: schema,
+    validationSchema: LoginValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: LoginFormValues) => {
       try {
