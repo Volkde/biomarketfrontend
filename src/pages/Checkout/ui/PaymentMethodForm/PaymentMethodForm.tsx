@@ -8,6 +8,14 @@ import {
 import { PaymentMethodFormProps } from './types'
 import * as S from './styles'
 
+/**
+ * Payment method selection form component
+ * @param {PaymentMethodFormProps} props - Component props
+ * @param {string} props.initialValue - Initial payment method
+ * @param {Function} props.onSubmit - Form submission handler
+ * @param {boolean} props.isLoading - Loading state
+ * @returns {JSX.Element} Payment method form component
+ */
 const PaymentMethodForm = ({ initialValue, onSubmit, isLoading }: PaymentMethodFormProps) => {
   const [value, setValue] = useState(initialValue || 'credit-card')
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Stepper, Step, StepLabel, Button, Box } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { checkoutActions, checkoutSelectors } from 'store/redux/checkout'
@@ -30,29 +30,6 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0)
 
   const { mutate: placeOrder, isPending } = usePlaceOrder()
-
-  useEffect(() => {
-    const demoCartItems: CartItem[] = [
-      {
-        productId: 1,
-        title: 'Quark Cheese',
-        image: '/products/1.jpg',
-        quantity: 2,
-        unitOfMeasure: 'шт',
-        totalItemPrice: 2000
-      },
-      {
-        productId: 2,
-        title: 'Black Forest Butter',
-        image: '/products/2.jpg',
-        quantity: 1,
-        unitOfMeasure: 'шт',
-        totalItemPrice: 1500
-      }
-    ]
-
-    dispatch(checkoutActions.setCartItems(demoCartItems))
-  }, [dispatch])
 
   const handleNext = () => setActiveStep(prev => Math.min(prev + 1, steps.length - 1))
   const handleBack = () => setActiveStep(prev => Math.max(prev - 1, 0))
