@@ -10,13 +10,27 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+/**
+ * Cart item component props interface
+ * @interface CartItemProps
+ * @property {CartItemType} product - Cart item data
+ * @property {Function} onQuantityChange - Handler for quantity changes
+ * @property {Function} onRemove - Handler for item removal
+ */
 interface CartItemProps {
   product: CartItemType;
   onQuantityChange: (productId: number, delta: number) => void;
   onRemove: (productId: number) => void;
 }
 
-/** Cart item component with product details and quantity controls */
+/**
+ * Cart item component with product details and quantity controls
+ * @param {CartItemProps} props - Component props
+ * @param {CartItemType} props.product - Cart item data
+ * @param {Function} props.onQuantityChange - Handler for quantity changes
+ * @param {Function} props.onRemove - Handler for item removal
+ * @returns {JSX.Element} Cart item component
+ */
 export const CartItem = ({
   product,
   onQuantityChange,
