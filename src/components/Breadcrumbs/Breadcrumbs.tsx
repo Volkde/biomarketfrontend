@@ -28,7 +28,7 @@ function Breadcrumbs({ pathname }: BreadcrumbsProps) {
     // Add home page
     breadcrumbs.unshift({
       path: "/",
-      label: "Home"
+      label: pages?.home?.title || "Home"
     });
   }
 
