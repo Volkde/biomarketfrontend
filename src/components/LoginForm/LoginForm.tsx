@@ -1,4 +1,5 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
+import { PasswordField } from "components/PasswordField";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -34,21 +35,19 @@ function LoginForm() {
   });
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-    >
-      <Paper
-        elevation={3}
-        sx={{ p: 4, width: "100%", maxWidth: 400, bgcolor: "white" }}
-      >
-        <Typography variant="h5" mb={2}>
-          {t("Account Login")}
-        </Typography>
+    <Grid direction="column" container spacing={2}>
+      <Typography variant="h5" mb={2}>
+        {t("Account Login")}
+      </Typography>
 
-        <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
+        <Grid
+          direction="column"
+          container
+          sx={{
+            marginBottom: "15px"
+          }}
+        >
           <TextField
             fullWidth
             margin="normal"
@@ -59,7 +58,7 @@ function LoginForm() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <TextField
+          <PasswordField
             fullWidth
             margin="normal"
             name="password"
@@ -70,29 +69,32 @@ function LoginForm() {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
+        </Grid>
+
+        <Grid
+          direction="column"
+          container
+          sx={{
+            marginBottom: "15px"
+          }}
+        >
           <Button
             type="submit"
             variant="contained"
             fullWidth
             sx={{
-              mt: 2,
-              bgcolor: "#66bb6a",
-              "&:hover": { bgcolor: "#43a047" }
+              mt: 2
             }}
           >
             {t("Login")}
           </Button>
 
-          <Button
-            fullWidth
-            onClick={() => navigate("/signup")}
-            sx={{ mt: 2, color: "#66bb6a" }}
-          >
+          <Button fullWidth onClick={() => navigate("/signup")} sx={{ mt: 2 }}>
             {t("No account? Sign up")}
           </Button>
-        </form>
-      </Paper>
-    </Box>
+        </Grid>
+      </form>
+    </Grid>
   );
 }
 

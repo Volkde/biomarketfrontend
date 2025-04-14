@@ -29,5 +29,8 @@ export const SignupValidationSchema = Yup.object().shape({
     .typeError("Password must be string"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), ""], "Passwords must match")
-    .required("Confirm password is required")
+    .required("Confirm password is required"),
+  termsAccepted: Yup.boolean()
+    .oneOf([true], "You must accept the terms and conditions")
+    .required()
 });

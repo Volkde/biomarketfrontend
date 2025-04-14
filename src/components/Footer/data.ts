@@ -6,5 +6,13 @@ export const links = [
   {
     text: "About Us",
     path: "/about"
+  },
+  {
+    text: "Terms",
+    path: "/terms"
+  },
+  {
+    text: "Conditions",
+    path: "/conditions"
   }
 ];

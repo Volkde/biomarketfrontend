@@ -1,7 +1,16 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Link,
+  TextField,
+  Typography
+} from "@mui/material";
+import { PasswordField } from "components/PasswordField";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { SignupValidationSchema } from "./SignupValidationSchema";
@@ -19,7 +28,8 @@ function SignupForm() {
       lastName: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      termsAccepted: false
     } as SignupFormValues,
     validationSchema: SignupValidationSchema,
     validateOnChange: false,
@@ -35,7 +45,7 @@ function SignupForm() {
           })
         ).unwrap();
 
-        navigate("/");
+        navigate("/login");
       } catch (error: any) {
         formik.setErrors({
           email: t("Invalid email or password. Please try again."),
@@ -46,115 +56,188 @@ function SignupForm() {
   });
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-    >
-      <Paper
-        elevation={3}
-        sx={{ p: 4, width: "100%", maxWidth: 400, bgcolor: "white" }}
-      >
-        <Typography variant="h5" mb={2}>
-          {t("Registration")}
-        </Typography>
+    <Grid direction="column" container spacing={2}>
+      <Typography variant="h5" mb={2}>
+        {t("Registration")}
+      </Typography>
 
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            margin="normal"
-            name="userName"
-            label={t("userName") + "*"}
-            type="userName"
-            value={formik.values.userName}
-            onChange={formik.handleChange}
-            error={formik.touched.userName && Boolean(formik.errors.userName)}
-            helperText={formik.touched.userName && formik.errors.userName}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            name="firstName"
-            label={t("firstName") + "*"}
-            type="firstName"
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-            helperText={formik.touched.firstName && formik.errors.firstName}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            name="lastName"
-            label={t("lastName") + "*"}
-            type="lastName"
-            value={formik.values.lastName}
-            onChange={formik.handleChange}
-            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-            helperText={formik.touched.lastName && formik.errors.lastName}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            name="email"
-            label={t("email") + "*"}
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            name="password"
-            label={t("password") + "*"}
-            type="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            name="confirmPassword"
-            label={t("confirmPassword") + "*"}
-            type="password"
-            value={formik.values.confirmPassword}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.confirmPassword &&
-              Boolean(formik.errors.confirmPassword)
-            }
-            helperText={
-              formik.touched.confirmPassword && formik.errors.confirmPassword
-            }
-          />
+      <form onSubmit={formik.handleSubmit}>
+        <Grid
+          direction="column"
+          container
+          sx={{
+            marginBottom: "15px"
+          }}
+        >
+          <Grid
+            direction="row"
+            container
+            spacing={5}
+            sx={{
+              marginBottom: "15px"
+            }}
+          >
+            <TextField
+              margin="normal"
+              name="firstName"
+              label={t("firstName") + "*"}
+              type="firstName"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.firstName && Boolean(formik.errors.firstName)
+              }
+              helperText={formik.touched.firstName && formik.errors.firstName}
+              sx={{
+                flexGrow: "1"
+              }}
+            />
+            <TextField
+              margin="normal"
+              name="lastName"
+              label={t("lastName") + "*"}
+              type="lastName"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              helperText={formik.touched.lastName && formik.errors.lastName}
+              sx={{
+                flexGrow: "1"
+              }}
+            />
+          </Grid>
+          <Grid
+            direction="column"
+            container
+            sx={{
+              marginBottom: "15px"
+            }}
+          >
+            <TextField
+              fullWidth
+              margin="normal"
+              name="userName"
+              label={t("userName") + "*"}
+              type="userName"
+              value={formik.values.userName}
+              onChange={formik.handleChange}
+              error={formik.touched.userName && Boolean(formik.errors.userName)}
+              helperText={formik.touched.userName && formik.errors.userName}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              name="email"
+              label={t("email") + "*"}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+          </Grid>
+          <Grid
+            direction="column"
+            container
+            sx={{
+              marginBottom: "15px"
+            }}
+          >
+            <PasswordField
+              fullWidth
+              margin="normal"
+              name="password"
+              label={t("password") + "*"}
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
+            <PasswordField
+              fullWidth
+              margin="normal"
+              name="confirmPassword"
+              label={t("confirmPassword") + "*"}
+              type="password"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.confirmPassword &&
+                Boolean(formik.errors.confirmPassword)
+              }
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
+            />
+          </Grid>
 
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="termsAccepted"
+                checked={formik.values.termsAccepted}
+                onChange={formik.handleChange}
+                value="true"
+                color="primary"
+              />
+            }
+            label={
+              <Typography variant="body2">
+                {t("I agree to the")}&nbsp;
+                <Link
+                  component={RouterLink}
+                  to="/terms"
+                  target="_blank"
+                  color="primary"
+                  underline="hover"
+                  rel="noopener noreferrer"
+                >
+                  {t("terms")}
+                </Link>
+                &nbsp;and&nbsp;
+                <Link
+                  component={RouterLink}
+                  to="/conditions"
+                  target="_blank"
+                  color="primary"
+                  underline="hover"
+                  rel="noopener noreferrer"
+                >
+                  {t("conditions")}
+                </Link>
+              </Typography>
+            }
+          />
+          {formik.touched.termsAccepted && formik.errors.termsAccepted && (
+            <Typography variant="caption" color="error">
+              {formik.errors.termsAccepted}
+            </Typography>
+          )}
+        </Grid>
+
+        <Grid
+          direction="column"
+          container
+          sx={{
+            marginBottom: "15px"
+          }}
+        >
           <Button
             type="submit"
             variant="contained"
-            fullWidth
             sx={{
-              mt: 2,
-              bgcolor: "#66bb6a",
-              "&:hover": { bgcolor: "#43a047" }
+              mt: 2
             }}
           >
             {t("Sign up")}
           </Button>
 
-          <Button
-            fullWidth
-            onClick={() => navigate("/login")}
-            sx={{ mt: 2, color: "#66bb6a" }}
-          >
+          <Button fullWidth onClick={() => navigate("/login")} sx={{ mt: 2 }}>
             {t("Already have an account? Sign in")}
           </Button>
-        </form>
-      </Paper>
-    </Box>
+        </Grid>
+      </form>
+    </Grid>
   );
 }
 
