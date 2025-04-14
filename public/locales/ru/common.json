@@ -1,1 +1,15 @@
-{}
+{
+	"Registration": "Регистрация",
+	"userName": "User name",
+	"firstName": "First name",
+	"lastName": "Last name",
+	"email": "Email",
+	"password": "Password",
+	"confirmPassword": "Confirm Password",
+	"Login": "Войти",
+	"Sign up": "Зарегистрироваться",
+	"Already have an account? Sign in": "Уже есть аккаунт? Войти",
+	"Account Login": "Вход в аккаунт",
+	"No account? Sign up": "Нет аккаунта? Зарегистрируйтесь",
+	"Invalid email or password. Please try again.": "Неверный адрес электронной почты или пароль. Пожалуйста, попробуйте еще раз."
+}

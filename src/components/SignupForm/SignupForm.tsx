@@ -1,41 +1,43 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import * as Yup from "yup";
 import { SignupFormValues } from "./types";
 
-const SignupForm = () => {
+function SignupForm() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const schema = Yup.object().shape({
     userName: Yup.string()
       .required("Field is required")
-      .max(20, "Max 20 symbols")
       .min(2, "Min 2 symbols")
+      .max(20, "Max 20 symbols")
       .typeError("Field must be string"),
     firstName: Yup.string()
       .required("Field is required")
-      .max(20, "Max 20 symbols")
       .min(2, "Min 2 symbols")
+      .max(20, "Max 20 symbols")
       .typeError("Field must be string"),
     lastName: Yup.string()
       .required("Field is required")
-      .max(20, "Max 20 symbols")
       .min(2, "Min 2 symbols")
+      .max(20, "Max 20 symbols")
       .typeError("Field must be string"),
     email: Yup.string()
       .required("Field email is required")
       .email("Field has type email")
       .max(50, "Max 50 symbols")
-      .min(10, "Min 10 symbols")
+      .min(5, "Min 5 symbols")
       .typeError("Email must be string"),
     password: Yup.string()
       .required("Field password is required")
-      .min(6, "Min 6 symbols")
-      .max(20, "Max 20 symbols")
+      .min(5, "Min 5 symbols")
+      .max(25, "Max 25 symbols")
       .typeError("Password must be string"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), ""], "Passwords must match")
@@ -68,8 +70,8 @@ const SignupForm = () => {
         navigate("/");
       } catch (error: any) {
         formik.setErrors({
-          email: "Invalid email or password. Please try again.",
-          password: "Invalid email or password. Please try again."
+          email: t("Invalid email or password. Please try again."),
+          password: t("Invalid email or password. Please try again.")
         });
       }
     }
@@ -87,7 +89,7 @@ const SignupForm = () => {
         sx={{ p: 4, width: "100%", maxWidth: 400, bgcolor: "white" }}
       >
         <Typography variant="h5" mb={2}>
-          Регистрация
+          {t("Регистрация")}
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
@@ -95,7 +97,7 @@ const SignupForm = () => {
             fullWidth
             margin="normal"
             name="userName"
-            label="userName*"
+            label={t("userName") + "*"}
             type="userName"
             value={formik.values.userName}
             onChange={formik.handleChange}
@@ -106,7 +108,7 @@ const SignupForm = () => {
             fullWidth
             margin="normal"
             name="firstName"
-            label="firstName*"
+            label={t("firstName") + "*"}
             type="firstName"
             value={formik.values.firstName}
             onChange={formik.handleChange}
@@ -117,7 +119,7 @@ const SignupForm = () => {
             fullWidth
             margin="normal"
             name="lastName"
-            label="lastName*"
+            label={t("lastName") + "*"}
             type="lastName"
             value={formik.values.lastName}
             onChange={formik.handleChange}
@@ -128,7 +130,7 @@ const SignupForm = () => {
             fullWidth
             margin="normal"
             name="email"
-            label="Email*"
+            label={t("email") + "*"}
             value={formik.values.email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -138,7 +140,7 @@ const SignupForm = () => {
             fullWidth
             margin="normal"
             name="password"
-            label="Password*"
+            label={t("password") + "*"}
             type="password"
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -149,7 +151,7 @@ const SignupForm = () => {
             fullWidth
             margin="normal"
             name="confirmPassword"
-            label="Confirm Password*"
+            label={t("confirmPassword") + "*"}
             type="password"
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
@@ -172,7 +174,7 @@ const SignupForm = () => {
               "&:hover": { bgcolor: "#43a047" }
             }}
           >
-            Зарегистрироваться
+            {t("Sign up")}
           </Button>
 
           <Button
@@ -180,12 +182,12 @@ const SignupForm = () => {
             onClick={() => navigate("/login")}
             sx={{ mt: 2, color: "#66bb6a" }}
           >
-            Уже есть аккаунт? Войти
+            {t("Already have an account? Sign in")}
           </Button>
         </form>
       </Paper>
     </Box>
   );
-};
+}
 
 export default SignupForm;
