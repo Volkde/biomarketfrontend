@@ -2,6 +2,15 @@ import { OrderSummaryProps } from './types'
 import * as S from './styles'
 import { Divider } from '@mui/material'
 
+/**
+ * Order summary component displaying shipping, payment, and items details
+ * @param {OrderSummaryProps} props - Component props
+ * @param {Address} props.shippingAddress - Customer shipping address
+ * @param {string} props.paymentMethod - Selected payment method
+ * @param {Array<{id: string, name: string, quantity: number, price: number}>} props.items - Order items array
+ * @param {number} props.totalPrice - Total order price
+ * @returns {JSX.Element} Order summary component
+ */
 const OrderSummary = ({ shippingAddress, paymentMethod, items, totalPrice }: OrderSummaryProps) => {
   return (
     <S.SummaryWrapper>
@@ -10,7 +19,7 @@ const OrderSummary = ({ shippingAddress, paymentMethod, items, totalPrice }: Ord
         <S.AddressLine>{shippingAddress.country}</S.AddressLine>
         <S.AddressLine>{shippingAddress.city}</S.AddressLine>
         <S.AddressLine>{shippingAddress.street}</S.AddressLine>
-        <S.AddressLine>{shippingAddress.zipCode}</S.AddressLine>
+        <S.AddressLine>{shippingAddress.postalCode}</S.AddressLine>
       </S.Section>
 
       <Divider />
