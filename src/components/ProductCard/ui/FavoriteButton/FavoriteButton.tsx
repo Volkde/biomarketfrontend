@@ -5,17 +5,27 @@ import {
 import { Tooltip } from "@mui/material";
 import { StyledButton } from "./styles";
 import { FavoriteButtonProps } from "./types";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { wishlistActions } from "../../../../store/redux/wishlist/slice/wishlistSlice";
 
 const FavoriteButton = ({
-  isFavorite,
-  onToggle,
+  productId,
   size = "small"
 }: FavoriteButtonProps) => {
+  const dispatch = useAppDispatch();
+  const wishlist = useAppSelector((state) => state.WISHLIST.items);
+
+  const isFavorite = wishlist.includes(productId);
+
+  const toggleFavorite = () => {
+    dispatch(wishlistActions.toggleWishlistItem(productId));
+  };
+
   const Icon = isFavorite ? FavoriteIcon : FavoriteBorderIcon;
 
   return (
-    <Tooltip title={isFavorite ? "Added to wishlist" : "Add to wishlist"}>
-      <StyledButton isFavorite={isFavorite} size={size} onClick={onToggle}>
+    <Tooltip title={isFavorite ? "Remove from wishlist" : "Add to wishlist"}>
+      <StyledButton isFavorite={isFavorite} size={size} onClick={toggleFavorite}>
         <Icon />
       </StyledButton>
     </Tooltip>

@@ -10,4 +10,6 @@ export interface Product {
   categoryId: number;
   sellerId: number;
   rating: number;
+  isOrganic?: boolean;
+  isLocal?: boolean;
 }

@@ -13,6 +13,7 @@ import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
+import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
@@ -38,6 +39,7 @@ function Root() {
 
   const { user, isLogin } = useAppSelector(selectAuthState);
   const { cart } = useAppSelector(selectCartState);
+  const { items } = useAppSelector(selectWishlistState);
 
   const [elAccountMenuAnchor, setElAccountMenuAnchor] =
     useState<null | HTMLElement>(null);
@@ -46,7 +48,7 @@ function Root() {
   );
 
   const cartItemsCount = (cart?.items ?? []).length;
-  const wishlistItemsCount = 3; // TODO wishlistItemsCount
+  const wishlistItemsCount = items.length;
   const isNavSidebarOpen = false; // TODO isNavSidebarOpen
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);

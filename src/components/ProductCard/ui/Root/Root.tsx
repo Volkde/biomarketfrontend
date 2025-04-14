@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
+import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
 import { AddToCartButton } from "../AddToCartButton";
 import { FavoriteButton } from "../FavoriteButton";
 import { Images } from "../Images";
@@ -20,8 +21,18 @@ function Root({ product }: ProductCardProps) {
 
   const productId = product?.id ?? -1;
 
-  // TODO: isFavorite
-  const isFavorite = false;
+  const { status, cart } = useAppSelector(selectCartState);
+  const wishlist = useAppSelector((state) => state.WISHLIST.items);
+
+  const isAddingToCart = useMemo(() => {
+    const cartItems = cart?.items ?? [];
+
+    if (status === "success" && cartItems.length > 0) {
+      return cartItems.findIndex(item => item.productId === productId) > 0;
+    }
+
+    return false;
+  }, [status, cart, productId]);
 
   const handleAddToCart = useCallback(async () => {
     try {
@@ -42,26 +53,13 @@ function Root({ product }: ProductCardProps) {
     }
   }, [dispatch, productId]);
 
-  const { status, cart } = useAppSelector(selectCartState);
-
-  const isAddingToCart = useMemo(() => {
-    const cartItems = cart?.items ?? [];
-
-    if (status === "success" && cartItems.length > 0) {
-      return cartItems.findIndex(item => item.productId === productId) > 0;
-    }
-
-    return false;
-  }, [status, cart, productId]);
-
   const handleFavoriteToggle = useCallback(async () => {
     try {
       if (productId < 0) {
         throw new Error("Не удалось получить id товара");
       }
 
-      // TODO: Добавь функциональность позже
-
+      dispatch(wishlistActions.toggleWishlistItem(productId));
       dispatch(
         snackbarActions.enqueueSnackbar({
           message: "Товар добавлен избранные",
@@ -93,8 +91,7 @@ function Root({ product }: ProductCardProps) {
             onClick={handleAddToCart}
           />
           <FavoriteButton
-            isFavorite={isFavorite}
-            onToggle={handleFavoriteToggle}
+            productId={productId}
           />
         </StyledButtons>
         <StyledProductTitle

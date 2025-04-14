@@ -1,5 +1,4 @@
-import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, IconButton } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { ProductCartSkeleton } from "components/ProductCard";
 import { useCallback, useEffect, useMemo } from "react";
@@ -10,6 +9,28 @@ import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
+import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
+import {
+  PageContainer,
+  ProductGrid,
+  ProductImage,
+  ProductInfo,
+  ProductName,
+  ProductPrice,
+  CurrentPrice,
+  OldPrice,
+  ProductDescription,
+  // ProductTags,
+  // Tag,
+  ActionButtons,
+  AddToCartButton,
+  FavoriteButton
+} from "./styles";
+
+import ShareIcon from "@mui/icons-material/Share";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 function Root() {
   const { t } = useTranslation("page-product");
@@ -35,7 +56,7 @@ function Root() {
     error: productsError
   } = useAppSelector(selectProductsState);
 
-  const pathname = product?.title ? `/shop/${product.title}` : "/shop";
+  const pathname = product?.title ? `/products/${product.title}` : "/products";
 
   const handleAddToCart = useCallback(async () => {
     try {
@@ -56,30 +77,26 @@ function Root() {
     }
   }, [dispatch, productId]);
 
-  const handleFavoriteToggle = useCallback(async () => {
-    try {
-      if (productId < 0) {
-        throw new Error("Не удалось получить id товара");
-      }
-
-      // TODO: Добавь функциональность позже
-
-      dispatch(
-        snackbarActions.enqueueSnackbar({
-          message: "Товар добавлен избранные",
-          severity: "success"
-        })
-      );
-    } catch (error) {
-      console.error("Ошибка при добавлении в избранные:", error);
+  const handleFavoriteToggle = useCallback(() => {
+    if (productId < 0) {
+      console.error("Не удалось получить id товара");
+      return;
     }
+
+    dispatch(wishlistActions.toggleWishlistItem(productId));
+    dispatch(
+      snackbarActions.enqueueSnackbar({
+        message: "Товар добавлен в избранное",
+        severity: "success"
+      })
+    );
   }, [dispatch, productId]);
 
   const elProduct = useMemo(() => {
     if (productsStatus === "success" && product) {
       return (
-        <Grid container direction="row" gap={5}>
-          <Box sx={{ width: "45%" }}>
+        <ProductGrid container>
+          <ProductImage>
             <img
               src={product.image}
               alt={product.title}
@@ -87,40 +104,56 @@ function Root() {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = "/fallback.jpg";
               }}
-              style={{ width: "100%" }}
             />
-          </Box>
-          <Box>
-            <Typography variant="h2">{product.title}</Typography>
-            <Box>
-              <Typography component="span">Price:</Typography>
-              <ins>
-                <bdi>
-                  <span>$</span>
-                  <span>{product.price}</span>
-                </bdi>
-              </ins>
-            </Box>
-            {product.oldPrice && (
-              <Box>
-                <Typography component="span">Old price:</Typography>
-                <ins>
-                  <bdi>
-                    <span>$</span>
-                    <span>{product.oldPrice}</span>
-                  </bdi>
-                </ins>
-              </Box>
-            )}
-            <Typography component="p">{product.description}</Typography>
-            <Button variant="contained" onClick={handleAddToCart}>
-              Add to cart
-            </Button>
-            <Button onClick={handleFavoriteToggle}>
-              <FavoriteBorderIcon />
-            </Button>
-          </Box>
-        </Grid>
+            <div className="product-actions">
+              <IconButton>
+                <ShareIcon />
+              </IconButton>
+              <IconButton>
+                <MoreVertIcon />
+              </IconButton>
+            </div>
+          </ProductImage>
+          
+          <ProductInfo>
+            <ProductName variant="h1">{product.title}</ProductName>
+            
+            <ProductPrice>
+              <CurrentPrice>
+                <span className="currency">€</span>
+                <span>{product.price}</span>
+              </CurrentPrice>
+              {product.oldPrice && (
+                <OldPrice>
+                  <span className="currency">€</span>
+                  <span>{product.oldPrice}</span>
+                </OldPrice>
+              )}
+            </ProductPrice>
+
+            <ProductDescription variant="body1">
+              {product.description}
+            </ProductDescription>
+
+            <ActionButtons>
+              <AddToCartButton
+                variant="contained"
+                onClick={handleAddToCart}
+                startIcon={<ShoppingCartIcon />}
+              >
+                Add to cart
+              </AddToCartButton>
+              
+              <FavoriteButton
+                variant="contained"
+                onClick={handleFavoriteToggle}
+                startIcon={<FavoriteBorderIcon />}
+              >
+                Add to wishlist
+              </FavoriteButton>
+            </ActionButtons>
+          </ProductInfo>
+        </ProductGrid>
       );
     }
 
@@ -128,20 +161,20 @@ function Root() {
       return <ProductCartSkeleton />;
     }
 
-    return null;
+    return (
+      <PageContainer>
+        <Typography color="error" variant="h6">
+          Error: {productsError || "Something went wrong"}
+        </Typography>
+      </PageContainer>
+    );
   }, [productsStatus, product, handleAddToCart, handleFavoriteToggle]);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <PageContainer>
       <Breadcrumbs pathname={pathname} />
-      {productsStatus !== "error" ? (
-        elProduct
-      ) : (
-        <Typography color="error">
-          Error: {productsError || "Something went wrong"}
-        </Typography>
-      )}
-    </Container>
+      {elProduct}
+    </PageContainer>
   );
 }
 

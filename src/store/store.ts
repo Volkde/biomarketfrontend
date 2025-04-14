@@ -15,6 +15,7 @@ import { usersSlice } from "./redux/users/slice/usersSlice";
 import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
 import { orderFormSlice } from "./redux/orderForm/slice/orderFormSlice";
 import { checkoutSlice } from "./redux/checkout/slice/checkoutSlice";
+import { wishlistSlice } from "./redux/wishlist/slice/wishlistSlice";
 
 // Define RootState type explicitly
 export interface RootState {
@@ -32,6 +33,7 @@ export interface RootState {
   USERS: ReturnType<typeof usersSlice.reducer>;
   ORDER_FORM: ReturnType<typeof orderFormSlice.reducer>;
   CHECKOUT: ReturnType<typeof checkoutSlice.reducer>;
+  WISHLIST: ReturnType<typeof wishlistSlice.reducer>;
 }
 
 // `combineSlices` automatically combines the reducers using
@@ -50,7 +52,8 @@ const rootReducer = combineSlices(
   sellersSlice,
   usersSlice,
   orderFormSlice,
-  checkoutSlice
+  checkoutSlice,
+  wishlistSlice
 );
 
 // The store setup is wrapped in `makeStore` to allow reuse

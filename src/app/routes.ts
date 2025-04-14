@@ -50,7 +50,7 @@ export const routes: RouteObject[] = [
         Component: ProductPage
       },
       {
-        path: "shop",
+        path: "products",
         Component: ProductsPage
       },
       {

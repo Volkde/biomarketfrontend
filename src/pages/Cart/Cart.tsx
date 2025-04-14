@@ -64,7 +64,7 @@ const Cart = () => {
         <Button 
           variant="outlined" 
           component={Link} 
-          href="/shop" 
+          href="/products" 
           sx={{
             mr: 2,
             textTransform: 'none'

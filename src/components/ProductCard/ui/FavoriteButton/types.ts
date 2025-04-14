@@ -1,5 +1,4 @@
 export interface FavoriteButtonProps {
-  isFavorite: boolean;
-  onToggle: () => void;
+  productId: number;
   size?: "small" | "medium" | "large";
 }
