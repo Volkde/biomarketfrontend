@@ -8,6 +8,14 @@ import {
 import { StyledRating, StyledRatingCount } from "./styles";
 import { RatingProps } from "./types";
 
+/**
+ * Rating display component with optional count
+ * @param {RatingProps} props - Component props
+ * @param {number} props.value - Current rating value
+ * @param {number} props.max - Maximum rating value
+ * @param {number} props.count - Number of ratings (optional)
+ * @param {"small" | "medium" | "large"} props.size - Component size
+ */
 const Rating = ({ value, max = 5, count, size = "small" }: RatingProps) => {
   const theme = useTheme();
 
