@@ -1,3 +1,1 @@
-import Cart from "./Cart";
-
-export { Cart as CartPage };
+export { default as CartPage } from './Cart';
