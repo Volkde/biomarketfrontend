@@ -14,6 +14,7 @@ import { authActions } from "store/redux/auth/slice/authSlice";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
+import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
 import { AccountButton } from "../AccountButton";
 import { AccountMenu } from "../AccountMenu";
 import { CartButton } from "../CartButton";
@@ -62,6 +63,12 @@ function Root() {
 
     return 0;
   }, [cartStatus, cart]);
+
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(wishlistActions.fetchGetWishlist());
+    }
+  }, [dispatch, isLogin]);
 
   const { status: wishlistStatus, wishlist } =
     useAppSelector(selectWishlistState);

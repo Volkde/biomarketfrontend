@@ -14,7 +14,7 @@ function Wishlist() {
   const { t } = useTranslation("page-wishlist");
   const dispatch = useAppDispatch();
   const { isLogin } = useAppSelector(selectAuthState);
-
+ 
   useEffect(() => {
     dispatch(productsActions.fetchGetProducts({}));
   }, [dispatch]);

@@ -30,10 +30,10 @@ function CartItem({ value }: CartItemProps) {
       <img width={50} height={50} src={value.image} />
       <Box sx={{ flexGrow: 1, padding: 0 }}>
         <Typography>{value.title}</Typography>
-        <Typography>{value.quantity}</Typography>
         <Typography>
-          {value.totalItemPrice} {value.unitOfMeasure}
+          {value.quantity} {value.unitOfMeasure}
         </Typography>
+        <Typography>${value.totalItemPrice}</Typography>
 
         <Tooltip title="Remove from cart">
           <Button onClick={handleRemove}>Remove</Button>
