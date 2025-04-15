@@ -13,13 +13,26 @@ function LoginForm({ title }: LoginFormProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const demo = {
+  // FIXME: remove
+  const demoUser = {
     email: "john@gmail.com",
     password: "John123@!"
   };
 
+  // FIXME: remove
+  const demoSeller = {
+    email: "seller1@gmail.com",
+    password: ""
+  };
+
+  // FIXME: remove
+  const demoAdmin = {
+    email: "seller1@gmail.com",
+    password: ""
+  };
+
   const formik = useFormik({
-    initialValues: demo as LoginFormValues,
+    initialValues: demoSeller as LoginFormValues,
     validationSchema: LoginValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: LoginFormValues) => {
