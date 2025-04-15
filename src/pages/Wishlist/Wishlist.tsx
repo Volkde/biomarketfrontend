@@ -4,13 +4,16 @@ import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
+import { loginModalActions } from "store/redux/ui/slice/loginModalSlice";
 import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 
 function Wishlist() {
   const { t } = useTranslation("page-wishlist");
   const dispatch = useAppDispatch();
+  const { isLogin } = useAppSelector(selectAuthState);
 
   useEffect(() => {
     dispatch(productsActions.fetchGetProducts({}));
@@ -37,6 +40,16 @@ function Wishlist() {
   }, [wishlistStatus, wishlist, products]);
 
   const elProducts = useMemo(() => {
+    if (!isLogin) {
+      dispatch(loginModalActions.openLoginModal());
+
+      return (
+        <Typography variant="body1" component="p" gutterBottom>
+          {t("You are not logged in.")}
+        </Typography>
+      );
+    }
+
     if (wishlistStatus === "success" && wishlistProducts.length > 0) {
       return wishlistProducts.map(product => (
         <ProductCard key={product.id} product={product} />
@@ -54,7 +67,7 @@ function Wishlist() {
     }
 
     return null;
-  }, [wishlistStatus, wishlistProducts]);
+  }, [isLogin, wishlistStatus, wishlistProducts]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

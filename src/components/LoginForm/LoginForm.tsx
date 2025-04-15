@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { LoginValidationSchema } from "./LoginValidationSchema";
-import { LoginFormValues } from "./types";
+import { LoginFormProps, LoginFormValues } from "./types";
 
-function LoginForm() {
+function LoginForm({ title }: LoginFormProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -38,9 +38,11 @@ function LoginForm() {
 
   return (
     <Grid direction="column" container spacing={2}>
-      <Typography variant="h5" mb={2}>
-        {t("Account Login")}
-      </Typography>
+      {title && (
+        <Typography variant="h5" mb={2}>
+          {title}
+        </Typography>
+      )}
 
       <form onSubmit={formik.handleSubmit}>
         <Grid

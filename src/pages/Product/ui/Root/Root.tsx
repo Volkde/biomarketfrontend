@@ -5,9 +5,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
+import { loginModalActions } from "store/redux/ui/slice/loginModalSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
@@ -17,6 +19,7 @@ function Root() {
   const { t } = useTranslation("page-product");
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const { isLogin } = useAppSelector(selectAuthState);
 
   const productId = useMemo(() => {
     const parts = location.pathname.split("/").filter(Boolean);
@@ -60,25 +63,35 @@ function Root() {
         throw new Error("Не удалось получить id товара");
       }
 
+      if (!isLogin) {
+        return dispatch(loginModalActions.openLoginModal());
+      }
+
       await dispatch(
         wishlistActions.fetchToggleProductInWishlist({ productId })
       ).unwrap();
 
       dispatch(
         snackbarActions.enqueueSnackbar({
-          message: "Товар добавлен избранные",
+          message: isFavorite
+            ? "Товар удален из избранного"
+            : "Товар добавлен избранные",
           severity: "success"
         })
       );
     } catch (error) {
       console.error("Ошибка при добавлении в избранные:", error);
     }
-  }, [dispatch, productId]);
+  }, [dispatch, isLogin, productId, isFavorite]);
 
   const handleAddToCart = useCallback(async () => {
     try {
       if (productId < 0) {
         throw new Error("Не удалось получить id товара");
+      }
+
+      if (!isLogin) {
+        return dispatch(loginModalActions.openLoginModal());
       }
 
       await dispatch(cartActions.fetchAddProductToCart({ productId })).unwrap();
@@ -92,7 +105,7 @@ function Root() {
     } catch (error) {
       console.error("Ошибка при добавлении в корзину:", error);
     }
-  }, [dispatch, productId]);
+  }, [dispatch, isLogin, productId]);
 
   const elProduct = useMemo(() => {
     if (productsStatus === "success" && product) {
