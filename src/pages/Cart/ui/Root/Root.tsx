@@ -44,43 +44,6 @@ function Root() {
 
   const { cart, status, error } = useAppSelector(selectCartState);
 
-  const updateQuantity = (productId: number, delta: number) => {
-    const item = cart?.items.find(i => i.productId === productId);
-    if (!item) return;
-    const newQuantity = Math.max(1, item.quantity + delta);
-    dispatch(
-      cartActions.fetchUpdateProductQuantity({
-        productId,
-        quantity: newQuantity
-      })
-    )
-      .unwrap()
-      .then(() => {
-        dispatch(
-          snackbarActions.enqueueSnackbar({
-            message: t("quantityUpdated", {
-              defaultValue: "Количество обновлено"
-            }),
-            severity: "success"
-          })
-        );
-      })
-      .catch(() => {
-        dispatch(
-          snackbarActions.enqueueSnackbar({
-            message: t("quantityUpdateError", {
-              defaultValue: "Ошибка обновления количества"
-            }),
-            severity: "error"
-          })
-        );
-      });
-  };
-
-  const removeItem = (productId: number) => {
-    setRemoveDialog({ open: true, productId });
-  };
-
   const confirmRemove = () => {
     if (removeDialog.productId == null) return;
     dispatch(
@@ -161,16 +124,11 @@ function Root() {
   if (!cart?.items?.length) {
     return (
       <Wrapper style={{ textAlign: "center", padding: "48px 0" }}>
-        <img
-          src="/empty-cart.svg"
-          alt="empty"
-          style={{ maxWidth: 180, marginBottom: 24 }}
-        />
         <Typography variant="h5" gutterBottom>
           {t("empty", { defaultValue: "Ваша корзина пуста" })}
         </Typography>
         <Button variant="contained" href="/products" sx={{ mt: 2 }}>
-          {t("continueShopping")}
+          {t("continueShopping", { defaultValue: "Continue Shopping" })}
         </Button>
       </Wrapper>
     );
@@ -194,12 +152,7 @@ function Root() {
         <>
           <List>
             {cart.items.map(item => (
-              <CartItem
-                key={item.productId}
-                value={item}
-                onQuantityChange={updateQuantity}
-                onRemove={removeItem}
-              />
+              <CartItem key={item.productId} value={item} />
             ))}
           </List>
 
@@ -248,7 +201,7 @@ function Root() {
               </span>
             )}
             <strong>
-              {t("total")}: {total.toFixed(2)} €
+              {t("Total")}: {total.toFixed(2)} €
             </strong>
           </Total>
 
@@ -262,7 +215,7 @@ function Root() {
                 textTransform: "none"
               }}
             >
-              {t("continueShopping")}
+              {t("continueShopping", { defaultValue: "Continue Shopping" })}
             </Button>
             <Button
               variant="contained"
@@ -312,7 +265,7 @@ function Root() {
                 textTransform: "none"
               }}
             >
-              {t("checkout")}
+              {t("Checkout")}
             </Button>
           </Actions>
         </>
