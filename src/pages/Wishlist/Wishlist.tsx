@@ -19,11 +19,7 @@ function Wishlist() {
     dispatch(productsActions.fetchGetProducts({}));
   }, [dispatch]);
 
-  const {
-    status: productsStatus,
-    products = [],
-    error
-  } = useAppSelector(selectProductsState);
+  const { products = [], error } = useAppSelector(selectProductsState);
 
   const { status: wishlistStatus, wishlist } =
     useAppSelector(selectWishlistState);
@@ -67,7 +63,7 @@ function Wishlist() {
     }
 
     return null;
-  }, [isLogin, wishlistStatus, wishlistProducts]);
+  }, [dispatch, isLogin, wishlistStatus, wishlistProducts]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

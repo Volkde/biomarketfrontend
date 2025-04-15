@@ -25,7 +25,7 @@ function MoreMenu({
   open,
   cartItemsCount,
   wishlistItemsCount,
-	myShopItemsCount,
+  myShopItemsCount,
   login,
   handleClose
 }: MoreMenuProps) {
@@ -73,19 +73,19 @@ function MoreMenu({
     >
       {login === true ? (
         <>
-
-												<MenuItem 
-													onClick={() => {
-														navigate("/my-shop");
-													}}>
-													<ListItemIcon>
-														<Badge badgeContent={myShopItemsCount} color="success">
-															<ShoppingBasketOutlinedIcon />
-														</Badge>
-													</ListItemIcon>
-													Cart
-												</MenuItem>
-												<Divider />
+          <MenuItem
+            onClick={() => {
+              navigate("/my-shop");
+            }}
+          >
+            <ListItemIcon>
+              <Badge badgeContent={myShopItemsCount} color="success">
+                <ShoppingBasketOutlinedIcon />
+              </Badge>
+            </ListItemIcon>
+            Cart
+          </MenuItem>
+          <Divider />
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Badge badgeContent={cartItemsCount} color="error">
@@ -94,9 +94,11 @@ function MoreMenu({
             </ListItemIcon>
             Cart
           </MenuItem>
-          <MenuItem onClick={() => {
-						handleClose();
-					}}>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <Badge badgeContent={wishlistItemsCount} color="success">
                 <FavoriteBorderIcon />

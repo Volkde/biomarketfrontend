@@ -1,1 +1,3 @@
-export { default as CartPage } from './Cart';
+import { Cart as CartPage } from "./ui/Root";
+
+export { CartPage };
