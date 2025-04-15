@@ -7,6 +7,7 @@ export const useBreadcrumbs = (): Record<string, { title: string }> => {
   const { t: tCheckout } = useTranslation("page-checkout");
   const { t: tHome } = useTranslation("page-home");
   const { t: tLogin } = useTranslation("page-login");
+  const { t: tMyShop } = useTranslation("page-my-shop");
   const { t: tProducts } = useTranslation("page-products");
   const { t: tSearch } = useTranslation("page-search");
   const { t: tSettings } = useTranslation("page-settings");
@@ -34,6 +35,9 @@ export const useBreadcrumbs = (): Record<string, { title: string }> => {
     },
     login: {
       title: tLogin("breadcrumbs")
+    },
+    "my-shop": {
+      title: tMyShop("breadcrumbs")
     },
     products: {
       title: tProducts("breadcrumbs")
