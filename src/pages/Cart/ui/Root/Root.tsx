@@ -26,6 +26,7 @@ function Root() {
   const { t } = useTranslation("page-cart");
   const dispatch = useAppDispatch();
   const { isLogin } = useAppSelector(selectAuthState);
+  const currencySymbol = "€";
 
   const [removeDialog, setRemoveDialog] = useState<{
     open: boolean;
@@ -191,17 +192,18 @@ function Root() {
 
           {/* Totals */}
           <Total>
-            {t("subtotal", { defaultValue: "Сумма" })}: {subtotal.toFixed(2)} €
+            {t("subtotal", { defaultValue: "Сумма" })}: {currencySymbol}
+            {subtotal.toFixed(2)}
             <br />
             {promoApplied && (
               <span style={{ color: "#388e3c" }}>
-                -{discountAmount.toFixed(2)} €{" "}
-                {t("discount", { defaultValue: "Скидка" })}
-                <br />
+                {t("discount", { defaultValue: "Скидка" })}: {currencySymbol}-
+                {discountAmount.toFixed(2)} <br />
               </span>
             )}
             <strong>
-              {t("Total")}: {total.toFixed(2)} €
+              {t("Total")}: {currencySymbol}
+              {total.toFixed(2)}
             </strong>
           </Total>
 

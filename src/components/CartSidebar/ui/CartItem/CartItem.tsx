@@ -7,6 +7,7 @@ import { CartItemProps } from "./types";
 
 function CartItem({ value }: CartItemProps) {
   const dispatch = useAppDispatch();
+  const currencySymbol = "€";
 
   const handleRemove = useCallback(async () => {
     try {
@@ -30,10 +31,39 @@ function CartItem({ value }: CartItemProps) {
       <img width={50} height={50} src={value.image} />
       <Box sx={{ flexGrow: 1, padding: 0 }}>
         <Typography>{value.title}</Typography>
-        <Typography>
-          {value.quantity} {value.unitOfMeasure}
+        <Typography
+          sx={{
+            gap: "5px",
+            display: "flex",
+            alignItems: "center"
+          }}
+        >
+          <ins
+            style={{
+              textDecoration: "none"
+            }}
+          >
+            <bdi
+              style={{
+                color: "#777",
+                fontSize: "14px",
+                fontWeight: "300"
+              }}
+            >
+              <span>{currencySymbol}</span>
+              <span>{value.totalItemPrice}</span>
+            </bdi>
+          </ins>
+          <span
+            style={{
+              color: "#777",
+              fontSize: "14px",
+              fontWeight: "300"
+            }}
+          >
+            (<span>{value.quantity}</span> <span>{value.unitOfMeasure}</span>)
+          </span>
         </Typography>
-        <Typography>${value.totalItemPrice}</Typography>
 
         <Tooltip title="Remove from cart">
           <Button onClick={handleRemove}>Remove</Button>

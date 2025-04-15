@@ -14,6 +14,7 @@ function CartSidebar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isCartPanelOpen } = useAppSelector(selectUiState);
+  const currencySymbol = "€";
 
   const handleDrawerClose = () => {
     dispatch(uiActions.closeCartPanel());
@@ -86,7 +87,8 @@ function CartSidebar() {
         }}
       >
         <Typography>
-          <strong>Subtotal:</strong> ${cart?.totalCartPrice}
+          <strong>Subtotal:</strong> {currencySymbol}
+          {cart?.totalCartPrice}
         </Typography>
         <Grid
           container

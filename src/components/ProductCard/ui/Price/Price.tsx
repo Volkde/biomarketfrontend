@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { StyledOldPrice, StyledPrice, StyledPriceWrapper } from "./styles";
 import { PriceProps } from "./types";
 
-const Price = ({ price, oldPrice, currency = "$" }: PriceProps) => {
+const Price = ({ price, oldPrice, currency = "€" }: PriceProps) => {
   return (
     <StyledPriceWrapper>
       <ins>
