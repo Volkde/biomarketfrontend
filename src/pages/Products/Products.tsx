@@ -9,7 +9,6 @@ import {
 import { useSearchParams } from "react-router-dom";
 import { replaceLastPathSegment } from "shared/utils/replaceLastPathSegment";
 import { categories } from "../../app/categories";
-import { useTranslation } from "react-i18next";
 
 const getQueryParamAsNumber = (
   param: string | null,
@@ -22,7 +21,7 @@ const getQueryParamAsBoolean = (
 ) => (param === "true" ? true : defaultValue);
 
 function Products() {
-  const { t } = useTranslation("page-products");
+  // const { t } = useTranslation("page-products");
   const [searchParams] = useSearchParams();
 
   const page = getQueryParamAsNumber(searchParams.get("page"), 1);
