@@ -6,18 +6,20 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
 import { LoginValidationSchema } from "./LoginValidationSchema";
-import { LoginFormValues } from "./types";
+import { LoginFormProps, LoginFormValues } from "./types";
 
-function LoginForm() {
+function LoginForm({ title }: LoginFormProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const demo = {
+    email: "john@gmail.com",
+    password: "John123@!"
+  };
+
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: ""
-    } as LoginFormValues,
+    initialValues: demo as LoginFormValues,
     validationSchema: LoginValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: LoginFormValues) => {
@@ -36,9 +38,11 @@ function LoginForm() {
 
   return (
     <Grid direction="column" container spacing={2}>
-      <Typography variant="h5" mb={2}>
-        {t("Account Login")}
-      </Typography>
+      {title && (
+        <Typography variant="h5" mb={2}>
+          {title}
+        </Typography>
+      )}
 
       <form onSubmit={formik.handleSubmit}>
         <Grid

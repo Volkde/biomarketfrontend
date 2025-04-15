@@ -2,8 +2,10 @@ import { Box, Link, useTheme } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
 import { cartActions } from "store/redux/cart/slice/cartSlice";
+import { loginModalActions } from "store/redux/ui/slice/loginModalSlice";
 import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
@@ -19,13 +21,35 @@ import { ProductCardProps } from "./types";
 function Root({ product }: ProductCardProps) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const { isLogin } = useAppSelector(selectAuthState);
 
   const productId = product?.id ?? -1;
+
+  const { status: wishlistStatus, wishlist } =
+    useAppSelector(selectWishlistState);
+
+  const isFavorite = useMemo(() => {
+    const ids = wishlist?.productIds ?? [];
+
+    if (!isLogin) {
+      return false;
+    }
+
+    if (wishlistStatus === "success" && ids.length > 0) {
+      return ids.findIndex(item => item === productId) >= 0;
+    }
+
+    return false;
+  }, [wishlistStatus, isLogin, wishlist, productId]);
 
   const handleFavoriteToggle = useCallback(async () => {
     try {
       if (productId < 0) {
         throw new Error("Не удалось получить id товара");
+      }
+
+      if (!isLogin) {
+        return dispatch(loginModalActions.openLoginModal());
       }
 
       await dispatch(
@@ -34,32 +58,25 @@ function Root({ product }: ProductCardProps) {
 
       dispatch(
         snackbarActions.enqueueSnackbar({
-          message: "Товар добавлен избранные",
+          message: isFavorite
+            ? "Товар удален из избранного"
+            : "Товар добавлен избранные",
           severity: "success"
         })
       );
     } catch (error) {
       console.error("Ошибка при добавлении в избранные:", error);
     }
-  }, [dispatch, productId]);
-
-  const { status: wishlistStatus, wishlist } =
-    useAppSelector(selectWishlistState);
-
-  const isFavorite = useMemo(() => {
-    const ids = wishlist?.productIds ?? [];
-
-    if (wishlistStatus === "success" && ids.length > 0) {
-      return ids.findIndex(item => item === productId) >= 0;
-    }
-
-    return false;
-  }, [wishlistStatus, wishlist, productId]);
+  }, [dispatch, isLogin, productId, isFavorite]);
 
   const handleAddToCart = useCallback(async () => {
     try {
       if (productId < 0) {
         throw new Error("Не удалось получить id товара");
+      }
+
+      if (!isLogin) {
+        return dispatch(loginModalActions.openLoginModal());
       }
 
       await dispatch(cartActions.fetchAddProductToCart({ productId })).unwrap();
@@ -73,19 +90,23 @@ function Root({ product }: ProductCardProps) {
     } catch (error) {
       console.error("Ошибка при добавлении в корзину:", error);
     }
-  }, [dispatch, productId]);
+  }, [dispatch, isLogin, productId]);
 
   const { status, cart } = useAppSelector(selectCartState);
 
   const isAddingToCart = useMemo(() => {
     const cartItems = cart?.items ?? [];
 
+    if (!isLogin) {
+      return false;
+    }
+
     if (status === "success" && cartItems.length > 0) {
       return cartItems.findIndex(item => item.productId === productId) >= 0;
     }
 
     return false;
-  }, [status, cart, productId]);
+  }, [status, isLogin, cart, productId]);
 
   return (
     <StyledProductCard>

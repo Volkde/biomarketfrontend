@@ -11,6 +11,7 @@ import { productsSlice } from "./redux/products/slice/productsSlice";
 import { reviewsSlice } from "./redux/reviews/slice/reviewsSlice";
 import { sellersSlice } from "./redux/sellers/slice/sellersSlice";
 import { languageSlice } from "./redux/ui/slice/languageSlice";
+import { loginModalSlice } from "./redux/ui/slice/loginModalSlice";
 import { snackbarSlice } from "./redux/ui/slice/snackbarSlice";
 import { themeSlice } from "./redux/ui/slice/themeSlice";
 import { uiSlice } from "./redux/ui/slice/uiSlice";
@@ -22,6 +23,7 @@ import { wishlistSlice } from "./redux/wishlist/slice/wishlistSlice";
 const rootReducer = combineSlices(
   uiSlice,
   snackbarSlice,
+  loginModalSlice,
   themeSlice,
   languageSlice,
   authSlice,
