@@ -20,6 +20,7 @@ import { CartItemProps } from "./types";
 function CartItem({ value }: CartItemProps) {
   const { t } = useTranslation("page-cart");
   const dispatch = useAppDispatch();
+  const currencySymbol = "€";
 
   const productId = value.productId;
   const productPrice = value.totalItemPrice / value.quantity;
@@ -99,10 +100,12 @@ function CartItem({ value }: CartItemProps) {
       <ProductInfo>
         <Typography variant="h6">{value?.title}</Typography>
         <Typography variant="body1" color="primary">
-          ${productPrice?.toFixed(2)}
+          {currencySymbol}
+          {productPrice?.toFixed(2)}
         </Typography>
         <Typography variant="body2">
-          Total: ${value?.totalItemPrice?.toFixed(2)}
+          Total: {currencySymbol}
+          {value?.totalItemPrice?.toFixed(2)}
         </Typography>
       </ProductInfo>
       <QuantityControls>

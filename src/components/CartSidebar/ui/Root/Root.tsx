@@ -1,4 +1,12 @@
-import { Box, Button, Drawer, Grid, Toolbar, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Grid,
+  Toolbar,
+  Typography
+} from "@mui/material";
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -14,6 +22,7 @@ function CartSidebar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isCartPanelOpen } = useAppSelector(selectUiState);
+  const currencySymbol = "€";
 
   const handleDrawerClose = () => {
     dispatch(uiActions.closeCartPanel());
@@ -30,7 +39,10 @@ function CartSidebar() {
 
     if (status === "success" && cartItems.length > 0) {
       return cartItems.map((item, i) => (
-        <CartItem key={item?.productId ?? i} value={item} />
+        <>
+          <CartItem key={item?.productId ?? i} value={item} />
+          <Divider />
+        </>
       ));
     } else if (status !== "error") {
       return Array.from({ length: 3 }).map((_, index) => (
@@ -86,7 +98,8 @@ function CartSidebar() {
         }}
       >
         <Typography>
-          <strong>Subtotal:</strong> ${cart?.totalCartPrice}
+          <strong>Subtotal:</strong> {currencySymbol}
+          {cart?.totalCartPrice}
         </Typography>
         <Grid
           container

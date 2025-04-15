@@ -143,7 +143,11 @@ function Root({ product }: ProductCardProps) {
           </Link>
         </StyledProductTitle>
         <Box>
-          <Price price={product.price} oldPrice={product.oldPrice} />
+          <Price
+            price={product.price}
+            oldPrice={product.oldPrice}
+            unitOfMeasure={product.unitOfMeasure}
+          />
         </Box>
         <Rating value={product.rating} />
       </Box>

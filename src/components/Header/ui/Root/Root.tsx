@@ -7,7 +7,7 @@ import {
   useTheme
 } from "@mui/material";
 import { MouseEvent, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
@@ -33,6 +33,10 @@ function Root() {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const category = params.get("category");
+  console.log("category", category);
 
   useEffect(() => {
     dispatch(authActions.profile());
@@ -189,12 +193,30 @@ function Root() {
             <SidebarButton onClick={handleNavSidebarOpen} />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
-            <HeaderLink to="/shop?category=fruits">
+            <HeaderLink
+              to="/shop?category=fruits"
+              active={category === "fruits"}
+            >
               Fruits & Vegetables
             </HeaderLink>
-            <HeaderLink to="/shop?category=dairy">Dairy & Eggs</HeaderLink>
-            <HeaderLink to="/shop?category=bakery">Bakery</HeaderLink>
-            <HeaderLink to="/shop?category=meat">Meat & Fish</HeaderLink>
+            <HeaderLink
+              to="/shop?category=dairy"
+              active={category === "dairy"}
+            >
+              Dairy & Eggs
+            </HeaderLink>
+            <HeaderLink
+              to="/shop?category=bakery"
+              active={category === "bakery"}
+            >
+              Bakery
+            </HeaderLink>
+            <HeaderLink
+              to="/shop?category=meat"
+              active={category === "meat"}
+            >
+              Meat & Fish
+            </HeaderLink>
           </Box>
           <Space />
           <Search />
