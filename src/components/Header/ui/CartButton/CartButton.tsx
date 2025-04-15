@@ -16,7 +16,7 @@ function CartButton({ id, cartItemsCount }: CartButtonProps) {
       <IconButton
         id={id}
         size="large"
-        aria-label="show 4 new mails"
+        aria-label={isCartPanelOpen ? "Close cart" : "Open cart"}
         aria-controls={`modal-${id}`}
         aria-haspopup="true"
         onClick={handleDrawerToggle}

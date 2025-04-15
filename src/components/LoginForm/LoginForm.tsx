@@ -22,13 +22,13 @@ function LoginForm({ title }: LoginFormProps) {
   // FIXME: remove
   const demoSeller = {
     email: "seller1@gmail.com",
-    password: ""
+    password: "lak123"
   };
 
   // FIXME: remove
   const demoAdmin = {
-    email: "seller1@gmail.com",
-    password: ""
+    email: "john@gmail.com",
+    password: "John123@!"
   };
 
   const formik = useFormik({
