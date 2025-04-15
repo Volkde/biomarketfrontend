@@ -2,7 +2,8 @@ import { createAppSlice } from "store/createAppSlice";
 import { UiState } from "../types/UiState";
 
 const initialState: UiState = {
-  isCartPanelOpen: false
+  isCartPanelOpen: false,
+  isSidebarPanelOpen: false
 };
 
 export const uiSlice = createAppSlice({
@@ -28,6 +29,27 @@ export const uiSlice = createAppSlice({
      */
     toggleCartPanel: state => {
       state.isCartPanelOpen = !state.isCartPanelOpen;
+    },
+
+    /**
+     * openSidebarPanel
+     */
+    openSidebarPanel: state => {
+      state.isSidebarPanelOpen = true;
+    },
+
+    /**
+     * closeSidebarPanel
+     */
+    closeSidebarPanel: state => {
+      state.isSidebarPanelOpen = false;
+    },
+
+    /**
+     * toggleSidebarPanel
+     */
+    toggleSidebarPanel: state => {
+      state.isSidebarPanelOpen = !state.isSidebarPanelOpen;
     },
 
     /**

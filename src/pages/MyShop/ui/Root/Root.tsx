@@ -6,8 +6,12 @@ import {
 } from "@mui/icons-material";
 import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
 import { Breadcrumbs } from "components/Breadcrumbs";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
+import { authActions } from "store/redux/auth/slice/authSlice";
+import { cartActions } from "store/redux/cart/slice/cartSlice";
 import CustomTabPanel from "../CustomTabPanel/CustomTabPanel";
 
 function a11yProps(index: number) {
@@ -19,11 +23,25 @@ function a11yProps(index: number) {
 
 function Root() {
   const { t } = useTranslation("page-my-shop");
+  const dispatch = useAppDispatch();
   const [value, setValue] = useState(0);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    dispatch(authActions.profile());
+  }, [dispatch]);
+
+  const { isLogin, isSeller } = useAppSelector(selectAuthState);
+
+  useEffect(() => {
+    if (isLogin && isSeller) {
+      // TODO: Получить товары в корзине продавца
+      dispatch(cartActions.fetchGetCart());
+    }
+  }, [dispatch, isLogin, isSeller]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

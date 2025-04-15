@@ -36,7 +36,6 @@ function Root() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const category = params.get("category");
-  console.log("category", category);
 
   useEffect(() => {
     dispatch(authActions.profile());
@@ -86,18 +85,10 @@ function Root() {
     return 0;
   }, [wishlistStatus, wishlist]);
 
-  const myShopItemsCount = 4123; // TODO wishlistItemsCount
-  const isNavSidebarOpen = false; // TODO isNavSidebarOpen
+  // TODO myShopItemsCount
+  const myShopItemsCount = 4123;
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
-
-  const handleNavSidebarOpen = () => {
-    // TODO: handleNavSidebarOpen()
-  };
-
-  // const handleNavSidebarClose = () => {
-  //   // TODO: handleNavSidebarClose()
-  // };
 
   const handleAccountMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setElAccountMenuAnchor(event.currentTarget);
@@ -190,7 +181,7 @@ function Root() {
           }}
         >
           <Box sx={{ display: { xs: "flex", sm: "none" } }}>
-            <SidebarButton onClick={handleNavSidebarOpen} />
+            <SidebarButton />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <HeaderLink
@@ -199,10 +190,7 @@ function Root() {
             >
               Fruits & Vegetables
             </HeaderLink>
-            <HeaderLink
-              to="/shop?category=dairy"
-              active={category === "dairy"}
-            >
+            <HeaderLink to="/shop?category=dairy" active={category === "dairy"}>
               Dairy & Eggs
             </HeaderLink>
             <HeaderLink
@@ -211,10 +199,7 @@ function Root() {
             >
               Bakery
             </HeaderLink>
-            <HeaderLink
-              to="/shop?category=meat"
-              active={category === "meat"}
-            >
+            <HeaderLink to="/shop?category=meat" active={category === "meat"}>
               Meat & Fish
             </HeaderLink>
           </Box>
