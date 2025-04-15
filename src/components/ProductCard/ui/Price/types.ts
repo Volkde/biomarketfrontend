@@ -3,4 +3,5 @@ export interface PriceProps {
   oldPrice?: number;
   isSale?: boolean;
   currency?: string;
+  unitOfMeasure?: string;
 }
