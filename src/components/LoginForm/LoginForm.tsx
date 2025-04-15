@@ -13,11 +13,13 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const demo = {
+    email: "john@gmail.com",
+    password: "John123@!"
+  };
+
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: ""
-    } as LoginFormValues,
+    initialValues: demo as LoginFormValues,
     validationSchema: LoginValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: LoginFormValues) => {
