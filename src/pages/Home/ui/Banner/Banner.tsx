@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import {
   Overlay,
   Slide,
@@ -13,26 +13,36 @@ import {
   Title
 } from "./styles";
 
-const slides = [
-  {
-    id: 1,
-    image: "/images/banner1.png",
-    title: "Натуральные продукты",
-    subtitle: "Фермерская еда у тебя дома",
-    buttonText: "К покупкам",
-    buttonLink: "/products"
-  },
-  {
-    id: 2,
-    image: "/images/banner2.png",
-    title: "Горячие предложения",
-    subtitle: "Скидки до 50% только этой недели!",
-    buttonText: "Смотреть",
-    buttonLink: "/hot-deals"
-  }
-];
-
 function Banner() {
+  const { t } = useTranslation("page-home");
+
+  const slides = [
+    {
+      id: 3,
+      image: "/images/banner3.jpg",
+      title: t("banner.1.title"),
+      subtitle: t("banner.1.subtitle"),
+      buttonText: t("banner.1.buttonText"),
+      buttonLink: "/store"
+    },
+    {
+      id: 4,
+      image: "/images/banner4.jpg",
+      title: t("banner.2.title"),
+      subtitle: t("banner.2.subtitle"),
+      buttonText: t("banner.2.buttonText"),
+      buttonLink: "/store"
+    },
+    {
+      id: 5,
+      image: "/images/banner5.jpg",
+      title: t("banner.3.title"),
+      subtitle: t("banner.3.subtitle"),
+      buttonText: t("banner.3.buttonText"),
+      buttonLink: "/store"
+    }
+  ];
+
   return (
     <Box sx={{ margin: "-24px -24px 35px" }}>
       <SliderWrapper>
