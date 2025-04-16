@@ -1,5 +1,6 @@
 import { Container, Grid, Typography } from "@mui/material";
 import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
+import { useSyncFiltersWithUrl } from "components/ProductsGrid/hooks/useSyncFiltersWithUrl";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
@@ -9,7 +10,6 @@ import { ProductsFilters } from "../../types/ProductsFilters";
 import { Filters } from "../Filters";
 import { Pagination } from "../Pagination";
 import { RootProps } from "./types";
-import { useSyncFiltersWithUrl } from "components/ProductsGrid/hooks/useSyncFiltersWithUrl";
 
 function Root({
   filters: initialFilters,
@@ -21,8 +21,6 @@ function Root({
   const dispatch = useAppDispatch();
 
   useSyncFiltersWithUrl(filters, setFilters);
-
-  console.log("filters", filters);
 
   useEffect(() => {
     dispatch(
