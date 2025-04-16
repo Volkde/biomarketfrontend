@@ -37,6 +37,9 @@ const GlobalStyles = () => {
           fontWeightMedium: theme.typography.fontWeightMedium,
           fontWeightBold: theme.typography.fontWeightBold
         },
+        "[hidden]": {
+          display: "none !important"
+        },
         "*": {
           boxSizing: "border-box"
         }

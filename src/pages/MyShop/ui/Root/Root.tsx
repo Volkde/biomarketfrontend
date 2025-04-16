@@ -56,7 +56,7 @@ function Root() {
       <Breadcrumbs />
 
       {isLogin ? (
-        isSeller && sellerId && sellerId >= 0 ? (
+        isSeller ? (
           <>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs

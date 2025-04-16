@@ -2,38 +2,48 @@ import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ProductsFilters } from "../types/ProductsFilters";
 
+function parseSearchParams(searchParams: URLSearchParams): ProductsFilters {
+  const parsed: ProductsFilters = {};
+  searchParams.forEach((value, key) => {
+    if (value === "true" || value === "false") {
+      parsed[key as keyof ProductsFilters] = (value === "true") as any;
+    } else if (!isNaN(Number(value))) {
+      parsed[key as keyof ProductsFilters] = Number(value) as any;
+    } else {
+      parsed[key as keyof ProductsFilters] = value as any;
+    }
+  });
+  return parsed;
+}
+
+function areFiltersEqual(a: ProductsFilters, b: ProductsFilters): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 export function useSyncFiltersWithUrl(
   filters: ProductsFilters,
   setFilters: (filters: ProductsFilters) => void
 ) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const hasSyncedFromUrl = useRef(false);
+  const lastSyncedFilters = useRef<ProductsFilters>({});
 
-  // Сначала один раз синхронизируем filters из URL
+  // Слушаем изменения в searchParams (например, ручное редактирование URL)
   useEffect(() => {
-    if (hasSyncedFromUrl.current) return;
+    const parsed = parseSearchParams(searchParams);
 
-    const newFilters: ProductsFilters = {};
-    searchParams.forEach((value, key) => {
-      if (!isNaN(Number(value))) {
-        newFilters[key as keyof ProductsFilters] = Number(value) as any;
-      } else if (value === "true" || value === "false") {
-        newFilters[key as keyof ProductsFilters] = (value === "true") as any;
-      } else {
-        newFilters[key as keyof ProductsFilters] = value as any;
-      }
-    });
-
-    setFilters(newFilters);
-    hasSyncedFromUrl.current = true;
+    if (!areFiltersEqual(parsed, lastSyncedFilters.current)) {
+      lastSyncedFilters.current = parsed;
+      setFilters(parsed);
+    }
   }, [searchParams, setFilters]);
 
-  // Затем обновляем URL при изменении filters
+  // Слушаем изменения filters и обновляем URL (если filters изменились вручную)
   useEffect(() => {
-    if (!hasSyncedFromUrl.current) return;
+    if (areFiltersEqual(filters, lastSyncedFilters.current)) return;
+
+    lastSyncedFilters.current = filters;
 
     const newParams: Record<string, string> = {};
-
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         newParams[key] = String(value);
