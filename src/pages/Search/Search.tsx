@@ -4,7 +4,7 @@ import {
   ProductsFilters,
   ProductsFilterSortBy,
   ProductsFilterSortOrder
-} from "components/ProductsGrid/ui/Root/types";
+} from "components/ProductsGrid/types/ProductsFilters";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { Container } from "./styles";
