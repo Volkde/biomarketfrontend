@@ -10,6 +10,7 @@ import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
 import { AddToCartButton } from "../AddToCartButton";
+import { DiscountBadge } from "../DiscountBadge";
 import { FavoriteButton } from "../FavoriteButton";
 import { Images } from "../Images";
 import { Price } from "../Price";
@@ -120,6 +121,7 @@ function Root({ product }: ProductCardProps) {
           ]}
         />
       </Link>
+      {product.discounted && <DiscountBadge />}
       {product.inStock && <StockStatus status="in_stock" />}
       <Box className="product-content">
         <StyledButtons className="product-cart-buttons">

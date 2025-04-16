@@ -86,7 +86,7 @@ function Root() {
   }, [wishlistStatus, wishlist]);
 
   // TODO myShopItemsCount
-  const myShopItemsCount = 4123;
+  const myShopItemsCount = 42;
 
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
@@ -128,7 +128,7 @@ function Root() {
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <Grid>
               <Typography sx={{ fontSize: "13px", color: "#777" }}>
-                Mon-Fri 8:00 AM - 20:00 PM Satutday Closed
+                Mon-Fri 8:00 AM - 20:00 PM Saturday Closed
               </Typography>
               <Typography sx={{ fontSize: "13px", color: "#777" }}>
                 (+800) 111 2020, (+700) 333 44 555
