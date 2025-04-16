@@ -82,7 +82,7 @@ function AccountMenu({
           <MenuItem
             onClick={async () => {
               try {
-                await dispatch(authActions.logout());
+                await dispatch(authActions.logout()).unwrap();
 
                 navigate("/");
               } catch (error) {

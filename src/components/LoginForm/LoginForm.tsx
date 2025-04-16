@@ -1,6 +1,7 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { PasswordField } from "components/PasswordField";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
@@ -8,31 +9,21 @@ import { authActions } from "store/redux/auth/slice/authSlice";
 import { LoginValidationSchema } from "./LoginValidationSchema";
 import { LoginFormProps, LoginFormValues } from "./types";
 
+const SESSION_KEY = "login-form-data";
+
 function LoginForm({ title }: LoginFormProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // FIXME: remove
-  const demoUser = {
-    email: "john@gmail.com",
-    password: "John123@!"
-  };
-
-  // FIXME: remove
-  const demoSeller = {
-    email: "seller1@gmail.com",
-    password: "lak123"
-  };
-
-  // FIXME: remove
-  const demoAdmin = {
-    email: "john@gmail.com",
-    password: "John123@!"
-  };
+  const saved = sessionStorage.getItem(SESSION_KEY);
+  const parsed = saved ? JSON.parse(saved) : null;
 
   const formik = useFormik({
-    initialValues: demoSeller as LoginFormValues,
+    initialValues: {
+      email: parsed?.email || "",
+      password: ""
+    } as LoginFormValues,
     validationSchema: LoginValidationSchema,
     validateOnChange: false,
     onSubmit: async (values: LoginFormValues) => {
@@ -48,6 +39,32 @@ function LoginForm({ title }: LoginFormProps) {
       }
     }
   });
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        formik.setValues(prev => ({ ...prev, ...parsed }));
+      } catch (e) {
+        console.warn("Ошибка при парсинге sessionStorage:", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const safeData: Partial<typeof formik.values> = {};
+
+    Object.keys(formik.values).forEach(key => {
+      if (key === "email") {
+        const typedKey = key as keyof LoginFormValues;
+        safeData[typedKey] = formik.values[typedKey] as any;
+      }
+    });
+
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(safeData));
+  }, [formik.values]);
 
   return (
     <Grid direction="column" container spacing={2}>

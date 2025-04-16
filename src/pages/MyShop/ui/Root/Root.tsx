@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectAuthState } from "store/redux/auth/selectors/selectAuthState";
 import { authActions } from "store/redux/auth/slice/authSlice";
+import { selectSellersState } from "store/redux/sellers/selectors/selectSellersState";
+import { sellersActions } from "store/redux/sellers/slice/sellersSlice";
 import CustomTabPanel from "../CustomTabPanel/CustomTabPanel";
 import { TabPanelCart } from "../TabPanelCart";
 import { TabPanelDashboard } from "../TabPanelDashboard";
@@ -35,15 +37,15 @@ function Root() {
   }, [dispatch]);
 
   const { user, isLogin, isSeller } = useAppSelector(selectAuthState);
+  const sellerId = user?.sellerId ?? 1;
 
   useEffect(() => {
-    if (isLogin && isSeller) {
-      // TODO: Получить товары в корзине продавца
-      // dispatch(cartActions.fetchGetCart());
+    if (isLogin && isSeller && sellerId) {
+      dispatch(sellersActions.fetchGetSellerById({ sellerId }));
     }
-  }, [dispatch, isLogin, isSeller]);
+  }, [dispatch, isLogin, isSeller, sellerId]);
 
-  const sellerId = user?.sellerId;
+  const { seller } = useAppSelector(selectSellersState);
 
   const [value, setValue] = useState(0);
 
@@ -101,6 +103,7 @@ function Root() {
                 isLogin={isLogin}
                 isSeller={isSeller}
                 sellerId={sellerId}
+                seller={seller}
               />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
@@ -115,6 +118,7 @@ function Root() {
                 isLogin={isLogin}
                 isSeller={isSeller}
                 sellerId={sellerId}
+                seller={seller}
               />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
@@ -122,6 +126,7 @@ function Root() {
                 isLogin={isLogin}
                 isSeller={isSeller}
                 sellerId={sellerId}
+                seller={seller}
               />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={4}>
@@ -129,6 +134,7 @@ function Root() {
                 isLogin={isLogin}
                 isSeller={isSeller}
                 sellerId={sellerId}
+                seller={seller}
               />
             </CustomTabPanel>
           </>

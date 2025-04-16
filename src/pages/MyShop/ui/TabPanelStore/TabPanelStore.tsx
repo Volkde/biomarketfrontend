@@ -28,23 +28,21 @@ function TabPanelStore({ seller }: TabPanelStoreProps) {
   });
 
   useEffect(() => {
-    if (seller) {
-      formik.setValues(prevValues => {
-        if (
-          prevValues.storeName !== seller.storeName ||
-          prevValues.storeDescription !== seller.storeDescription ||
-          prevValues.storeLogo !== seller.storeLogo
-        ) {
-          return {
-            storeName: seller.storeName || "",
-            storeDescription: seller.storeDescription || "",
-            storeLogo: seller.storeLogo || ""
-          };
-        }
-        return prevValues;
+    if (!seller) return;
+
+    const same =
+      formik.values.storeName === (seller.storeName || "") &&
+      formik.values.storeDescription === (seller.storeDescription || "") &&
+      formik.values.storeLogo === (seller.storeLogo || "");
+
+    if (!same) {
+      formik.setValues({
+        storeName: seller.storeName || "",
+        storeDescription: seller.storeDescription || "",
+        storeLogo: seller.storeLogo || ""
       });
     }
-  }, [seller, formik, formik.setValues]);
+  }, [seller]);
 
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
@@ -74,7 +72,7 @@ function TabPanelStore({ seller }: TabPanelStoreProps) {
                 src={seller?.storeLogo}
                 sx={{ width: 100, height: 100 }}
               />
-              <Grid direction="column" flexGrow={1}>
+              <Grid container direction="column" flexGrow={1}>
                 <TextField
                   fullWidth
                   margin="normal"

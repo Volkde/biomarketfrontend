@@ -7,7 +7,7 @@ import {
   Toolbar,
   Typography
 } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectCartState } from "store/redux/cart/selectors/selectCartState";
@@ -39,10 +39,10 @@ function CartSidebar() {
 
     if (status === "success" && cartItems.length > 0) {
       return cartItems.map((item, i) => (
-        <>
-          <CartItem key={item?.productId ?? i} value={item} />
+        <Fragment key={item?.productId ?? i}>
+          <CartItem value={item} />
           <Divider />
-        </>
+        </Fragment>
       ));
     } else if (status !== "error") {
       return Array.from({ length: 3 }).map((_, index) => (

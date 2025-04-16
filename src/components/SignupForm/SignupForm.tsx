@@ -9,24 +9,31 @@ import {
 } from "@mui/material";
 import { PasswordField } from "components/PasswordField";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hooks";
 import { authActions } from "store/redux/auth/slice/authSlice";
+import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 import { SignupValidationSchema } from "./SignupValidationSchema";
 import { SignupFormValues } from "./types";
+
+const SESSION_KEY = "signup-form-data";
 
 function SignupForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const saved = sessionStorage.getItem(SESSION_KEY);
+  const parsed = saved ? JSON.parse(saved) : null;
+
   const formik = useFormik({
     initialValues: {
-      userName: "",
-      firstName: "",
-      lastName: "",
-      email: "",
+      userName: parsed?.userName || "",
+      firstName: parsed?.firstName || "",
+      lastName: parsed?.lastName || "",
+      email: parsed?.email || "",
       password: "",
       confirmPassword: "",
       termsAccepted: false
@@ -43,9 +50,27 @@ function SignupForm() {
             email: values.email,
             password: values.password
           })
-        ).unwrap();
+        )
+          .unwrap()
+          .then(() => {
+            dispatch(
+              snackbarActions.enqueueSnackbar({
+                message: "Вы успешно зарегистрировались, проверьте ваш email!",
+                severity: "success"
+              })
+            );
+          })
+          .catch(e => {
+            console.log(e);
+            dispatch(
+              snackbarActions.enqueueSnackbar({
+                message: e,
+                severity: "success"
+              })
+            );
+          });
 
-        navigate("/login");
+        navigate("/");
       } catch (error: any) {
         formik.setErrors({
           email: t("Invalid email or password. Please try again."),
@@ -54,6 +79,31 @@ function SignupForm() {
       }
     }
   });
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        formik.setValues(prev => ({ ...prev, ...parsed }));
+      } catch (e) {
+        console.warn("Ошибка при парсинге sessionStorage:", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const safeData: Partial<typeof formik.values> = {};
+
+    Object.keys(formik.values).forEach(key => {
+      if (key === "password" || key === "confirmPassword") return;
+      const typedKey = key as keyof SignupFormValues;
+      safeData[typedKey] = formik.values[typedKey] as any;
+    });
+
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(safeData));
+  }, [formik.values]);
 
   return (
     <Grid direction="column" container spacing={2}>
