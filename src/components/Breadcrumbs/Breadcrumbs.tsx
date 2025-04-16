@@ -6,8 +6,10 @@ import {
 import { useBreadcrumbs } from "hooks/useBreadcrumbs";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { BreadcrumbsProps } from "./types";
+import { useTranslation } from "react-i18next";
 
 function Breadcrumbs({ pathname }: BreadcrumbsProps) {
+	const { t } = useTranslation();
   const pages = useBreadcrumbs();
   const location = useLocation();
 
@@ -28,7 +30,7 @@ function Breadcrumbs({ pathname }: BreadcrumbsProps) {
     // Add home page
     breadcrumbs.unshift({
       path: "/",
-      label: pages?.home?.title || "Home"
+      label: pages?.home?.title || t("Home")
     });
   }
 
