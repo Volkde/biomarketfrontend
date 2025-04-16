@@ -1,15 +1,28 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { ProductCard, ProductCartSkeleton } from "components/ProductCard";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectProductsState } from "store/redux/products/selectors/selectProductsState";
 import { productsActions } from "store/redux/products/slice/productsSlice";
+import { FiltersContext } from "../../context/FiltersContext";
+import { ProductsFilters } from "../../types/ProductsFilters";
 import { Filters } from "../Filters";
 import { Pagination } from "../Pagination";
 import { RootProps } from "./types";
+import { useSyncFiltersWithUrl } from "components/ProductsGrid/hooks/useSyncFiltersWithUrl";
 
-function Root({ filters, limit = 8, page = 1, pagination = false }: RootProps) {
+function Root({
+  filters: initialFilters,
+  limit = 8,
+  page = 1,
+  pagination = false
+}: RootProps) {
+  const [filters, setFilters] = useState<ProductsFilters>(initialFilters ?? {});
   const dispatch = useAppDispatch();
+
+  useSyncFiltersWithUrl(filters, setFilters);
+
+  console.log("filters", filters);
 
   useEffect(() => {
     dispatch(
@@ -34,6 +47,8 @@ function Root({ filters, limit = 8, page = 1, pagination = false }: RootProps) {
       return products.map(product => (
         <ProductCard key={product.id} product={product} />
       ));
+    } else if (status === "success" && products.length === 0) {
+      return <Typography>Нет результатов</Typography>;
     } else if (status !== "error") {
       return Array.from({ length: 8 }).map((_, index) => (
         <ProductCartSkeleton key={index} />
@@ -44,23 +59,25 @@ function Root({ filters, limit = 8, page = 1, pagination = false }: RootProps) {
   }, [status, products]);
 
   return (
-    <Container>
-      {filters && <Filters />}
-      {status !== "error" ? (
-        <Grid
-          container
-          wrap="wrap"
-          justifyContent="center"
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        >
-          {elProducts}
-        </Grid>
-      ) : (
-        <p>Error: {error || "Something went wrong"}</p>
-      )}
-      {pagination && <Pagination page={currentPage} count={totalPages} />}
-    </Container>
+    <FiltersContext.Provider value={{ filters, setFilters }}>
+      <Container>
+        {filters && <Filters />}
+        {status !== "error" ? (
+          <Grid
+            container
+            wrap="wrap"
+            justifyContent="center"
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            {elProducts}
+          </Grid>
+        ) : (
+          <p>Error: {error || "Something went wrong"}</p>
+        )}
+        {pagination && <Pagination page={currentPage} count={totalPages} />}
+      </Container>
+    </FiltersContext.Provider>
   );
 }
 

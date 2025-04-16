@@ -9,4 +9,5 @@ export interface User {
   phoneNumber?: string;
   avatar?: string;
   wishlistId?: number;
+  sellerId?: number;
 }

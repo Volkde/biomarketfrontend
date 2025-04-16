@@ -87,6 +87,7 @@ function Root() {
 
   // TODO myShopItemsCount
   const myShopItemsCount = 4123;
+
   const isAccountMenuOpen = Boolean(elAccountMenuAnchor);
   const isMoreMenuOpen = Boolean(elMoreMenuAnchor);
 
