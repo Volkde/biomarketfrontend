@@ -1,16 +1,16 @@
 import { Box } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
+import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import {
-  SliderWrapper,
-  Slide,
   Overlay,
-  Title,
-  Subtitle,
+  Slide,
   SlideButton,
+  SliderWrapper,
+  Subtitle,
+  Title
 } from "./styles";
 
 const slides = [
@@ -20,7 +20,7 @@ const slides = [
     title: "Натуральные продукты",
     subtitle: "Фермерская еда у тебя дома",
     buttonText: "К покупкам",
-    buttonLink: "/products",
+    buttonLink: "/products"
   },
   {
     id: 2,
@@ -28,8 +28,8 @@ const slides = [
     title: "Горячие предложения",
     subtitle: "Скидки до 50% только этой недели!",
     buttonText: "Смотреть",
-    buttonLink: "/hot-deals",
-  },
+    buttonLink: "/hot-deals"
+  }
 ];
 
 function Banner() {
@@ -43,7 +43,7 @@ function Banner() {
           spaceBetween={20}
           slidesPerView={1}
         >
-          {slides.map((slide) => (
+          {slides.map(slide => (
             <SwiperSlide key={slide.id}>
               <Slide image={slide.image}>
                 <Overlay>

@@ -14,6 +14,7 @@ import { snackbarActions } from "store/redux/ui/slice/snackbarSlice";
 import { selectWishlistState } from "store/redux/wishlist/selectors/selectWishlistState";
 import { wishlistActions } from "store/redux/wishlist/slice/wishlistSlice";
 import { FavoriteButton } from "../FavoriteButton";
+import Images from "../Images/Images";
 
 function Root() {
   const { t } = useTranslation("page-product");
@@ -112,15 +113,7 @@ function Root() {
       return (
         <Grid container direction="row" gap={5}>
           <Box sx={{ width: "45%" }}>
-            <img
-              src={product.image}
-              alt={product.title}
-              onError={e => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "/fallback.jpg";
-              }}
-              style={{ width: "100%" }}
-            />
+            <Images images={product?.images ?? [product.image]} />
           </Box>
           <Box>
             <Typography variant="h2">{product.title}</Typography>
