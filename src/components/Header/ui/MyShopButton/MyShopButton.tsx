@@ -15,8 +15,9 @@ function MyShopButton({ id, myShopItemsCount, onClick }: MyShopButtonProps) {
     dispatch(authActions.profile());
   }, [dispatch]);
 
-  const { status, user, isLogin, isAdmin, isSeller, error } =
-    useAppSelector(selectAuthState);
+  const { user, isLogin, isSeller } = useAppSelector(selectAuthState);
+
+  const sellerId = user?.sellerId;
 
   return (
     <Tooltip title={isSeller ? "Open my shop" : "Create my shop"}>
@@ -28,7 +29,12 @@ function MyShopButton({ id, myShopItemsCount, onClick }: MyShopButtonProps) {
         onClick={onClick}
         color={location.pathname === "/my-shop" ? "primary" : "inherit"}
       >
-        <Badge badgeContent={isSeller ? myShopItemsCount : 0} color="success">
+        <Badge
+          badgeContent={
+            isSeller && sellerId && sellerId >= 0 ? myShopItemsCount : 0
+          }
+          color="success"
+        >
           <StorefrontIcon />
         </Badge>
       </IconButton>
