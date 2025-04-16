@@ -1,96 +1,73 @@
-import { DetailedImagesProps, Image } from "./types";
-import {
-  Container,
-  MainImage,
-  MagnifierLens,
-  LoadingSpinner,
-  ErrorMessage,
-  Thumbnails,
-  Thumbnail
-} from "./styles";
-import { useState, useRef, useCallback } from "react";
+import "swiper/css";
+import "swiper/css/effect-cards";
+import { EffectCards } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Container } from "./styles";
+import { DetailedImagesProps } from "./types";
 
-const DetailedImages = ({ images = [], product }: DetailedImagesProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  const currentImage = images[activeIndex] || {};
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLImageElement>) => {
-      if (!imageRef.current) return;
-      const { left, top } = imageRef.current.getBoundingClientRect();
-      const x = e.clientX - left;
-      const y = e.clientY - top;
-      setPosition({ x, y });
-    },
-    []
-  );
-
-  const handleImageError = useCallback(() => {
-    setHasError(true);
-  }, []);
-
-  const handleThumbnailError = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>) => {
-      e.currentTarget.src =
-        "https://via.placeholder.com/100x100/cccccc/666666?text=No+Image";
-    },
-    []
-  );
+function Images({ images = [] }: DetailedImagesProps) {
+  const elImages =
+    images.length > 1
+      ? images.map((item, index) => (
+          <SwiperSlide
+            key={index + item}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "18px",
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: "#fff"
+            }}
+          >
+            <img
+              src={item}
+              onError={e => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/images/fallback.jpg";
+              }}
+              style={{
+                position: "relative",
+                maxWidth: "100%",
+                width: "100%",
+                height: "100%",
+                border: "none",
+                borderRadius: "0",
+                objectFit: "cover"
+              }}
+            />
+          </SwiperSlide>
+        ))
+      : "";
 
   return (
     <Container>
-      <MainImage
-        ref={imageRef}
-        src={
-          hasError
-            ? "https://i.ibb.co/KhR3nqC/anime-placeholder.jpg"
-            : currentImage.url
-        }
-        alt={product?.name || "Product Image"}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onMouseMove={handleMouseMove}
-        onError={handleImageError}
-        onLoad={() => setIsLoading(false)}
-        style={{ opacity: isLoading ? 0 : 1 }}
-      />
-
-      {isLoading && <LoadingSpinner />}
-      {hasError && <ErrorMessage>Failed to load image</ErrorMessage>}
-
-      {isHovered && !isLoading && !hasError && (
-        <MagnifierLens
-          magnifierSize={200}
-          zoomLevel={3}
-          position={position}
-          imageWidth={imageRef.current?.clientWidth || 0}
-          backgroundImage={currentImage.url}
-          borderColor="#1976d2"
+      {images.length > 1 ? (
+        <Swiper
+          effect={"cards"}
+          grabCursor={true}
+          modules={[EffectCards]}
+          className="mySwiper"
+          style={{
+            width: "250px",
+            height: "320px"
+          }}
+        >
+          {elImages}
+        </Swiper>
+      ) : (
+        <img
+          src={images[0]}
+          onError={e => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/images/fallback.jpg";
+          }}
+          style={{ width: "100%" }}
         />
-      )}
-
-      {images.length > 1 && (
-        <Thumbnails>
-          {images.map((img: Image, index: number) => (
-            <Thumbnail
-              key={img.id || index}
-              src={img.url}
-              alt={`Thumbnail ${index}`}
-              onError={handleThumbnailError}
-              onClick={() => setActiveIndex(index)}
-              isSelected={activeIndex === index}
-            />
-          ))}
-        </Thumbnails>
       )}
     </Container>
   );
-};
+}
 
-export default DetailedImages;
+export default Images;
