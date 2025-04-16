@@ -37,7 +37,7 @@ function Root() {
   }, [dispatch]);
 
   const { user, isLogin, isSeller } = useAppSelector(selectAuthState);
-  const sellerId = user?.sellerId ?? 1;
+  const sellerId = user?.sellerId ?? -1;
 
   useEffect(() => {
     if (isLogin && isSeller && sellerId) {
