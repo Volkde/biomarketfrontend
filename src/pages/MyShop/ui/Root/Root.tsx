@@ -37,12 +37,10 @@ function Root() {
   }, [dispatch]);
 
   const { user, isLogin, isSeller } = useAppSelector(selectAuthState);
-  const sellerId = user?.sellerId ?? 1;
-
-  console.log("user", isSeller, user);
+  const sellerId = user?.sellerId ?? -1;
 
   useEffect(() => {
-    if (isLogin && !isSeller && sellerId) {
+    if (isLogin && isSeller && sellerId) {
       dispatch(sellersActions.fetchGetSellerById({ sellerId }));
     }
   }, [dispatch, isLogin, isSeller, sellerId]);
@@ -60,7 +58,7 @@ function Root() {
       <Breadcrumbs />
 
       {isLogin ? (
-        !isSeller ? (
+        isSeller ? (
           <>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
