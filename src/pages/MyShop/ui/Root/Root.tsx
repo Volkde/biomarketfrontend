@@ -40,7 +40,7 @@ function Root() {
   const sellerId = user?.sellerId ?? -1;
 
   // TODO: remove
-  console.log("user", user);
+  console.log("user", isSeller, user);
 
   useEffect(() => {
     if (isLogin && isSeller && sellerId) {

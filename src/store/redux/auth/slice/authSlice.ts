@@ -68,9 +68,11 @@ export const authSlice = createAppSlice({
           state.isLogin = true;
           state.user = payload?.user;
           state.isAdmin = (payload?.user?.roles ?? []).includes("ROLE_ADMIN");
-          state.isSeller =
-            (payload?.user?.roles ?? []).includes("ROLE_SELLER") ??
-            payload?.user?.sellerId;
+          if (payload?.user?.roles) {
+            state.isSeller = payload?.user?.roles.includes("ROLE_SELLER");
+          } else if (payload?.user?.sellerId && payload?.user?.sellerId >= 0) {
+            state.isSeller = true;
+          }
           state.error = initialState.error;
 
           localStorage.setItem(keyIsLogin, "true");
@@ -143,9 +145,11 @@ export const authSlice = createAppSlice({
           state.user = payload.user;
           state.isLogin = true;
           state.isAdmin = (payload?.user?.roles ?? []).includes("ROLE_ADMIN");
-          state.isSeller =
-            (payload?.user?.roles ?? []).includes("ROLE_SELLER") ??
-            payload?.user?.sellerId;
+          if (payload?.user?.roles) {
+            state.isSeller = payload?.user?.roles.includes("ROLE_SELLER");
+          } else if (payload?.user?.sellerId && payload?.user?.sellerId >= 0) {
+            state.isSeller = true;
+          }
           state.error = initialState.error;
 
           localStorage.setItem(keyIsLogin, "true");
@@ -208,9 +212,11 @@ export const authSlice = createAppSlice({
           state.isLogin = false;
           state.user = payload?.user;
           state.isAdmin = (payload?.user?.roles ?? []).includes("ROLE_ADMIN");
-          state.isSeller =
-            (payload?.user?.roles ?? []).includes("ROLE_SELLER") ??
-            payload?.user?.sellerId;
+          if (payload?.user?.roles) {
+            state.isSeller = payload?.user?.roles.includes("ROLE_SELLER");
+          } else if (payload?.user?.sellerId && payload?.user?.sellerId >= 0) {
+            state.isSeller = true;
+          }
           state.error = initialState.error;
 
           localStorage.setItem(keyIsLogin, "false");
