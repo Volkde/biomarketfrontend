@@ -1,12 +1,17 @@
+import { Address } from "./Address";
 import { Delivery } from "./Delivery";
 import { OrderItem } from "./OrderItem";
 
 export interface Order {
   id?: number;
-  status: boolean;
+  status: string;
+  items: OrderItem[];
+  sellerId: number;
+  sellerAddress: Address;
+  buyerId: number;
+  buyerAddress: Address;
   totalPrice: number;
   dateCreated: string;
-  userId: number;
-  items: OrderItem[];
-  delivery: Delivery;
+  userId?: number;
+  delivery?: Delivery;
 }
