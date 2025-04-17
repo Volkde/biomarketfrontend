@@ -1,4 +1,5 @@
 import { Box, Card, CardContent, Grid, Paper, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import {
   CartesianGrid,
   Legend,
@@ -20,6 +21,8 @@ const data = [
 ];
 
 function TabPanelDashboard(props: TabPanelDashboardProps) {
+  const { t } = useTranslation("page-my-shop");
+
   return (
     <>
       <Box
@@ -53,7 +56,7 @@ function TabPanelDashboard(props: TabPanelDashboardProps) {
                     marginBottom: "25px"
                   }}
                 >
-                  Продажи
+                  {t("Sales")}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -87,7 +90,7 @@ function TabPanelDashboard(props: TabPanelDashboardProps) {
                     marginBottom: "25px"
                   }}
                 >
-                  Всего товаров
+                  {t("Total goods")}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -121,7 +124,7 @@ function TabPanelDashboard(props: TabPanelDashboardProps) {
                     marginBottom: "25px"
                   }}
                 >
-                  Выручка
+                  {t("Revenue")}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -159,7 +162,7 @@ function TabPanelDashboard(props: TabPanelDashboardProps) {
               marginBottom: "25px"
             }}
           >
-            Sales Overview
+            {t("Sales Overview")}
           </Typography>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={data}>
