@@ -8,6 +8,7 @@ import {
   Typography
 } from "@mui/material";
 import { PasswordField } from "components/PasswordField";
+import PasswordStrengthInfo from "components/PasswordStrengthInfo/PasswordStrengthInfo";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -203,6 +204,12 @@ function SignupForm() {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
+            {formik.values.password && (
+              <PasswordStrengthInfo
+                password={formik.values.password}
+                minLength={5}
+              />
+            )}
             <PasswordField
               fullWidth
               margin="normal"
