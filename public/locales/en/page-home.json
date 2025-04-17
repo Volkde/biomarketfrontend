@@ -1,23 +1,23 @@
 {
-	"title": "Home",
-	"breadcrumbs": "Home",
-	"Categories": "Categories",
-	"categoriesSubtitle": "Discover fresh and healthy products straight from the farm.",
-	"banner": {
-		"1": {
-			"title": "Natural Products",
-			"subtitle": "Farm-fresh food at your home",
-			"buttonText": "Shop Now"
-		},
-		"2": {
-			"title": "Hot Deals",
-			"subtitle": "Up to 50% off this week only!",
-			"buttonText": "View"
-		},
-		"3": {
-			"title": "Natural Products",
-			"subtitle": "Farm-fresh food at your home",
-			"buttonText": "Shop Now"
-		}
-	}
+  "title": "Home",
+  "breadcrumbs": "Home",
+  "Categories": "Categories",
+  "categoriesSubtitle": "Discover fresh and healthy products straight from the farm.",
+  "banner": {
+    "1": {
+      "title": "Natural Products",
+      "subtitle": "Farm-fresh food at your home",
+      "buttonText": "Shop Now"
+    },
+    "2": {
+      "title": "Hot Deals",
+      "subtitle": "Up to 50% off this week only!",
+      "buttonText": "View"
+    },
+    "3": {
+      "title": "Natural Products",
+      "subtitle": "Farm-fresh food at your home",
+      "buttonText": "Shop Now"
+    }
+  }
 }
