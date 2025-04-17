@@ -3,6 +3,7 @@ import { ProductsFilterSortOrder } from "./ProductsFilterSortOrder";
 
 export interface ProductsFilters {
   search_term?: string;
+  category?: string;
   category_id?: number;
   min_price?: number;
   max_price?: number;

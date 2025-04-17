@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
+import { categories } from "app/categories";
 import { MouseEvent, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -185,24 +186,15 @@ function Root() {
             <SidebarButton />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
-            <HeaderLink
-              to="/shop?category=fruits"
-              active={category === "fruits"}
-            >
-              Fruits & Vegetables
-            </HeaderLink>
-            <HeaderLink to="/shop?category=dairy" active={category === "dairy"}>
-              Dairy & Eggs
-            </HeaderLink>
-            <HeaderLink
-              to="/shop?category=bakery"
-              active={category === "bakery"}
-            >
-              Bakery
-            </HeaderLink>
-            <HeaderLink to="/shop?category=meat" active={category === "meat"}>
-              Meat & Fish
-            </HeaderLink>
+            {Object.entries(categories).map(([key, value], index) => (
+              <HeaderLink
+                key={key}
+                to={"/shop?category=" + key}
+                active={category === key}
+              >
+                {value.title}
+              </HeaderLink>
+            ))}
           </Box>
           <Space />
           <Search />
