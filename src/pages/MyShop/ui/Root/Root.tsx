@@ -68,32 +68,32 @@ function Root() {
               >
                 <Tab
                   icon={<StorefrontIcon />}
-                  aria-label="Магазин"
-                  label="Магазин"
+                  aria-label={t("tabs.store")}
+                  label={t("tabs.store")}
                   {...a11yProps(0)}
                 />
                 <Tab
                   icon={<DashboardIcon />}
-                  aria-label="Dashboard"
-                  label="Dashboard"
+                  aria-label={t("tabs.dashboard")}
+                  label={t("tabs.dashboard")}
                   {...a11yProps(1)}
                 />
                 <Tab
                   icon={<CategoryIcon />}
-                  aria-label="Товары"
-                  label="Товары"
+                  aria-label={t("tabs.products")}
+                  label={t("tabs.products")}
                   {...a11yProps(2)}
                 />
                 <Tab
                   icon={<ShoppingCartIcon />}
-                  aria-label="Заказы"
-                  label="Заказы"
+                  aria-label={t("tabs.orders")}
+                  label={t("tabs.orders")}
                   {...a11yProps(3)}
                 />
                 <Tab
                   icon={<HistoryIcon />}
-                  aria-label="История заказов"
-                  label="История заказов"
+                  aria-label={t("tabs.history")}
+                  label={t("tabs.history")}
                   {...a11yProps(4)}
                 />
               </Tabs>
@@ -139,10 +139,10 @@ function Root() {
             </CustomTabPanel>
           </>
         ) : (
-          <p>У вас еще нет магазина</p>
+          <p>{t("You don't have a store yet")}</p>
         )
       ) : (
-        <p>Пожалуйста войдите в аккаунт</p>
+        <p>{t("Please log in to your account")}</p>
       )}
     </Container>
   );

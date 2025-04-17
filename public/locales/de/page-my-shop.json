@@ -1,4 +1,21 @@
 {
-  "title": "My Shop",
-  "breadcrumbs": "My Shop"
+	"title": "My Shop",
+	"breadcrumbs": "My Shop",
+	"storeName": "Name",
+	"storeDescription": "Description",
+	"storeLogo": "Logo",
+	"Save": "Save",
+	"tabs": {
+		"store": "Store",
+		"dashboard": "Dashboard",
+		"products": "Products",
+		"orders": "Orders",
+		"history": "History"
+	},
+	"You don't have a store yet": "You don't have a store yet",
+	"Please log in to your account": "Please log in to your account",
+	"Sales": "Sales",
+	"Total goods": "Total goods",
+	"Revenue": "Revenue",
+	"Sales Overview": "Sales Overview"
 }

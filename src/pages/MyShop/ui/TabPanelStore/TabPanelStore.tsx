@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { MyStoreFormValues } from "pages/MyShop/types/MyStoreFormValues";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Rating } from "../Rating";
 import { myStoreValidationSchema } from "./myStoreValidationSchema";
 import { TabPanelStoreProps } from "./types";
 
@@ -67,11 +68,15 @@ function TabPanelStore({ seller }: TabPanelStoreProps) {
                 marginBottom: "15px"
               }}
             >
-              <Avatar
-                alt={seller?.storeName ?? ""}
-                src={seller?.storeLogo}
-                sx={{ width: 100, height: 100 }}
-              />
+              {" "}
+              <Grid container direction="column" gap={1}>
+                <Avatar
+                  alt={seller?.storeName ?? ""}
+                  src={seller?.storeLogo}
+                  sx={{ width: 100, height: 100 }}
+                />
+                {seller?.rating && <Rating value={seller?.rating} />}
+              </Grid>
               <Grid container direction="column" flexGrow={1}>
                 <TextField
                   fullWidth

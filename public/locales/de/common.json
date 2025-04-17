@@ -13,5 +13,11 @@
   "Already have an account? Sign in": "Already have an account? Sign in",
   "Account Login": "Account Login",
   "No account? Sign up": "No account? Sign up",
-  "Invalid email or password. Please try again.": "Invalid email or password. Please try again."
+  "Invalid email or password. Please try again.": "Invalid email or password. Please try again.",
+  "For your security, choose a password you've never used before.": "For your security, choose a password you've never used before.",
+  "At least * characters": "At least {{minLength}} characters",
+  "Contains uppercase letters": "Contains uppercase letters",
+  "Contains lowercase letters": "Contains lowercase letters",
+  "Contains numbers": "Contains numbers",
+  "Contains special characters": "Contains special characters"
 }

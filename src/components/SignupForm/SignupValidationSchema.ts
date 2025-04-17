@@ -1,5 +1,12 @@
 import * as Yup from "yup";
 
+const passwordRegex = {
+  upper: /[A-Z]/,
+  lower: /[a-z]/,
+  number: /\d/,
+  special: /[!@#$%^&*(),.?":{}|<>]/
+};
+
 export const SignupValidationSchema = Yup.object().shape({
   userName: Yup.string()
     .required("Field is required")
@@ -24,9 +31,22 @@ export const SignupValidationSchema = Yup.object().shape({
     .typeError("Email must be string"),
   password: Yup.string()
     .required("Field password is required")
-    .min(5, "Min 5 symbols")
-    .max(25, "Max 25 symbols")
-    .typeError("Password must be string"),
+    .min(5, "Password must be at least 5 characters long")
+    .max(64, "Password must be no more than 64 characters")
+    .matches(
+      passwordRegex.upper,
+      "Password must contain at least one uppercase letter"
+    )
+    .matches(
+      passwordRegex.lower,
+      "Password must contain at least one lowercase letter"
+    )
+    .matches(passwordRegex.number, "Password must contain at least one number")
+    .matches(
+      passwordRegex.special,
+      "Password must contain at least one special character"
+    )
+    .typeError("Password must be a string"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), ""], "Passwords must match")
     .required("Confirm password is required"),

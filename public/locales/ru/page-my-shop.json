@@ -1,4 +1,21 @@
 {
-  "title": "My Shop",
-  "breadcrumbs": "My Shop"
+	"title": "Мой магазин",
+	"breadcrumbs": "Мой магазин",
+	"storeName": "Название",
+	"storeDescription": "Описание",
+	"storeLogo": "Логотип",
+	"Save": "Сохранить",
+	"tabs": {
+		"store": "Магазин",
+		"dashboard": "Dashboard",
+		"products": "Товары",
+		"orders": "Заказы",
+		"history": "История заказов"
+	},
+	"You don't have a store yet": "У вас еще нет магазина",
+	"Please log in to your account": "Пожалуйста, войдите в аккаунт",
+	"Sales": "Продажи",
+	"Total goods": "Всего товаров",
+	"Revenue": "Выручка",
+	"Sales Overview": "Sales Overview"
 }

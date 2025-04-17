@@ -13,5 +13,11 @@
   "Already have an account? Sign in": "Уже есть аккаунт? Войти",
   "Account Login": "Вход в аккаунт",
   "No account? Sign up": "Нет аккаунта? Зарегистрируйтесь",
-  "Invalid email or password. Please try again.": "Неверный адрес электронной почты или пароль. Пожалуйста, попробуйте еще раз."
+  "Invalid email or password. Please try again.": "Неверный адрес электронной почты или пароль. Пожалуйста, попробуйте еще раз.",
+  "For your security, choose a password you've never used before.": "Для безопасности выберите пароль, который вы никогда раньше не использовали.",
+  "At least * characters": "Не менее {{minLength}} символов",
+  "Contains uppercase letters": "Содержит заглавные буквы",
+  "Contains lowercase letters": "Содержит строчные буквы",
+  "Contains numbers": "Содержит цифры",
+  "Contains special characters": "Содержит специальные символы"
 }
