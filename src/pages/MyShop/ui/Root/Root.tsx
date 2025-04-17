@@ -39,6 +39,9 @@ function Root() {
   const { user, isLogin, isSeller } = useAppSelector(selectAuthState);
   const sellerId = user?.sellerId ?? -1;
 
+  // TODO: remove
+  console.log("user", user);
+
   useEffect(() => {
     if (isLogin && isSeller && sellerId) {
       dispatch(sellersActions.fetchGetSellerById({ sellerId }));

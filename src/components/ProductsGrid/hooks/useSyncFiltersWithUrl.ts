@@ -1,3 +1,4 @@
+import { categories } from "app/categories";
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ProductsFilters } from "../types/ProductsFilters";
@@ -5,7 +6,15 @@ import { ProductsFilters } from "../types/ProductsFilters";
 function parseSearchParams(searchParams: URLSearchParams): ProductsFilters {
   const parsed: ProductsFilters = {};
   searchParams.forEach((value, key) => {
-    if (value === "true" || value === "false") {
+    if (key === "category") {
+      const category = categories[value];
+
+      if (category) {
+        parsed["category_id"] = category.id;
+      }
+
+      parsed["category"] = value as any;
+    } else if (value === "true" || value === "false") {
       parsed[key as keyof ProductsFilters] = (value === "true") as any;
     } else if (!isNaN(Number(value))) {
       parsed[key as keyof ProductsFilters] = Number(value) as any;
